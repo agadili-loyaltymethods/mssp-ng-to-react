@@ -1,4 +1,4 @@
-```typescript
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -157,4 +157,3 @@ export const Login: React.FC = () => {
     </div>
   );
 };
-```

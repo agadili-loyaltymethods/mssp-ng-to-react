@@ -1,4 +1,4 @@
-```typescript
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
@@ -133,4 +133,3 @@ export const Profile: React.FC = () => {
     </div>
   );
 };
-```

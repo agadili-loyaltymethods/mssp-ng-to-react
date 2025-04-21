@@ -1,4 +1,4 @@
-```typescript
+
 import { RouteObject } from 'react-router-dom';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { Purchase } from './components/purchase/Purchase';
@@ -26,4 +26,3 @@ export const routes: RouteObject[] = [
   { path: 'page-not-found', element: <PageNotFound /> },
   { path: '*', element: <PageNotFound /> }
 ];
-```

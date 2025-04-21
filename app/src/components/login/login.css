@@ -1,4 +1,4 @@
-```css
+
 .container {
   display: flex;
   height: 100vh;
@@ -70,4 +70,3 @@
 .c-loader {
   display: none !important;
 }
-```

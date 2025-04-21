@@ -1,4 +1,4 @@
-```typescript
+
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -33,4 +33,3 @@ export const PurchaseConfirmation: React.FC = () => {
     </div>
   );
 };
-```

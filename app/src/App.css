@@ -1,4 +1,4 @@
-```css
+
 .adjust-header-height {
   margin-top: 70px; /* height of the header */
 }
@@ -52,4 +52,3 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-```

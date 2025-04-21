@@ -1,4 +1,4 @@
-```typescript
+
 import React, { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -57,4 +57,3 @@ export const Rewards: React.FC = () => {
     </div>
   );
 };
-```

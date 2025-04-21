@@ -1,4 +1,4 @@
-```typescript
+
 import React from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useTokenDetailsHelper } from '../../hooks/useTokenDetailsHelper';
@@ -99,4 +99,3 @@ export const Header: React.FC = () => {
     </header>
   );
 };
-```

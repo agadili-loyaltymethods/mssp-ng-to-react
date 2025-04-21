@@ -1,4 +1,4 @@
-```typescript
+
 import React, { useEffect, useState } from 'react';
 
 interface AppTimerProps {
@@ -56,4 +56,3 @@ export const AppTimer: React.FC<AppTimerProps> = ({ startedAt, timeLimit }) => {
 
   return <b>{timeRemaining}</b>;
 };
-```

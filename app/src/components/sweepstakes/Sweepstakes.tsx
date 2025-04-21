@@ -1,4 +1,4 @@
-```typescript
+
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Card, CardContent, Button } from '@mui/material';
@@ -81,4 +81,3 @@ export const Sweepstakes: React.FC = () => {
     </div>
   );
 };
-```
