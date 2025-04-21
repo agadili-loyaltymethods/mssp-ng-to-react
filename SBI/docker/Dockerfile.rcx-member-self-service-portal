@@ -1,0 +1,32 @@
+# Docker image for RCX MEMBER SELF SERVICE PORTAL instances for running in a container management system
+#
+# Some key points of the build:
+#
+# - The rcx user is in the sudo group, so just using sudo will work
+# - There is a mongo shell in case there are connectivity issues to rcx-mongo (another docker image for mongo)
+# - The entry point is in /home/rcx/entry.sh
+# - The entry point takes some environment variables that allow updating git repo or changning to branches, commits, tags
+
+FROM 254847454774.dkr.ecr.ap-southeast-1.amazonaws.com/rcx-nodejs-build:20.11.1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    jq \
+    curl \
+    awscli \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /home/rcx
+ADD --chown=rcx:rcx ./SBI/docker/entry.sh.rcx-member-self-service-portal ./entry.sh
+ADD --chown=rcx:rcx . ./rcx-member-self-service-portal/
+
+USER rcx
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+ENV NVM_DIR /home/rcx/.nvm
+RUN . $NVM_DIR/nvm.sh && \
+        nvm install 20.11.1 && \
+        nvm use 20.11.1
+
+
+ENTRYPOINT [ "/home/rcx/entry.sh" ]
+
+EXPOSE 4200

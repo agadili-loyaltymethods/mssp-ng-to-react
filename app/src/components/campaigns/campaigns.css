@@ -1,0 +1,19 @@
+.box-shadow-none {
+  box-shadow: none !important;
+}
+
+.border-gray {
+  border: 1px solid #e0e0e0 !important;
+}
+
+button {
+  border: 2px solid var(--primary) !important;
+}
+
+img {
+  width: 80px;
+}
+
+.line-height-adjust {
+  line-height: 1.5;
+}

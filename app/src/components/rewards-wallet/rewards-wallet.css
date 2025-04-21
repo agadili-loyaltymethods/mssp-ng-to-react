@@ -1,0 +1,12 @@
+```css
+.drawer-container {
+  min-height: 500px;
+}
+
+.mat-sidenav {
+  min-height: 500px;
+  min-width: 100%;
+}
+
+/* Additional styles from the original component would go here */
+```

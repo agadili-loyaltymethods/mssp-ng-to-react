@@ -1,0 +1,13 @@
+version: '3'
+services:
+  builder:
+    user: "${USERID}:${GROUPID}"
+    build: build/nvm
+    image: 254847454774.dkr.ecr.us-west-2.amazonaws.com/rcx-nodejs-build:20.11.1
+    volumes:
+        - /etc/passwd:/etc/passwd:ro
+        - /etc/group:/etc/group:ro
+        - "${WORKSPACE}:${WORKSPACE}"
+        - "${JENKINS_HOME}:${JENKINS_HOME}"
+    environment:
+        BASH_ENV: "/root/.profile"

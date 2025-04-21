@@ -1,0 +1,12 @@
+FROM 254847454774.dkr.ecr.ap-southeast-1.amazonaws.com/rcx-nodejs-build:20.11.1
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+ENV NVM_DIR /root/.nvm
+RUN . $NVM_DIR/nvm.sh && \
+        nvm install 20.11.1 && \
+        nvm use 20.11.1
+RUN echo "export NVM_DIR="$HOME/.nvm"" >> ~/.profile && \
+echo "[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh""  >> ~/.profile && \
+echo "[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"" >> ~/.profile

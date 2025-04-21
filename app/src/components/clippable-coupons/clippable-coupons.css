@@ -1,0 +1,12 @@
+img {
+  width: 100px;
+  margin-top: 10px;
+}
+
+.box-shadow-none {
+  box-shadow: none !important;
+}
+
+.border-gray {
+  border: 1px solid #e0e0e0;
+}

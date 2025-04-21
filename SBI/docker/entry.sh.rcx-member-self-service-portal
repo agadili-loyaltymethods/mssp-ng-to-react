@@ -1,0 +1,86 @@
+#!/bin/bash
+
+################################################################################
+# Entrypoint for RCX MEMBER SELF SERVICE PORTAL
+#
+################################################################################
+
+cd /home/rcx/rcx-member-self-service-portal
+
+_decrypt() {
+    local ENC=$1
+
+    PLAIN=$(aws kms decrypt --ciphertext-blob fileb://<(echo $ENC | base64 --decode) --output text --query Plaintext | base64 --decode)
+    if [ -z "$PLAIN" ]
+    then
+        echo "ERROR: Failed to decrypt string" >&2
+    fi
+    echo $PLAIN
+}
+
+decrypt() {
+    local VAR=$1
+
+    if [ -n "$VAR" ]
+    then
+        echo $VAR | grep "^ENC{[a-zA-Z0-9+/=]*}$" >/dev/null
+        if [ $? -eq 0 ]
+        then
+            ENC=$(echo $VAR | sed 's/^ENC{//; s/}$//')
+            VAR=$(_decrypt $ENC)
+        fi
+        echo $VAR
+    fi
+
+}
+
+_get_parm() {
+    aws ssm get-parameter --name $1 --query 'Parameter.Value' --output text --with-decryption
+}
+
+_retrieve() {
+    value=$(_get_parm $1)
+    if [ $? -ne 0 ] || [ -z "$value" ]
+    then
+        echo "ERROR: Failed to retrieve parameter $1" >&2
+        return
+    fi
+    echo "$value"
+}
+
+retrieve() {
+    local parm=$1
+    local value=''
+
+    if [ -n "$parm" ]
+    then
+        echo $parm | grep "PARM:" >/dev/null
+        if [ $? -eq 0 ]
+        then
+            parm=$(echo $parm | sed 's/^PARM://')
+            value=$(_retrieve $parm)
+        fi
+        echo "$value"
+    fi
+}
+
+
+for var in $(set|grep "='ENC{"|cut -d= -f1)
+do
+    eval $var=\'$(eval decrypt \$$var)\'
+done
+
+for var in $(set|grep "=PARM:"|cut -d= -f1)
+do
+    eval $var=\'"$(eval retrieve \$$var)"\'
+done
+
+
+if [ -n "$RCX_DEBUG" ]
+then
+    RCX_DEBUG=$(echo $RCX_DEBUG | tr '[A-Z]' '[a-z]')
+    [ $RCX_DEBUG == 'true' ] && export
+fi
+
+. /home/rcx/.nvm/nvm.sh && nvm use 20.11.1
+exec npm start
