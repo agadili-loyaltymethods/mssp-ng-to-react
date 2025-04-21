@@ -2,9 +2,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './hooks/useAuth';
 import { useMemberService } from './hooks/useMemberService';
-import { useAlertService } from './hooks/useAlertService';
 import { addMember } from './redux/slices/memberSlice';
 import { Header } from './components/header/Header';
 import { Dashboard } from './components/dashboard/Dashboard';
@@ -15,9 +13,11 @@ import { Checkout } from './components/checkout/Checkout';
 import { PurchaseConfirmation } from './components/purchase-confirmation/PurchaseConfirmation';
 import { PageNotFound } from './components/page-not-found/PageNotFound';
 import './App.css';
+import useAlertService from './hooks/useAlertService';
+import { useAuthService } from './hooks/useAuthService';
 
 export const App: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated$ } = useAuthService();
   const memberService = useMemberService();
   const alertService = useAlertService();
   const dispatch = useDispatch();
@@ -39,8 +39,8 @@ export const App: React.FC = () => {
 
   return (
     <>
-      {isAuthenticated && <Header />}
-      <main className={isAuthenticated ? 'adjust-header-height' : ''}>
+      {isAuthenticated$ && <Header />}
+      <main className={isAuthenticated$ ? 'adjust-header-height' : ''}>
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />

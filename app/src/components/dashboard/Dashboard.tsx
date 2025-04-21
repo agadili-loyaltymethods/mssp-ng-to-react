@@ -14,7 +14,7 @@ import { Member } from '@/types';
 import useAlertService from '@/hooks/useAlertService';
 import { WidgetHelper } from '@/types/Widget';
 
-export const DashboardMainPage: React.FC = () => {
+export const Dashboard: React.FC = () => {
   const [widgetData, setWidgetData] = useState<any[]>([]);
   const [streaks, setStreaks] = useState<any[]>([]);
   const [widgetSkeleton, setWidgetSkeleton] = useState(true);

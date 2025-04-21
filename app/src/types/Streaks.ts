@@ -1,4 +1,4 @@
-import { Goals } from './Goals';
+import { Goals } from "@/models/goals";
 
 export interface Streaks {
   name: string;

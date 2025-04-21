@@ -1,11 +1,11 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '@/lib/hooks/useAppSelector';
-import { useActivityService } from '@/lib/hooks/useActivityService';
-import { useToast } from '@/lib/hooks/useToast';
-import { Loader } from '@/components/loader';
+import { useActivityService } from '@/hooks/useActivityService';
+import { useToast } from '@/hooks/useToast';
 import { ExternalCoupons } from '@/enums/external-coupons';
+import { useAppSelector } from '@/hooks/useAuthService';
+import { Loader } from '@/components/loader/Loader';
 
 interface ModalQuizProps {
   data: {
@@ -24,7 +24,7 @@ export function ModalQuiz({ data, onClose }: ModalQuizProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [earnedPoints, setEarnedPoints] = useState(0);
 
-  const loyaltyId = useAppSelector(state => state.member.loyaltyId);
+  const loyaltyId = useAppSelector((state: any) => state.member.loyaltyId);
   const { getActivity } = useActivityService();
   const { showError } = useToast();
 

@@ -7,7 +7,7 @@
     "start-local": "concurrently \"npm run start-server\" \"npm run start-client\"",
     "start-server": "nodemon app.js",
     "start-client": "cd app && npm run dev",
-    "build": "cd app && npm i && npm run build",
+    "build": "cd app && npm install --legacy-peer-deps && npm run build",
     "test": "echo 'Skipping tests' && exit 0"
   },
   "dependencies": {
