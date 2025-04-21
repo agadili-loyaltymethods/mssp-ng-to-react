@@ -11,14 +11,29 @@ import { store } from './redux/store';
 import { AppConfigProvider } from './AppConfig';
 import { loadAppConfig } from './services/configService';
 
-await loadAppConfig();
+// await loadAppConfig();
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <AppConfigProvider>
-    <Provider store={store}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </Provider>
-  </AppConfigProvider>
-);
+// ReactDOM.createRoot(document.getElementById('root')!).render(
+//   <AppConfigProvider>
+//     <Provider store={store}>
+//       <React.StrictMode>
+//         <App />
+//       </React.StrictMode>
+//     </Provider>
+//   </AppConfigProvider>
+// );
+
+async function main() {
+    await loadAppConfig();
+    ReactDOM.createRoot(document.getElementById('root')!).render(
+      <AppConfigProvider>
+        <Provider store={store}>
+          <React.StrictMode>
+            <App />
+          </React.StrictMode>
+        </Provider>
+      </AppConfigProvider>
+    );
+  }
+  
+  main();
