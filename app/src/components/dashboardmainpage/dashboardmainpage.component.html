@@ -1,0 +1,305 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div fxLayout="row" class="w-1300 p-20">
+    <div fxFlex="100" fxLayout="row" fxLayoutGap="20">
+      <div fxLayout="column" fxLayoutGap="20" fxLayoutAlign="start stretch" fxFlex="100">
+        @if(!widgetSkeleton ) {
+        <div fxLayout="row" fxLayoutGap="20">
+          <!-- Member Widget -->
+          <mat-card class="p-20 card-style" fxFlex="25">
+            <div class="welcome-section">
+              <div class="user-header">
+                <div class="user-welcome">
+                  <h2 class="welcome-text">Welcome back,</h2>
+                  <h1 class="user-name">{{memberInfo?.firstName}} {{memberInfo?.lastName}}</h1>
+                </div>
+              </div>
+              <div class="user-details">
+                <div class="detail-item" fxLayout="row" fxLayoutAlign="start center">
+                  <mat-icon>badge</mat-icon>
+                  <span>
+                    <small class="label">Loyalty ID</small>
+                    <div class="value">{{memberInfo?.loyaltyId}}</div>
+                  </span>
+                </div>
+                <div class="detail-item" fxLayout="row" fxLayoutAlign="start center">
+                  <mat-icon>email</mat-icon>
+                  <span>
+                    <small class="label">Email</small>
+                    <div class="value">{{memberInfo?.email || '-'}}</div>
+                  </span>
+                </div>
+                <div class="detail-item" fxLayout="row" fxLayoutAlign="start center">
+                  <mat-icon>calendar_today</mat-icon>
+                  <span>
+                    <small class="label">Member Since</small>
+                    <div class="value">{{memberInfo?.enrollDate | date}}</div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+          <!-- Encore Status -->
+          @for(widget of widgetData; track $index;){
+          @if($index <2){<mat-card class="p-20 card-style" fxFlex="25">
+            <div class="tier-status-section">
+              <h3 class="section-title">{{$index === 0 ? 'Encore Tier Status' : 'GCGC Tier Status'}}</h3>
+              <div class="tier-card">
+                <div class="tier-badge" [ngClass]="{'encore': $index === 0, 'ruby': $index !== 0}">
+                  <div class="tier-icon-wrapper">
+                    <mat-icon class="tier-icon">diamond</mat-icon>
+                  </div>
+                  <h2>{{widget.currentTier}}</h2>
+                </div>
+                <div class="tier-progress">
+                  @if(widget.nextTier !== widget.currentTier){
+                  <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span class="progress-label">Progress to {{widget.nextTier}}</span>
+                    <span class="progress-percentage">{{(widget.totalSpends / widget.nextMilestone *
+                      100).toFixed(0)}}%</span>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="(widget.totalSpends / widget.nextMilestone) * 100"
+                    class="tier-progress-bar">
+                  </mat-progress-bar>
+                  <div class="progress-stats">
+                    <span class="current-points">{{widget.totalSpends | number}} points</span>
+                    <span class="points-needed">{{(widget.nextMilestone - widget.totalSpends) | number}} to next
+                      tier</span>
+                  </div>
+                  }@else{
+                  <span class="color-green text-center winning-text">Congratulations! You have achieved the Top
+                    Tier</span>
+                  }
+                </div>
+              </div>
+            </div>
+            </mat-card>
+            }
+            }
+            <mat-card class="p-20 card-style" fxFlex="25">
+              <div class="points-balance-section">
+                <h3 class="section-title">Points Balance</h3>
+                <div class="balance-cards">
+                  <div class="provider-points">
+                    @for(provider of providerPoints; track provider.provider) {
+                    <div class="provider-item">
+                      <div class="provider-name">{{provider.provider}}</div>
+                      <div class="provider-value">{{provider.balance | number: '1.0-0'}} Points</div>
+                    </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+        </div>
+        }
+        @else {
+        <div fxLayout="row" fxLayoutGap="20">
+          @for(widget of [1,2,3,4]; track widget){
+          <mat-card class="p-20 card-style" fxFlex="50">
+            <mat-card-content class="skeleton">
+              <div class="skeleton-left">
+                <div class="line h-10 w-90p mb-15"></div>
+                <div class="line h-15 w-30p mb-20"></div>
+                <div class="line h-20 w-100p mb-20"></div>
+                <div class="line h-20 w-100p mb-20"></div>
+                <div class="line h-20 w-100p mb-20"></div>
+                <div class="line h-20 w-100p mb-20"></div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          }
+        </div>
+        }
+
+        <div fxFlex="100" fxLayout="row" fxLayoutGap="20">
+          <div fxLayout="column" class="card-style bg-white p-20" fxFlex="50">
+            @if(!widgetSkeleton ) {
+            <h3 class="mt-10 mb-20">Tier Benefits</h3>
+            <div fxFlex fxLayout="row wrap" fxLayoutGap="20px grid">
+              @for (benefits of widgetData[2]?.tierBenefits; track $index) {
+              <div fxFlex="50" fxLayoutAlign="start stretch" class="benefit-list">
+                <mat-card class="card-style benefit-card p-10 h-100p" fxFlexFill>
+                  <mat-card-content fxLayout="column" fxLayoutGap="0" fxFlex="1 1 auto" class="p-0">
+                    <div fxLayout="row" fxLayoutAlign="start start" class="perk-header" fxLayoutGap="10">
+                      <div class="benefit-thumbnail" fxLayoutAlign="center center">
+                        <mat-icon color="primary">{{ benefits.thumbnail }}</mat-icon>
+                      </div>
+                      <div fxFlex fxLayout="column" fxLayoutAlign="center start" class="perk-card">
+                        <h3 class="color-accent title">{{ benefits.title }}</h3>
+                      </div>
+                    </div>
+                    <div fxFlex="1 1 auto" class="desc-container">
+                      @if(benefits.desc.length === 1) {
+                      <div class="mb-2 mt-0 mt-4">{{ benefits.desc[0] }}</div>
+                      } @else {
+                      <ul class="pl-20 mb-2 mt-0 mt-4">
+                        @for(desc of benefits.desc; track desc) {
+                        <li><span>{{ desc }}</span></li>
+                        }
+                      </ul>
+                      }
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              }
+            </div>
+
+            }@else{
+            @for(row of [1,2]; track row){
+            <div fxLayout="row" fxLayoutGap="10">
+              @for(widget of [1,2,3]; track widget){
+              <mat-card class="p-5" fxFlex="50">
+                <mat-card-content class="skeleton">
+                  <div class="skeleton-left">
+                    <div class="line h-80 w-100p mb-10"></div>
+                    <div class="line h-12 w-100p mb-10"></div>
+                    <div class="line h-10 w-100p mb-5"></div>
+                    <div class="line h-10 w-100p mb-5"></div>
+                    <div class="line h-10 w-100p mb-5"></div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+              }
+            </div>
+            }
+            }
+          </div>
+          <div fxLayout="column" class="card-style bg-white p-20" fxFlex="50">
+
+            @if (!streakSkeleton) {
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+              <div fxLayout="row" fxLayoutAlign="center">
+                <h3 class="mt-10 mb-20">Encore Rewards Challenges</h3>
+                <button mat-icon-button class="refresh-btn" (click)="getStreakInfo(true)">
+                  <mat-icon>refresh</mat-icon>
+                </button>
+              </div>
+              <div class="filter-container mb-20">
+                <small>
+                  <mat-chip-listbox hideSingleSelectionIndicator>
+                    @for (category of streakCategories; track $index) {
+                    <mat-chip-option (selectionChange)="selectStreakCategory(category)"
+                      [selected]="selectedStreakCategory === category"
+                      [class.disable-click]="selectedStreakCategory === category">
+                      {{ category }}
+                    </mat-chip-option>
+                    }
+                  </mat-chip-listbox>
+                </small>
+              </div>
+            </div>
+
+            @if (!streaks.length) {
+            <div fxLayout="column" fxLayoutAlign="center center" class="empty-challenges p-20">
+              <div class="text-center color-gray mb-20">
+                @if (selectedStreakCategory === 'Active') {
+                <p>You are currently not participating in any challenges</p>
+                <p>Join a challenge to start earning rewards!</p>
+                } @else {
+                <p>You haven't completed any challenges yet</p>
+                }
+              </div>
+
+              @if (selectedStreakCategory === 'Active') {
+              <button mat-raised-button color="primary" class="get-started-btn" (click)="streakOptinPR()">
+                Get Started
+              </button>
+              }
+            </div>
+            }
+
+            @for (step of streaks; track $index; let last = $last) {
+            <div class="mb-20">
+              <div class="streak-card" fxLayout="row" fxLayoutGap="24px">
+                <!-- Left side - Progress -->
+                <div fxFlex="60" fxLayout="column" fxLayoutGap="16px">
+                  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px" class="mb-10">
+                    <h3 mat-line class="mat-title text-gray-900 font-bold">{{ step.name }}</h3>
+                    <span class="text-xl">🎪</span>
+                  </div>
+                  @if (!step.goals.length) {
+                  <div>{{step.streakGoalMessage}}</div>
+                  }
+                  @for (goal of step.goals; track $index) {
+                  <div fxLayout="column" fxLayoutGap="6px">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px" class="mr-5">
+                        <span class="w-8 h-8 rounded-full bg-orange-500"></span>
+                      </div>
+                      <span class="font-medium text-gray-900 text-sm">
+                        <b>
+                          {{ goal.name }}: {{ (goal.value || 0 )|standardCurrency: '1.0-0' }}/{{ goal.target
+                          |standardCurrency : '1.0-0' }}
+                        </b>
+                      </span>
+                    </div>
+                    <mat-progress-bar color="primary" mode="determinate" [value]="(goal.value || 0) / goal.target * 100"
+                      class="h-6">
+                    </mat-progress-bar>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                      <div>
+                        @if (goal?.instantBonus) {
+                        <div fxLayout="row" fxLayoutAlign="space-between start">
+                          <small><b class="pr-4">Bonus earned so far: </b>{{goal.instantBonus}}</small>
+                        </div>
+                        }
+
+                      </div>
+                    </div>
+                  </div>
+                  }
+                </div>
+
+                <!-- Right side - Info -->
+                <div fxFlex="40" fxLayout="column" fxLayoutGap="16px">
+                  <p class="text-gray-600 text-sm">{{ step.desc }}</p>
+                  @if (step.startedAt && step.timeLimit && step.status === 'Active') {
+                  <div class="bg-gray-500 text-white text-sm px-3 py-0.5 rounded-full inline-block width-fit-content">
+                    <app-app-timer [startedAt]="step.startedAt" [timeLimit]="step.timeLimit"></app-app-timer>
+                  </div>
+                  }
+                  <div fxLayout="row" fxLayoutGap="12px">
+                    <div fxFlex class="bg-gray-50 rounded-lg p-2 status-card" fxLayout="column" fxLayoutGap="4px">
+                      <div class="text-sm font-medium text-gray-500">Status</div>
+                      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+                        <span class="w-8 h-8 rounded-full"
+                          [ngClass]="{'bg-green-500': step.status === 'Complete', 'bg-green': step.status === 'Active', 'bg-red': step.status === 'Expired'}">
+                        </span>
+                        <span class="font-semibold text-gray-900">
+                          {{ step.status === 'Complete' ? 'Completed' : step.status }}
+                        </span>
+                      </div>
+                    </div>
+                    <div fxFlex class="bg-gray-50 rounded-lg p-2 status-card" fxLayout="column" fxLayoutGap="4px">
+                      <div class="text-sm font-medium text-gray-500">Goals</div>
+                      <div class="font-semibold text-gray-900">{{ step.goalCompleted }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            }
+            } @else {
+            <div fxLayout="column" fxLayoutGap="10">
+              @for(widget of [1,2,3]; track widget){
+              <mat-card class="p-5" fxFlex="50">
+                <mat-card-content class="skeleton">
+                  <div class="skeleton-left">
+                    <div class="line h-40 w-100p mb-10"></div>
+                    <div class="line h-12 w-100p mb-10"></div>
+                    <div class="line h-10 w-100p mb-5"></div>
+                    <div class="line h-10 w-100p mb-5"></div>
+                    <div class="line h-10 w-100p mb-5"></div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+              }
+            </div>
+            }
+          </div>
+
+        </div>
+
+      </div>
+    </div>

@@ -1,0 +1,106 @@
+
+.drawer-container {
+  min-height: 500px;
+ }
+ 
+ mat-sidenav{
+   min-height: 500px;
+   min-width: 100%;
+ }
+ 
+ mat-sidenav-container {
+   background: none;
+ }
+ 
+ .mat-drawer-content{
+   overflow: hidden !important;
+ }
+ 
+ .img-sec {
+   border-right: 1px dashed var(--gray);
+   padding-right: 30px;
+ }
+ 
+ img {
+   width: 60px;
+ }
+ 
+ .buy-vouchers-button {
+   color: var(--white) !important;
+   background-color: var(--primary) !important;
+   cursor: pointer;
+   box-sizing: border-box;
+ }
+ 
+ .dashed-line {
+   border-left: 2px dashed lightgray;
+   left: 38%;
+   /* Adjust based on the icon width and margin */
+   top: 10px;
+ }
+ 
+ .voucher mat-card .left-curve,
+ .voucher mat-card .right-curve {
+   position: absolute;
+   top: 50%;
+   width: 20px;
+   height: 40px;
+   /* Adjust this height to control the size of the curve */
+   background-color: var(--light);
+   /* Match this to the background color of your voucher */
+   border: .5px solid #ccc;
+   transform: translateY(-50%);
+ }
+ 
+ .voucher mat-card .left-curve {
+   left: -10px;
+   border-width: 0 1px 0 0;
+   border-radius: 0 50% 50% 0;
+ }
+ 
+ .voucher mat-card .right-curve {
+   right: -10px;
+   border-width: 0 0 0 1px;
+   border-radius: 50% 0 0 50%;
+ }
+ 
+ .border{
+   padding: 15px;
+   border: 2px solid #dedede;
+   border-radius: 10px;
+   gap: 10px;
+ }
+
+ .card-text-ellipsis{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  box-orient: vertical;
+}
+
+.points-table {
+  margin-bottom: 10px;
+}
+
+.point-cell {
+  padding: 5px 15px;
+  text-align: center;
+}
+
+.point-label {
+  margin-right: 5px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.disable-click {
+  pointer-events: none;
+  cursor: not-allowed;
+}

@@ -1,0 +1,113 @@
+<mat-sidenav-container [@.disabled]="true" class="drawer-container" hasBackdrop="true">
+    <mat-sidenav #drawer mode="over" position="end">
+        <ng-container *ngTemplateOutlet="SideDrawerContent"></ng-container>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <ng-container *ngTemplateOutlet="VouchersPage"></ng-container>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #SideDrawerContent>
+    <div fxLayout="column" fxLayoutGap="10">
+        <h3 fxLayout="row" fxLayoutAlign="space-between center" class="p-10 bg-white mb-5 mt-0 border-bottom">
+            Redemption Catalog
+            <button mat-icon-button color="primary" (click)="drawer.toggle()">&times;</button>
+        </h3>
+        <div fxLayout="column">
+            <div fxLayout="row" fxLayoutAlign="center center" class="w-100p p-10">
+                <mat-chip-listbox hideSingleSelectionIndicator>
+                    @for (category of memberPoints; track $index) {
+                    <mat-chip-option (selectionChange)="onPurseSelection(category)"
+                        [selected]="selectedPointPurse['key'] === category.key"
+                        [class.disable-click]="selectedPointPurse['key'] === category.key">
+                        {{ category.key }} : {{category.value | number: '1.0-2'}}
+                    </mat-chip-option>
+                    }
+                </mat-chip-listbox>
+            </div>
+            <div class="p-20 m-0" fxFlex fxLayout="row wrap" fxLayoutGap="10px grid">
+                @for (voucher of availableVouchersWithPurse; track $index) {
+                <div fxFlex="33.33">
+                    <ng-container [ngTemplateOutlet]="SingleVoucher"
+                        [ngTemplateOutletContext]="{$implicit: voucher}"></ng-container>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #VouchersPage>
+    @if(isLoading){
+    <ng-container *ngTemplateOutlet="Loader"></ng-container>
+    }@else{
+    @if(availableVouchers.length || memberVouchers.length){
+    <ng-container *ngTemplateOutlet="Vouchers"></ng-container>
+    }@else{
+    <app-no-data>No reward available.</app-no-data>
+    }
+    }
+</ng-template>
+
+<ng-template #Vouchers>
+    <div fxLayout="column" fxLayoutGap="10" class="mt-20">
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="pr-10">
+            <div fxLayoutAlign="start center" fxLayoutGap="10">
+                <h3>Rewards Wallet</h3>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
+                @for (point of memberPoints; track point.key) {
+                <span style="border: 0.5px solid gray; padding: 10px; margin: 1px; border-radius: 8px;">{{point.key}}:
+                    <strong>{{point.value | number : '1.0-0'}}</strong></span>
+                }
+                <button [disabled]="!availableVouchers.length" mat-flat-button color="primary"
+                    (click)="drawer.toggle()">Buy with Points</button>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="20">
+            <div fxFlex fxLayout="row wrap" fxLayoutGap="10px grid">
+                @for (voucher of memberVouchers; track $index) {
+                <div fxFlex="33.33">
+                    <ng-container [ngTemplateOutlet]="SingleVoucher"
+                        [ngTemplateOutletContext]="{$implicit: voucher}"></ng-container>
+                </div>
+                }@empty {
+                <app-no-data>No reward available in the wallet.</app-no-data>
+                }
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #SingleVoucher let-voucher>
+    <mat-card class="box-shadow-none border-gray bg-white">
+        <mat-card-content fxLayout="column">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10" class="h-80">
+                <div class="w-50" class="img-sec">
+                    <img src="assets/bclc-logo.png">
+                </div>
+                <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10" class="voucher-container pl-10">
+                    <h2 class="color-accent line-height-adjust mt-0 card-text-ellipsis">{{ voucher.name }}</h2>
+                    @if(voucher.expiresOn){
+                    <small class="color-gray">Expires {{ voucher.expiresOn | expiryCheck
+                        }}</small>
+                    }
+                    @if(voucher.cost){
+                    <small class="color-gray">{{ voucher.cost | number : '1.0-0'}} Points</small>
+                    }
+                </div>
+            </div>
+            @if(voucher.cost){
+            <button class="w-100p" mat-flat-button color="primary"
+                [disabled]="memberPoints.length > 1 && !isPointSourceValid(voucher.name, voucher.cost)"
+                (click)="drawer.toggle(); buyVoucher(voucher.name)">Buy with Points</button>
+            }
+        </mat-card-content>
+    </mat-card>
+</ng-template>
+<ng-template #Loader>
+    <div class="mt-50">
+        <app-card-mini-skeleton></app-card-mini-skeleton>
+    </div>
+</ng-template>

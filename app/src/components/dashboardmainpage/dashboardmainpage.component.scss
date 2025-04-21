@@ -1,0 +1,1675 @@
+.card-style {
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 16px !important;
+}
+
+.card mat-card {
+    min-width: 350px;
+}
+
+.mat-mdc-progress-bar {
+    --mdc-linear-progress-track-height: 10px;
+    --mdc-linear-progress-active-indicator-height: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.mat-mdc-progress-bar .mat-mdc-progress-bar-primary {
+    border-radius: 8px;
+}
+
+.heading {
+    color: var(--gray) !important;
+    font-size: 12px !important;
+}
+
+.spend-progress {
+    position: relative;
+}
+
+.custom-inner-text {
+    position: absolute;
+    top: 8%;
+    left: 0%;
+    right: 0%;
+    text-align: center;
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+
+.member-benefits {
+    list-style: none;
+    padding-left: 0;
+}
+
+.member-benefits li {
+    position: relative;
+    padding-left: 1.5em;
+    /* space to preserve indentation on wrap */
+}
+
+.member-benefits li:before {
+    content: '';
+    /* placeholder for the SVG */
+    position: absolute;
+    left: 0;
+    /* place the SVG at the start of the padding */
+    width: 1em;
+    height: 1em;
+    background: url("data:image/svg+xml;utf8,<?xml version='1.0' encoding='utf-8'?><svg width='18' height='18' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'><path d='M1671 566q0 40-28 68l-724 724-136 136q-28 28-68 28t-68-28l-136-136-362-362q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 295 656-657q28-28 68-28t68 28l136 136q28 28 28 68z'/></svg>") no-repeat;
+}
+
+.icon-css {
+    width: 60px;
+    height: 60px;
+    font-size: 60px;
+}
+
+.fs-24 {
+    font-size: 30px !important;
+}
+
+.icon-30 {
+    height: 30px;
+    width: 30px;
+    font-size: 30px;
+}
+
+.icon-42 {
+    height: 42px;
+    width: 42px;
+    font-size: 42px;
+}
+
+.streak-container {
+    border-radius: 20px;
+    background-color: #f3f3f3;
+}
+
+.stroked-btn {
+    border-radius: 5px;
+}
+
+.icon-circle-bg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.member-border {
+    border: 1px solid #dedede;
+    --bg-color: transparent;
+    background-color: var(--bg-color);
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+
+.icon-text {
+    display: flex;
+    align-items: center;
+}
+
+.margin-auto {
+    margin: auto !important;
+}
+
+.member-info {
+    font-size: 1.5em !important; 
+    line-height: 2rem !important;
+    color: var(--accent)!important;
+    display: block;
+    margin-top: 0 !important;
+}
+
+.bg-light-white {
+    background-color: #f6f6f5;
+    border-radius: 10px;
+}
+
+img {
+    border-radius: 10px;
+    align-self: center;
+}
+
+/* Hide default step icons */
+.mat-vertical-stepper-header .mat-step-icon {
+    display: none;
+  }
+/* Icon Container */
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  /* Icon Colors Based on Status */
+  .completed-icon {
+    color: var(--success);
+  }
+  
+  .in-progress-icon {
+    color: orange;
+  }
+  
+  .pending-icon {
+    color: var(--black) !important;
+  }
+  
+  /* Step Header */
+  .step-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Card Alignment */
+  .mat-card {
+    margin-left: 16px;
+  }
+
+  .border-radius-20 {
+    border-radius: 20px !important;
+  }
+  .mat-icon {
+    overflow: visible !important;
+  }
+
+  .horizontal-stepper-container {
+    margin-top: 20px;
+    padding: 10px 0;
+  }
+  
+  .custom-horizontal-stepper .mat-horizontal-stepper-header {
+    justify-content: flex-start;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+  
+  .line-separator {
+    height: 2px;
+    width: 50%;
+    background-color: lightgray;
+    margin-bottom: 12%;
+  }
+  .align-items {
+    display: flex;
+    align-items: center;
+  }
+  .step-block {
+    text-align: center;
+  }
+
+  .filter-container {
+    border-radius: 15px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding: 2px; 
+    overflow: hidden;
+    justify-content: center;
+  }
+
+  .benefit-card{
+    background-color: #F3F3F3;
+    li{
+      font-size: 13px;
+    }
+  }
+
+  .benefit-list:first-child{
+    img{
+      width: 84% !important;
+    }
+  }
+
+  .mat-select-bg{
+    background-color: #e0e0e0 !important;
+    border-radius:30px ;
+  }
+
+  .streak-card{
+    border-radius: 20px;
+    border: 1px solid #D8D8D8;
+    padding: 15px !important;
+  }
+  
+
+  .goal-parent-card{
+    .goal-card{
+      border-radius: 10px;
+      border: 1px solid #E9E8E6;
+      padding:10px 15px;
+      background-color: #F3F3F3;
+    }
+  }
+  .goal-icon{
+    background-color: var(--primary);
+    border-radius: 50%;
+    color: white;
+    width: 40px;
+    height: 40px;
+  }
+.member-card-style{
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid gray;
+  background-color: #F3F3F3;
+}
+
+.status-text{
+  text-transform: capitalize;
+}
+
+.refresh-btn{
+  margin-top: -6px;
+  height: 50px;
+}
+
+.challenge-title{
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.ml-neg-5{
+  margin-left: -8px !important;
+}
+
+.reward-value{
+  margin-left: -5px !important;
+}
+
+.timer-element{
+  padding: 5px;
+  background: #525252;
+  border-radius: 5px;
+  color: white;
+  margin-top: 5px;
+}
+/* Assuming you're using Tailwind CSS */
+
+.mb-20 {
+  margin-bottom: 5rem;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.rounded-2xl {
+  border-radius: 1.25rem;
+}
+
+.shadow-custom {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.text-gray-900 {
+  color: #1a202c;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-gray-600 {
+  color: #718096;
+}
+
+.bg-gray-500 {
+  background-color: #6b7280;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.py-0\.5 {
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.w-2 {
+  width: 0.5rem;
+}
+
+.h-2 {
+  height: 0.5rem;
+}
+
+.bg-orange-500 {
+  background-color: var(--primary, 500);
+}
+
+.bg-green-500 {
+  background-color: #22c55e;
+}
+
+.bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+
+.from-orange-50 {
+  --tw-gradient-from: #fff7ed;
+}
+
+.to-amber-50 {
+  --tw-gradient-to: #fffbeb;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.width-fit-content {
+  width: fit-content;
+}
+
+.status-card{
+  background-color: #F3F3F3;
+  padding: 10px !important;
+  border-radius: 10px;
+}
+
+.status-card-rewward{
+  background-color: #fff7ef;
+  padding: 10px !important;
+  border-radius: 10px;
+}
+
+.disable-click {
+  pointer-events: none;
+}
+
+.tier-badge {
+  text-align: center;
+  padding: 24px 16px;
+  border-radius: 12px;
+  color: white;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
+    z-index: 1;
+  }
+
+  &.encore {
+    background: #76b900 !important;
+  }
+
+  &.ruby {
+    background: linear-gradient(135deg, #9b1831, #c41e3a, #e82b4a) !important;
+  }
+
+  .tier-icon-wrapper {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 12px;
+
+    .tier-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      animation: pulse 2s infinite;
+    }
+  }
+
+  h2 {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+
+  .tier-subtitle {
+    position: relative;
+    z-index: 2;
+    margin: 2px 0 0;
+    font-size: 12px;
+    opacity: 0.9;
+  }
+}
+
+.points-list {
+  .point-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f8fafc;
+
+    mat-icon {
+      color: #4299e1;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+
+      strong {
+        font-size: 14px;
+        color: #1a202c;
+      }
+
+      small {
+        color: #64748b;
+      }
+    }
+  }
+
+  .bonus-multiplier {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #ebf8ff;
+    color: #2b6cb0;
+
+    mat-icon {
+      color: #3182ce;
+    }
+  }
+}
+
+.earning-card, .benefit-card {
+  height: 100%;
+  margin-bottom: 16px;
+
+  mat-card {
+    background-color: #f8fafc;
+    height: 100%;
+    padding: 16px !important;
+
+    .earning-icon, .benefit-icon {
+      color: #4299e1;
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      margin-right: 12px;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .earning-category, .benefit-name {
+      color: #2d3748;
+      margin: 0;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .earning-rate {
+      color: #4299e1;
+      font-weight: 500;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .earning-description, .benefit-description {
+      color: #718096;
+      font-size: 12px;
+      margin: 4px 0 0;
+      line-height: 1.4;
+    }
+  }
+}
+
+.reward-badge {
+  background-color: #ebf8ff;
+  color: #2b6cb0;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+mat-progress-bar {
+  border-radius: 4px;
+  height: 8px !important;
+
+  ::ng-deep {
+    .mat-progress-bar-fill::after {
+      background-color: var(--primary) !important;
+    }
+    
+    .mat-progress-bar-buffer {
+      background-color: #e2e8f0;
+    }
+  }
+}
+
+.color-primary {
+  color: #2b6cb0;
+}
+
+.color-accent {
+  color: #805ad5;
+}
+
+.mt-5 { margin-top: 5px; }
+.mt-10 { margin-top: 10px; }
+.mt-15 { margin-top: 15px; }
+.mt-20 { margin-top: 20px; }
+.mb-0 { margin-bottom: 0; }
+.mb-5 { margin-bottom: 5px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-15 { margin-bottom: 15px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-30 { margin-bottom: 30px; }
+
+.p-15 { padding: 15px; }
+.p-20 { padding: 20px; }
+
+.h-6 { height: 6px; }
+.w-100p { width: 100%; }
+
+// User Information Card
+.welcome-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .user-header {
+    margin-bottom: 16px;
+
+    .user-welcome {
+      .welcome-text {
+        color: #718096;
+        font-size: 14px;
+        margin: 0;
+        font-weight: 500;
+      }
+
+      .user-name {
+        color: #2d3748;
+        font-size: 24px;
+        margin: 0;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+    }
+  }
+
+  .user-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .detail-item {
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #f7fafc;
+      margin-bottom: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      mat-icon {
+        color: #4299e1;
+        margin-right: 10px;
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+
+      .label {
+        color: #718096;
+        font-size: 11px;
+        margin-bottom: 2px;
+      }
+
+      .value {
+        color: #2d3748;
+        font-weight: 600;
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+// Tier Status Cards
+.tier-status-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .section-title {
+    color: #2d3748;
+    font-size: 16px;
+    margin: 0 0 16px;
+    font-weight: 600;
+  }
+
+  .tier-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .tier-badge {
+    text-align: center;
+    padding: 24px 16px;
+    border-radius: 12px;
+    color: white;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
+      z-index: 1;
+    }
+
+    &.ruby {
+      background: linear-gradient(135deg, #9b1831, #c41e3a, #e82b4a) !important;
+    }
+
+    .tier-icon-wrapper {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 12px;
+
+      .tier-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+        animation: pulse 2s infinite;
+      }
+    }
+
+    h2 {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .tier-subtitle {
+      position: relative;
+      z-index: 2;
+      margin: 2px 0 0;
+      font-size: 12px;
+      opacity: 0.9;
+    }
+  }
+
+  .tier-progress {
+    padding: 12px;
+    background-color: var(--primary-bg);
+    border-radius: 8px;
+
+    .progress-label {
+      color: #2d3748;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .progress-percentage {
+      color: var(--tier-green);
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .tier-progress-bar {
+      height: 4px !important;
+      border-radius: 2px;
+      margin: 8px 0;
+
+      ::ng-deep {
+        .mat-progress-bar-fill::after {
+          background-color: var(--tier-green) !important;
+        }
+      }
+    }
+
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .current-points {
+        color: var(--tier-green);
+        font-weight: 600;
+        font-size: 12px;
+      }
+
+      .points-needed {
+        color: #718096;
+        font-size: 11px;
+      }
+    }
+  }
+}
+
+// Points Balance Card
+.points-balance-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .section-title {
+    color: #2d3748;
+    font-size: 16px;
+    margin: 0 0 16px;
+    font-weight: 600;
+  }
+
+  .balance-cards {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .balance-summary {
+    margin-bottom: 8px;
+
+    .balance-item {
+      padding: 12px;
+      background-color: #f7fafc;
+      border-radius: 8px;
+      height: 100%;
+
+      .balance-label {
+        color: #718096;
+        font-size: 12px;
+        margin-bottom: 2px;
+      }
+
+      .balance-value {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2d3748;
+        line-height: 1.2;
+
+        &.accent {
+          color: #4299e1;
+        }
+      }
+    }
+  }
+
+  .provider-points {
+    margin-top: 8px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .provider-item {
+      padding: 12px;
+      background-color: white;
+      border-radius: 8px;
+      margin-bottom: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .provider-name {
+        color: #718096;
+        font-size: 12px;
+        margin-bottom: 2px;
+      }
+
+      .provider-value {
+        color: #2d3748;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.2;
+      }
+    }
+  }
+}
+
+// Streaks Widget
+.streak-container {
+  background-color: #f8fafc;
+
+  .section-title {
+    color: #2d3748;
+    font-size: 16px;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .streak-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px;
+    height: 100%;
+    margin-bottom: 16px;
+
+    .icon-circle-bg {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #f7fafc;
+      margin-right: 12px;
+
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+
+        &.completed-icon {
+          color: #48bb78;
+        }
+
+        &.in-progress-icon {
+          color: #ed8936;
+        }
+      }
+    }
+
+    .streak-title {
+      color: #2d3748;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0 0 4px;
+    }
+
+    .streak-description {
+      color: #718096;
+      font-size: 12px;
+      margin: 0 0 8px;
+      line-height: 1.4;
+    }
+
+    .streak-progress {
+      mat-progress-bar {
+        height: 4px !important;
+        border-radius: 2px;
+        margin-bottom: 6px;
+      }
+
+      small {
+        color: #718096;
+        font-size: 11px;
+      }
+    }
+  }
+
+  .stroked-btn {
+    color: #4299e1;
+    border-color: #4299e1;
+    height: 32px;
+    line-height: 32px;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      margin-right: 4px;
+    }
+  }
+}
+
+// Combined Benefits and Points Tab
+.benefits-container {
+  .header-section {
+    margin-bottom: 20px;
+
+    .section-title {
+      color: #2d3748;
+      font-size: 18px;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+
+      .filter-btn {
+        padding: 4px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #718096;
+
+        &.active {
+          background-color: var(--primary);
+          color: white;
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    padding: 16px 0;
+  }
+
+  .earning-card, .benefit-card {
+    height: 100%;
+    margin-bottom: 16px;
+
+    mat-card {
+      background-color: #f8fafc;
+      height: 100%;
+      padding: 16px !important;
+    }
+
+    .earning-icon, .benefit-icon {
+      color: #4299e1;
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      margin-right: 12px;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .earning-category, .benefit-name {
+      color: #2d3748;
+      margin: 0;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .earning-rate {
+      color: #4299e1;
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .earning-description, .benefit-description {
+      color: #718096;
+      font-size: 12px;
+      margin: 4px 0 0;
+      line-height: 1.4;
+    }
+  }
+
+  .bonus-card {
+    margin-top: 8px;
+
+    mat-card {
+      background-color: #ebf8ff;
+      padding: 16px !important;
+    }
+
+    .bonus-icon {
+      color: #4299e1;
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      margin-right: 12px;
+    }
+
+    .bonus-title {
+      color: #2d3748;
+      margin: 0 0 4px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .bonus-description {
+      color: #4299e1;
+      font-weight: 500;
+      font-size: 13px;
+    }
+  }
+
+  // Grid layout improvements
+  .benefits-grid, .earning-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 16px;
+
+    .benefit-card, .earning-card {
+      margin: 0;
+    }
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes sparkle {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+  50% { opacity: 1; }
+  100% {
+    transform: rotate(360deg);
+    opacity: 0;
+  }
+}
+
+// Utility Classes
+.mt-5 { margin-top: 5px; }
+.mt-10 { margin-top: 10px; }
+.mt-15 { margin-top: 15px; }
+.mt-20 { margin-top: 20px; }
+.mb-0 { margin-bottom: 0; }
+.mb-5 { margin-bottom: 5px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-15 { margin-bottom: 15px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-30 { margin-bottom: 30px; }
+
+.p-15 { padding: 15px; }
+.p-20 { padding: 20px; }
+
+.h-6 { height: 6px; }
+.w-100p { width: 100%; }
+
+// Rewards Challenges Container
+.rewards-container {
+  .header-section {
+    margin-bottom: 20px;
+
+    .title-section {
+      gap: 8px;
+      display: flex;
+      align-items: center;
+
+      .section-title {
+        color: #2d3748;
+        font-size: 18px;
+        margin: 0;
+        font-weight: 600;
+      }
+
+      .refresh-btn {
+        color: #718096;
+        margin: -4px 0;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+      }
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+
+      .filter-btn {
+        padding: 4px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #718096;
+
+        &.active {
+          background-color: var(--primary);
+          color: white;
+        }
+      }
+    }
+  }
+
+  .challenges-grid {
+    .challenge-card {
+      background-color: #f8fafc;
+      border-radius: 12px;
+      padding: 26px;
+
+      .challenge-header {
+        margin-bottom: 16px;
+
+        .challenge-title-section {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 8px;
+
+          .challenge-icon {
+            color: var(--primary);
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+          }
+
+          .challenge-title {
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+          }
+        }
+
+        .challenge-description {
+          color: #718096;
+          font-size: 14px;
+          line-height: 1.4;
+        }
+      }
+
+      .challenge-content {
+        .goals-section {
+          margin-bottom: 16px;
+          width: 100%;
+
+          .goal-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+
+            .goal-header {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+
+              .goal-status-icon {
+                color: var(--primary);
+                font-size: 20px;
+                width: 20px;
+                height: 20px;
+
+                &.completed {
+                  color: #48bb78;
+                }
+              }
+
+              .goal-text {
+                color: #4a5568;
+                font-size: 14px;
+              }
+            }
+
+            .goal-progress {
+              padding-left: 28px;
+
+              mat-progress-bar {
+                height: 4px !important;
+                border-radius: 2px;
+              }
+            }
+          }
+        }
+
+        .challenge-status {
+          background-color: white;
+          padding: 12px;
+          border-radius: 8px;
+
+          .status-section {
+            .status-label {
+              color: #718096;
+              font-size: 12px;
+              margin-bottom: 4px;
+            }
+
+            .status-value {
+              color: #2d3748;
+              font-size: 14px;
+              font-weight: 500;
+              display: flex;
+              align-items: center;
+              gap: 6px;
+
+              .status-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background-color: #cbd5e0;
+
+                &.active {
+                  background-color: #48bb78;
+                }
+              }
+            }
+          }
+
+          .goals-section {
+            text-align: right;
+            
+            .goals-label {
+              color: #718096;
+              font-size: 12px;
+              margin-bottom: 4px;
+            }
+
+            .goals-value {
+              color: #2d3748;
+              font-size: 14px;
+              font-weight: 500;
+            }
+          }
+        }
+
+        .reward-section {
+          background-color: rgba(118, 185, 0, 0.1);
+          padding: 12px;
+          border-radius: 8px;
+
+          .reward-label {
+            color: #718096;
+            font-size: 12px;
+            margin-bottom: 4px;
+          }
+
+          .reward-value {
+            color: #76b900 !important;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            .reward-icon {
+              color: #76b900 !important;
+              font-size: 20px;
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+:root {
+  --primary: #e86a10;
+  --primary-light: #ff8f3d;
+  --primary-dark: #c45100;
+  --primary-bg: #fff7ed;
+  --primary-hover: rgba(232, 106, 16, 0.1);
+  --tier-green: #76b900;
+  --tier-green-light: #8ed600;
+  --tier-green-dark: #5c8f00;
+}
+
+// Update tier status gradients
+.tier-status-section {
+  .tier-badge {
+    text-align: center;
+    padding: 24px 16px;
+    border-radius: 12px;
+    color: white;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
+      z-index: 1;
+    }
+
+    &.ruby {
+      background: linear-gradient(135deg, #9b1831, #c41e3a, #e82b4a) !important;
+    }
+
+    .tier-icon-wrapper {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 12px;
+
+      .tier-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+        animation: pulse 2s infinite;
+      }
+    }
+
+    h2 {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .tier-subtitle {
+      position: relative;
+      z-index: 2;
+      margin: 2px 0 0;
+      font-size: 12px;
+      opacity: 0.9;
+    }
+  }
+
+  .tier-progress {
+    padding: 12px;
+    background-color: var(--primary-bg);
+    border-radius: 8px;
+
+    .progress-label {
+      color: #2d3748;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .progress-percentage {
+      color: var(--tier-green);
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .tier-progress-bar {
+      height: 4px !important;
+      border-radius: 2px;
+      margin: 8px 0;
+
+      ::ng-deep {
+        .mat-progress-bar-fill::after {
+          background-color: var(--tier-green) !important;
+        }
+      }
+    }
+
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .current-points {
+        color: var(--tier-green);
+        font-weight: 600;
+        font-size: 12px;
+      }
+
+      .points-needed {
+        color: #718096;
+        font-size: 11px;
+      }
+    }
+  }
+}
+
+// Update active button states
+.filter-tabs {
+  .filter-btn {
+    &.active {
+      background-color: var(--primary) !important;
+      color: white !important;
+    }
+  }
+}
+
+// Update progress bars
+mat-progress-bar {
+  ::ng-deep {
+    .mat-progress-bar-fill::after {
+      background-color: var(--primary) !important;
+    }
+  }
+}
+
+// Update icons
+.challenge-icon,
+.goal-status-icon,
+.reward-icon,
+.earning-icon,
+.benefit-icon,
+.bonus-icon {
+  color: var(--primary) !important;
+}
+
+// Update text colors that use primary
+.reward-value,
+.earning-rate,
+.bonus-description {
+  color: var(--primary) !important;
+}
+
+// Update hover states
+.benefit-card, .earning-card {
+  mat-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(232, 106, 16, 0.15);
+    }
+  }
+}
+
+// Update points balance section
+.points-balance-section {
+  .balance-summary {
+    .balance-item {
+      background-color: var(--primary-bg);
+      width: 100%;
+
+      .balance-value {
+        color: #2d3748;
+        font-size: 24px;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+// Update user details section
+.welcome-section {
+  .user-details {
+    .detail-item {
+      background-color: var(--primary-bg);
+
+      mat-icon {
+        color: var(--primary);
+      }
+    }
+  }
+}
+
+// Update points list
+.points-list {
+  .point-item {
+    background-color: var(--primary-bg);
+
+    mat-icon {
+      color: var(--primary);
+    }
+  }
+
+  .bonus-multiplier {
+    background-color: var(--primary-bg);
+    color: var(--primary);
+
+    mat-icon {
+      color: var(--primary);
+    }
+  }
+}
+
+// Update benefit cards
+.benefit-card {
+  mat-card {
+    background-color: var(--primary-bg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(232, 106, 16, 0.15);
+    }
+  }
+}
+
+// Update reward badge
+.reward-badge {
+  background-color: var(--primary-bg);
+  color: var(--primary);
+}
+
+// Update progress bars
+mat-progress-bar {
+  ::ng-deep {
+    .mat-progress-bar-fill::after {
+      background-color: var(--primary) !important;
+    }
+  }
+}
+
+// Update buttons and active states
+.filter-tabs {
+  .filter-btn {
+    &.active {
+      background-color: var(--primary) !important;
+      color: white !important;
+    }
+  }
+}
+
+// Update all primary colored elements
+.color-primary,
+.challenge-icon,
+.goal-status-icon,
+.reward-icon,
+.earning-icon,
+.benefit-icon,
+.bonus-icon,
+.reward-value,
+.earning-rate,
+.bonus-description {
+  color: var(--primary) !important;
+}
+
+// Update hover effects
+.benefit-card, .earning-card {
+  mat-card {
+    &:hover {
+      background-color: var(--primary-bg);
+    }
+  }
+}
+
+// Update bonus card
+.bonus-card {
+  mat-card {
+    background-color: var(--primary-bg);
+  }
+
+  .bonus-icon {
+    color: var(--primary);
+  }
+
+  .bonus-description {
+    color: var(--primary);
+  }
+}
+
+.empty-challenges {
+  min-height: 150px;
+}
+
+.get-started-btn {
+  padding: 8px 24px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.winning-text{
+  display: block;
+  font-weight: 600;
+}
+
+.benefit-thumbnail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
