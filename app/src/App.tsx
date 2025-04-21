@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Navigate, Route, BrowserRouter as Router, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useMemberService } from './hooks/useMemberService';
 import { addMember } from './redux/slices/memberSlice';
 import { Header } from './components/header/Header';
@@ -39,6 +39,7 @@ export const App: React.FC = () => {
 
   return (
     <>
+    <Router>
       {isAuthenticated$ && <Header />}
       <main className={isAuthenticated$ ? 'adjust-header-height' : ''}>
         <Routes>
@@ -53,6 +54,7 @@ export const App: React.FC = () => {
           <Route path="*" element={<Navigate to="/page-not-found" replace />} />
         </Routes>
       </main>
+      </Router>
     </>
   );
 };

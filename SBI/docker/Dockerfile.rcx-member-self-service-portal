@@ -29,4 +29,4 @@ RUN . $NVM_DIR/nvm.sh && \
 
 ENTRYPOINT [ "/home/rcx/entry.sh" ]
 
-EXPOSE 4200
+EXPOSE 4202
