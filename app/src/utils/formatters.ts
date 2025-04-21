@@ -1,3 +1,6 @@
+import {addLeadingZero} from '../utils/dateUtils';
+import {formatDate} from '../utils/dateUtils';
+import { format } from 'date-fns';
 export const formatCurrency = (
   value: number | null | undefined,
   digitsInfo: string = '1.2-2',
@@ -41,4 +44,12 @@ export const formatExpiryDate = (value: Date | string): string => {
     return 'Never';
   }
   return formatDate(date);
+};
+
+export const checkExpiry = (value: Date | string): string => {
+  const date = new Date(value);
+  if (date.getFullYear() > 2900) {
+    return 'Never';
+  }
+  return format(date, 'dd/MM/yyyy');
 };

@@ -10,10 +10,10 @@ import {
 } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import { useMemberService } from '../../hooks/useMemberService';
-import { useAlertService } from '../../hooks/useAlertService';
 import { useAuthService } from '../../hooks/useAuthService';
 import { addMember, clearMember } from '../../redux/slices/memberSlice';
 import { clearCart } from '../../redux/slices/cartSlice';
+import useAlertService from '@/hooks/useAlertService';
 
 export const Profile: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -31,7 +31,7 @@ export const Profile: React.FC = () => {
     if (memberInfo?.purses) {
       setLoyaltyId(memberInfo.loyaltyId);
       setTotalPoints(
-        memberInfo.purses.find(x => x.name === 'Anywhere Points')?.availBalance ?? 0
+        memberInfo.purses.find((x: any) => x.name === 'Anywhere Points')?.availBalance ?? 0
       );
     }
   }, [memberInfo]);

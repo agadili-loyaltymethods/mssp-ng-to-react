@@ -8,8 +8,8 @@ import {
   SelectChangeEvent 
 } from '@mui/material';
 import { useLocationService } from '../../hooks/useLocationService';
-import { useAlertService } from '../../hooks/useAlertService';
 import { setLocation } from '../../redux/slices/locationSlice';
+import useAlertService from '@/hooks/useAlertService';
 
 export const Locations: React.FC = () => {
   const [allLocations, setAllLocations] = useState<any[]>([]);
@@ -20,19 +20,18 @@ export const Locations: React.FC = () => {
   const alertService = useAlertService();
 
   useEffect(() => {
-    locationService.getLocations().subscribe({
-      next: (locations) => {
-        const filteredLocations = locations.filter(
-          (location) => !location.ext.hideInMSSP
-        );
-        setAllLocations(filteredLocations);
-        setSelectedLocation(filteredLocations[0].name);
-        handleLocationChange(filteredLocations[0].name);
-      },
-      error: (error) => {
-        alertService.errorAlert(error?.error?.error || error?.message);
-      }
-    });
+    try{
+      const locations: any =  locationService.getLocations();
+      const filteredLocations = locations.filter(
+        (location: any) => !location.ext.hideInMSSP
+      );
+      setAllLocations(filteredLocations);
+      setSelectedLocation(filteredLocations[0].name);
+      handleLocationChange(filteredLocations[0].name);
+    }
+    catch (error: any){
+      alertService.errorAlert(error?.error?.error || error?.message);
+    }
   }, []);
 
   const handleLocationChange = (locationName: string) => {

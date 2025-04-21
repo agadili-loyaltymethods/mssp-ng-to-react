@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useSegmentService } from '../../hooks/useSegmentService';
-import { useAlertService } from '../../hooks/useAlertService';
 import { CardMiniSkeleton } from '../skeletons/CardMiniSkeleton';
-import { NoData } from '../common/NoData';
+// import { NoData } from '../common/NoData';
+import useAlertService from '@/hooks/useAlertService';
+import { NoData } from '../common/no-data/NoData';
 
 export const ClippableCoupons: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +28,7 @@ export const ClippableCoupons: React.FC = () => {
       );
       setSegments(segmentsResponse);
       
-      const memberSegmentsResponse = await segmentService.getMemberSegments(
+      const memberSegmentsResponse: any = await segmentService.getMemberSegments(
         5,
         JSON.stringify({
           member: memberInfo._id,

@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Card, CardContent, Button } from '@mui/material';
 import { useMemberService } from '../../hooks/useMemberService';
-import { useAlertService } from '../../hooks/useAlertService';
 import { CardMiniSkeleton } from '../skeletons/CardMiniSkeleton';
-import { NoData } from '../common/NoData';
-import { SurveyDialog } from '../dialogs/SurveyDialog';
 import { SurveyConstant } from '../../constants/survey.constants';
-import { formatExpiryDate } from '../../utils/dateUtils';
+import { formatExpiryDate } from '@/utils/formatters';
+import useAlertService from '@/hooks/useAlertService';
+import { NoData } from '../common/no-data/NoData';
+import { ModalSurvey } from '../modals/modal-survey/ModalSurvey';
 
 export const Quiz: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -72,8 +72,8 @@ export const Quiz: React.FC = () => {
         </div>
       </div>
 
-      <SurveyDialog
-        open={dialogOpen}
+      <ModalSurvey
+        // open={dialogOpen}
         data={SurveyConstant}
         onClose={handleDialogClose}
       />

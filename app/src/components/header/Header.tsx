@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
-import { useTokenDetailsHelper } from '../../hooks/useTokenDetailsHelper';
 import { Locations } from '../locations/Locations';
 import { Profile } from '../profile/Profile';
+import { useTokenDetailsHelper } from '@/hooks/useTokenDetailHelper';
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();

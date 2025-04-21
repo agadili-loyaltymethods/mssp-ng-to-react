@@ -3,10 +3,10 @@ import axios from 'axios';
 import { useAppConfig } from '../contexts/AppConfigContext';
 import { useDispatch } from 'react-redux';
 import { addMember } from '../redux/slices/memberSlice';
-import { useAlertService } from './useAlertService';
 import { useMemberService } from './useMemberService';
 import { AuthHelper } from '../utils/authHelper';
-import { MemberInfo } from '../types';
+import useAlertService from './useAlertService';
+import { MemberInfo } from '@/models/member-info';
 
 export const useLoginService = () => {
   const { config } = useAppConfig();

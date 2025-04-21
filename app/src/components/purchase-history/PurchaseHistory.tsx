@@ -14,13 +14,15 @@ import {
   TextField,
   IconButton,
   Collapse,
-  Box
+  Box,
+  InputAdornment
 } from '@material-ui/core';
+import SearchIcon from '@mui/icons-material/Search';
 import { KeyboardArrowDown, KeyboardArrowUp, Refresh } from '@material-ui/icons';
 import { useMemberService } from '../../hooks/useMemberService';
-import { useAlertService } from '../../hooks/useAlertService';
-import { NoData } from '../common/NoData';
 import { formatCurrency } from '../../utils/formatters';
+import { NoData } from '../common/no-data/NoData';
+import useAlertService from '@/hooks/useAlertService';
 
 interface ExpandableRowProps {
   row: any;
@@ -159,7 +161,11 @@ export const PurchaseHistory: React.FC = () => {
                 placeholder="Search"
                 onChange={(e) => setFilterText(e.target.value)}
                 InputProps={{
-                  endAdornment: <Search color="action" />
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <SearchIcon color="action" />
+                    </InputAdornment>
+                  ),
                 }}
               />
             </div>

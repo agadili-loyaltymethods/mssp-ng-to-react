@@ -1,7 +1,12 @@
 import { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { TypedUseSelectorHook, useDispatch } from 'react-redux';
 import { setAuthenticated, setUnauthenticated } from '../redux/slices/authSlice';
 import { AuthHelper } from '../utils/authHelper';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+
+export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export const useAuthService = () => {
   const dispatch = useDispatch();

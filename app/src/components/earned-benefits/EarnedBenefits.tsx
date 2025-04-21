@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useMemberService } from '../../hooks/useMemberService';
-import { useAlertService } from '../../hooks/useAlertService';
 import { CardMiniSkeleton } from '../skeletons/CardMiniSkeleton';
-import { NoData } from '../common/NoData';
-import { formatExpiryDate } from '../../utils/dateUtils';
+import { formatExpiryDate } from '../../utils/formatters';
+import useAlertService from '@/hooks/useAlertService';
+import { NoData } from '../common/no-data/NoData';
 
 export const EarnedBenefits: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +24,7 @@ export const EarnedBenefits: React.FC = () => {
 
   const getMemberBenefits = async () => {
     try {
-      const offers = await memberService.getOffers(
+      const offers: any = await memberService.getOffers(
         memberInfo._id, 
         location.number ?? location
       );

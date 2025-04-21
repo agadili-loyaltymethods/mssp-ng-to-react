@@ -1,10 +1,10 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '@/lib/hooks/useAppSelector';
-import { useActivityService } from '@/lib/hooks/useActivityService';
-import { useToast } from '@/lib/hooks/useToast';
-import { Loader } from '@/components/loader';
+import { useAppSelector } from '@/hooks/useAuthService';
+import { useActivityService } from '@/hooks/useActivityService';
+import { useToast } from '@/hooks/useToast';
+import { Loader } from '@/components/loader/Loader';
 
 interface RevertRewardProps {
   data: {

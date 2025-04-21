@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, Button, Chip, IconButton } from '@mui/material';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { useActivityService } from '../../hooks/useActivityService';
-import { useAlertService } from '../../hooks/useAlertService';
 import { useMemberService } from '../../hooks/useMemberService';
 import { AppTimer } from '../AppTimer';
-import { NoData } from '../common/NoData';
+// import { NoData } from '../common/NoData';
 import { CouponEnum } from '../../enums/coupon-enum';
 import { StreaksCategory } from '../../enums/streaks-category';
 import { formatCurrency } from '../../utils/formatters';
+import useAlertService from '@/hooks/useAlertService';
 
 export const Dashboard: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);

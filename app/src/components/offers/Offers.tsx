@@ -1,12 +1,14 @@
 
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '@/lib/hooks/useAppSelector';
-import { useMemberService } from '@/lib/hooks/useMemberService';
-import { useToast } from '@/lib/hooks/useToast';
-import { useTokenDetails } from '@/lib/hooks/useTokenDetails';
-import { formatters } from '@/lib/utils/formatters';
-import { CardMiniSkeleton } from '../card-mini-skeleton';
-import { NoData } from '../common/no-data';
+import { useMemberService } from '@/hooks/useMemberService';
+import { useToast } from '@/hooks/useToast';
+import { useTokenDetailsHelper } from '@/hooks/useTokenDetailHelper';
+import { checkExpiry } from '@/utils/formatters';
+import { useAppSelector } from '@/hooks/useAuthService';
+import { useActivityService } from '@/hooks/useActivityService';
+import { Loader } from '@/components/loader/Loader';
+import { NoData } from '../common/no-data/NoData';
+import { CardMiniSkeleton } from '../skeletons/CardMiniSkeleton';
 
 export function Offers() {
   const [offers, setOffers] = useState<any[]>([]);
@@ -15,21 +17,21 @@ export function Offers() {
 
   const memberInfo = useAppSelector(state => state.member);
   const location: any = useAppSelector(state => state.location.location);
-  const { getMemberOffers } = useMemberService();
+  const { getOffers } = useMemberService();
   const { showError } = useToast();
-  const { openExternalLink } = useTokenDetails();
+  const { openExternalLink } = useTokenDetailsHelper();
 
   useEffect(() => {
     if (memberInfo._id) {
-      getOffers();
+      getOffersList();
     }
   }, [memberInfo, location]);
 
-  const getOffers = async () => {
+  const getOffersList = async () => {
     try {
       const [promo, globalOffers]: any = await Promise.all([
-        getMemberOffers(memberInfo._id, location.number ?? location),
-        getMemberOffers(memberInfo._id, location.number ?? location)
+        getOffers(memberInfo._id, location.number ?? location),
+        getOffers(memberInfo._id, location.number ?? location)
       ]);
 
       setOffers([
@@ -73,7 +75,7 @@ export function Offers() {
                       <p className="m-0 line-clamp-2">{offer.desc}</p>
                       {offer.expirationDate && (
                         <small className="text-gray-500 leading-snug line-clamp-2">
-                          Expires {formatters.checkExpiry(offer.expirationDate)}
+                          Expires {checkExpiry(offer.expirationDate)}
                         </small>
                       )}
                     </div>

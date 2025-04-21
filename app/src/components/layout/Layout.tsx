@@ -1,14 +1,14 @@
 import { Outlet } from 'react-router-dom';
-import { Header } from '../header';
-import { useAuth } from '@/lib/hooks/useAuth';
+import { useAuthService } from '@/hooks/useAuthService';
+import { Header } from '../header/Header';
 
 export function Layout() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated$ } = useAuthService();
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated$) {
     return (
       <div className="c-loader flex items-center justify-center">
-        <div className={`loader ${isAuthenticated ? '' : 'hidden'}`} />
+        <div className={`loader ${isAuthenticated$ ? '' : 'hidden'}`} />
       </div>
     );
   }
@@ -16,7 +16,7 @@ export function Layout() {
   return (
     <>
       <Header />
-      <main className={isAuthenticated ? 'mt-[70px]' : ''}>
+      <main className={isAuthenticated$ ? 'mt-[70px]' : ''}>
         <Outlet />
       </main>
     </>

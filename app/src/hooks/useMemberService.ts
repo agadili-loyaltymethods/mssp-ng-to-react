@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import axios from 'axios';
 import { useAppConfig } from '../contexts/AppConfigContext';
-import { useAlertService } from './useAlertService';
 import { BehaviorSubject } from 'rxjs';
 import { Member, ActivityHistory } from '../types';
+import useAlertService from './useAlertService';
 
 export const useMemberService = () => {
   const { config } = useAppConfig();
@@ -24,7 +24,7 @@ export const useMemberService = () => {
   const getMember = useCallback(async (loyaltyId: string = '1001'): Promise<Member> => {
     try {
       const url = `${config.config.REST_URL}/api/v1/members/${loyaltyId}/profile?linked=true&divide=true`;
-      const response = await axios.get<Member[]>(url, { params: { query: true } });
+      const response: any = await axios.get<Member[]>(url, { params: { query: true } });
       
       return {
         ...response.data[0].member,

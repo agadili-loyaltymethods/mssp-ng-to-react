@@ -5,9 +5,10 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { CouponCard } from './CouponCard';
 import { CouponSummary } from './CouponSummary';
 import { useActivityService } from '../../hooks/useActivityService';
-import { useAlertService } from '../../hooks/useAlertService';
+// import { useAlertService } from '../../hooks/useAlertService';
 import type { Member } from '../../models/member';
 import type { Coupon } from '../../models/coupon';
+import useAlertService from '@/hooks/useAlertService';
 
 interface BuyCouponProps {
   onClose: (refresh?: boolean) => void;
@@ -33,14 +34,13 @@ export const BuyCoupon: React.FC<BuyCouponProps> = ({ onClose, memberInfo, refre
   }, [refresh]);
 
   const getCoupons = () => {
-    activityService.getCoupons().subscribe({
-      next: (coupons: Coupon[]) => {
-        setCouponList(coupons);
-      },
-      error: (error) => {
-        alertService.errorAlert(error?.error?.error || error?.message);
-      },
-    });
+    try{
+      const coupons: any = activityService.getCoupons();
+      setCouponList(coupons);
+    }
+    catch(error: any){
+      alertService.errorAlert(error?.error?.error || error?.message);
+    }
   };
 
   const clearCoupons = () => {

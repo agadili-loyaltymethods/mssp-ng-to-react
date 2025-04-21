@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Card, CardContent, Button } from '@mui/material';
 import { useMemberService } from '../../hooks/useMemberService';
-import { useAlertService } from '../../hooks/useAlertService';
 import { CardMiniSkeleton } from '../skeletons/CardMiniSkeleton';
-import { SweepstakeDialog } from '../dialogs/SweepstakeDialog';
-import { NoData } from '../common/NoData';
 import { SweepstakesConstant } from '../../constants/sweepstakes.constants';
-import { formatExpiryDate } from '../../utils/dateUtils';
+import { formatExpiryDate } from '@/utils/formatters';
+import useAlertService from '@/hooks/useAlertService';
+import { NoData } from '../common/no-data/NoData';
+import { ModalSweepstake } from '../modals/modal-sweepstake/ModalSweepstake';
 
 export const Sweepstakes: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -73,8 +73,8 @@ export const Sweepstakes: React.FC = () => {
         </div>
       </div>
 
-      <SweepstakeDialog
-        open={dialogOpen}
+      <ModalSweepstake
+        // open={dialogOpen}
         data={SweepstakesConstant}
         onClose={handleDialogClose}
       />

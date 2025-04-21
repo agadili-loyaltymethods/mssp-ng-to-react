@@ -11,7 +11,7 @@ import {
   CircularProgress
 } from '@mui/material';
 import { useLoginService } from '../../hooks/useLoginService';
-import { useAlertService } from '../../hooks/useAlertService';
+import useAlertService from '@/hooks/useAlertService';
 
 export const Enroll: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -50,7 +50,7 @@ export const Enroll: React.FC = () => {
     
     setIsLoading(true);
     try {
-      const response = await loginService.enroll(formData);
+      const response: any = await loginService.enroll(formData);
       if (response.status === 'success') {
         alertService.successAlert('Enrollment successful. Please proceed to log in.');
         navigate('/login', { 

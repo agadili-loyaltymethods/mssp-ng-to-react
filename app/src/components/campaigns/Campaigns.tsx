@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Button } from '@mui/material';
 import { useActivityService } from '../../hooks/useActivityService';
-import { useAlertService } from '../../hooks/useAlertService';
 import { CardMiniSkeleton } from '../skeletons/CardMiniSkeleton';
-import { NoData } from '../common/NoData';
-import type { Campaign } from '../../models/campaigns';
+// import type { Campaign } from '../../models/campaigns';
+import { NoData } from '../common/no-data/NoData';
+import useAlertService from '@/hooks/useAlertService';
+// import { Campaigns } from '@/models/campaigns';
+import { Coupon } from '@/models/coupon';
 
-export const Campaigns: React.FC = () => {
+export const CampaignsList: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [campaigns, setCampaigns] = useState<Coupon[]>([]);
   const activityService = useActivityService();
   const alertService = useAlertService();
   const staticDate = new Date('10/11/2024');
 
   useEffect(() => {
-    activityService.getCoupons().subscribe({
-      next: (campaigns) => {
-        setCampaigns(campaigns);
-      },
-      error: (error) => {
-        alertService.errorAlert(error?.error?.error || error?.message);
-      },
-    }).add(() => setIsLoading(false));
+    try{
+      const campaigns: any = activityService.getCoupons();
+      setCampaigns(campaigns);
+      setIsLoading(false);
+    }
+    catch(error: any){
+      alertService.errorAlert(error?.error?.error || error?.message);
+      setIsLoading(false)
+    }
   }, []);
 
   if (isLoading) {

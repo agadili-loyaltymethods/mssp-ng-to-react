@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Dialog } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
-import { Loader } from '@/components/loader';
+import { Loader } from '@/components/loader/Loader';
 
 interface EnrollQuestProps {
   data: {

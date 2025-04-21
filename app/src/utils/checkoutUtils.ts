@@ -7,7 +7,7 @@ export const createCancellationPayload = (items: any) => ({
   value: items?.value,
 });
 
-export const createTenderItems = (type: PaymentCards, total: number) => ([{
+export const createTenderItems = (type:keyof typeof PaymentCards, total: number) => ([{
   type: PaymentCards[type],
   itemNo: 'a123',
   value: parseFloat(total.toFixed(2)),

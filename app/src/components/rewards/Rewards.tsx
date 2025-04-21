@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { RewardsWallet } from './RewardsWallet';
 import { EarnedBenefits } from '../earned-benefits/EarnedBenefits';
 import { Offers } from '../offers/Offers';
 import { ClippableCoupons } from '../clippable-coupons/ClippableCoupons';
 import { Quiz } from '../quiz/Quiz';
 import { Reward } from '../../enums/reward';
+import { RewardsWallet } from '../rewards-wallet/RewardsWallet';
 
 export const Rewards: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState(0);

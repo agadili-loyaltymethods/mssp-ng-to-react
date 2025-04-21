@@ -1,5 +1,5 @@
 
-import { formatters } from '@/lib/utils/formatters';
+import { formatCurrency } from '../../../utils/formatters';
 
 interface LineItemProps {
   lineItem: {
@@ -25,7 +25,7 @@ export function LineItem({ lineItem }: LineItemProps) {
     >
       <div>{label}</div>
       <div>
-        {currency ? formatters.formatCurrency(value) : formatters.formatNumber(value)}
+        {currency ? formatCurrency(value) : value.toLocaleString(undefined, { minimumFractionDigits: 0 })}
       </div>
     </div>
   );

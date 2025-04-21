@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
-import { formatters } from '@/lib/utils/formatters';
-import { Loader } from '@/components/loader';
+import { formatCurrency } from '@/utils/formatters';
+import { Loader } from '@/components/loader/Loader';
 
 interface StylistAppointmentProps {
   data: {
@@ -50,7 +50,7 @@ export function StylistAppointment({ data, onClose }: StylistAppointmentProps) {
           <h4 className="mb-0 px-2.5 w-[90%]">{products[0]?.name}</h4>
           <p className="description mt-1.5 px-2.5 w-[90%]">{products[0]?.desc}</p>
           <strong className="text-lg px-2.5 w-[90%]">
-            {formatters.formatCurrency(products[0]?.cost)}
+            {formatCurrency(products[0]?.cost)}
           </strong>
         </div>
       </div>

@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Loader } from '@/components/loader';
+import { Loader } from '@/components/loader/Loader';
 
 interface StyleQuizProps {
   data: any;

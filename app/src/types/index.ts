@@ -180,9 +180,9 @@ export interface StreakPolicy {
   icon: string;
   status: string;
   timeLimit: number;
-  rewards: Reward[];
+  rewards: RewardModel[];
   completedOn?: string;
-  awarded?: Reward[];
+  awarded?: RewardModel[];
   displayProgress: boolean;
   endedAt: string;
   value: number;
@@ -197,12 +197,12 @@ export interface StreakPolicy {
   winnings: string;
   noOfGoals: number;
   ext?: {
-    rewards: Reward[];
+    rewards: RewardModel[];
   };
   goals: StreakPolicy[];
 }
 
-export interface Reward {
+export interface RewardModel {
   icon: string;
   name: string;
   earn: boolean;

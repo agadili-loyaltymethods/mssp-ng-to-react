@@ -19,6 +19,6 @@ export const getHourMinutes = (d: Date): string => {
   return `${addLeadingZero(d.getHours())}:${addLeadingZero(d.getMinutes())}:00.000Z`;
 };
 
-const addLeadingZero = (val: number): string => {
+export const addLeadingZero = (val: number): string => {
   return val <= 9 ? `0${val}` : val.toString();
 };

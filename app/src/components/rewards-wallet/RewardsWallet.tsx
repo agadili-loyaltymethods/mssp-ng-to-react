@@ -6,14 +6,13 @@ import {
   Card, 
   CardContent,
   Button,
-  Chip,
-  ChipSet
+  Chip
 } from '@mui/material';
+import { ChipSet } from '@material/react-chips';
 import { useActivityService } from '../../hooks/useActivityService';
-import { useAlertService } from '../../hooks/useAlertService';
 import { useMemberService } from '../../hooks/useMemberService';
-import { NoData } from '../common/NoData';
 import { formatCurrency } from '../../utils/formatters';
+import useAlertService from '@/hooks/useAlertService';
 
 export const RewardsWallet: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +20,7 @@ export const RewardsWallet: React.FC = () => {
   const [availableVouchers, setAvailableVouchers] = useState([]);
   const [memberVouchers, setMemberVouchers] = useState([]);
   const [selectedPointPurse, setSelectedPointPurse] = useState<any>({});
-  const [memberPoints, setMemberPoints] = useState([]);
+  const [memberPoints, setMemberPoints] = useState<any[]>([]);
 
   const memberInfo = useSelector((state: any) => state.member);
   const activityService = useActivityService();
@@ -36,9 +35,9 @@ export const RewardsWallet: React.FC = () => {
 
   const getRewardWallet = async () => {
     try {
-      const response = await activityService.getActivity(getPayload());
+      const response: any = await activityService.getActivity(getPayload());
       const pointsData = response.data.rdBalances;
-      setMemberPoints(Object.keys(pointsData).map(key => ({
+      setMemberPoints(Object.keys(pointsData).map((key:any) => ({
         key,
         value: pointsData[key]
       })));

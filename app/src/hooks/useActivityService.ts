@@ -36,7 +36,7 @@ export const useActivityService = () => {
   }, [config]);
 
   const getCoupons = useCallback(async (): Promise<Coupon[]> => {
-    const response = await axios.get(`${config.config.REST_URL}/api/v1/rewardPolicies`);
+    const response: any = await axios.get(`${config.config.REST_URL}/api/v1/rewardPolicies`);
     return response.data;
   }, [config]);
 

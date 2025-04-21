@@ -11,8 +11,8 @@ import {
   FormControl 
 } from '@mui/material';
 import { addItem, removeItem } from '../../redux/slices/cartSlice';
-import { useAlertService } from '../../hooks/useAlertService';
 import { formatCurrency } from '../../utils/formatters';
+import useAlertService from '@/hooks/useAlertService';
 
 interface ProductProps {
   product: any;
@@ -27,7 +27,7 @@ export const Product: React.FC<ProductProps> = ({ product }) => {
 
   useEffect(() => {
     if (product?.sku && isInCart()) {
-      const cartItem = cartItems.find(x => x.sku === product.sku);
+      const cartItem = cartItems.find((x:any) => x.sku === product.sku);
       setQuantity(cartItem ? cartItem.quantity : 1);
     } else {
       setQuantity(1);
@@ -35,14 +35,14 @@ export const Product: React.FC<ProductProps> = ({ product }) => {
   }, [product, cartItems]);
 
   const isInCart = () => 
-    !!cartItems.find(x => x.sku === product.sku);
+    !!cartItems.find((x: any) => x.sku === product.sku);
 
   const handleAddToCart = () => {
     dispatch(addItem({ item: { ...product, quantity } }));
     alertService.successAlert(
       'Item successfully added to your cart.',
-      'Go to Cart'
-    ).onAction().subscribe(() => navigate('/checkout'));
+      'Go to Cart', 1500,() => navigate('/checkout')
+    );
   };
 
   const handleRemoveFromCart = () => {
@@ -50,8 +50,8 @@ export const Product: React.FC<ProductProps> = ({ product }) => {
     dispatch(removeItem({ itemId: product.sku }));
     alertService.successAlert(
       'Item successfully removed from your cart.',
-      'Go to Cart'
-    ).onAction().subscribe(() => navigate('/checkout'));
+      'Go to Cart', 1500,() => navigate('/checkout')
+    );
   };
 
   const handleQuantityChange = (event: any) => {

@@ -9,7 +9,7 @@ import {
   Box
 } from '@mui/material';
 import { useLoginService } from '../../hooks/useLoginService';
-import { useAlertService } from '../../hooks/useAlertService';
+import useAlertService from '@/hooks/useAlertService';
 
 interface LoginForm {
   username: string;

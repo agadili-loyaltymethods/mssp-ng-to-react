@@ -1,12 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Chip, ChipSet } from '@material-ui/core';
+import { Chip } from '@material-ui/core';
+import { ChipSet } from '@material/react-chips';
 import { useProductService } from '../../hooks/useProductService';
-import { useAlertService } from '../../hooks/useAlertService';
-import { ProductHelper } from '../../utils/productHelper';
+import { ProductHelper } from '@/utils/productHelper';
 import { Product } from '../product/Product';
-import { NoData } from '../common/NoData';
+import useAlertService from '@/hooks/useAlertService';
+import { NoData } from '../common/no-data/NoData';
 
 export const Purchase: React.FC = () => {
   const [allProducts, setAllProducts] = useState<any[]>([]);
@@ -33,7 +34,7 @@ export const Purchase: React.FC = () => {
 
   const loadProducts = async () => {
     try {
-      const products = await productService.getProducts().toPromise();
+      const products = await productService.getProducts();
       const categories = ProductHelper.getCategories(products);
       
       setAllProducts(products);

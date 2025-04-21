@@ -1,6 +1,6 @@
 
+import { cn } from '@/utils/cnIndex';
 import { Dialog } from '@mui/material';
-import { cn } from '@/lib/utils';
 
 interface CommonModalProps {
   title?: string;
