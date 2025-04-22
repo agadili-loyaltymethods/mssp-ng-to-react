@@ -28,7 +28,7 @@ export const AppConfigProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        const response = await axios.get<Config>(`${process.env.REACT_APP_REST_URL}/init`);
+        const response = await axios.get<Config>(`${process.env.REST_URL}/init`);
         setConfig(response.data);
       } catch (err) {
         setError(err as Error);
