@@ -1,14 +1,7 @@
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { 
-  Menu,
-  MenuItem,
-  IconButton,
-  TextField,
-  Button 
-} from '@mui/material';
-import { AccountCircle } from '@mui/icons-material';
+import { Menu, MenuItem, TextField } from '@mui/material';
+import { UserCircle, ChevronDown, Search, LogOut } from 'lucide-react';
 import { useMemberService } from '../../hooks/useMemberService';
 import { useAuthService } from '../../hooks/useAuthService';
 import { addMember, clearMember } from '../../redux/slices/memberSlice';
@@ -71,64 +64,88 @@ export const Profile: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-row items-center gap-1">
-      <AccountCircle className="text-3xl" />
-      <div className="flex flex-col items-start">
-        <p className="m-0">
-          {memberInfo?.firstName} {memberInfo?.lastName}
-        </p>
-        <div className="flex">
-          <h5 
-            className="cursor-pointer m-0"
-            onClick={handleMenuOpen}
-          >
+    <div className="flex items-center gap-2">
+      <button 
+        onClick={handleMenuOpen}
+        className="flex items-center gap-2 text-[#475467] hover:bg-[#FFF7ED] hover:text-primary px-2 py-1.5 rounded-md"
+      >
+        <UserCircle className="w-[22px] h-[22px]" />
+        <div className="flex flex-col items-start">
+          <span className="text-[14px] font-medium leading-5">
+            {memberInfo?.firstName} {memberInfo?.lastName}
+          </span>
+          <span className="text-[12px] text-[#667085] leading-4">
             {memberInfo?.tiers?.[0]?.level?.name} | {totalPoints.toLocaleString()}
-            <IconButton className="w-7 h-6 p-0 hide-ripple" color="primary">
-              <span className="material-icons">expand_more</span>
-            </IconButton>
-          </h5>
+          </span>
         </div>
-      </div>
+        <ChevronDown className="w-4 h-4 ml-1" />
+      </button>
 
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
+        PaperProps={{
+          className: 'mt-2 p-2 min-w-[300px]',
+          elevation: 3,
+          sx: {
+            '& .MuiMenuItem-root': {
+              fontSize: '14px',
+              color: '#475467',
+              '&:hover': {
+                backgroundColor: '#FFF7ED',
+              },
+            },
+          },
+        }}
       >
-        <div className="flex flex-col items-center p-2.5">
-          <div 
-            onClick={(e) => e.stopPropagation()} 
-            className="flex flex-col items-center gap-2.5 pb-5"
-          >
-            <TextField
-              label="Switch Member"
-              value={loyaltyId}
-              onChange={(e) => setLoyaltyId(e.target.value)}
-              variant="outlined"
-              disabled={isFetching}
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    onClick={handleSwitchMember}
-                    disabled={isFetching}
-                    color="primary"
-                    title="Click to Switch Member"
-                  >
-                    <span className="material-icons">person_search</span>
-                  </IconButton>
-                ),
-              }}
-            />
-          </div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleLogout}
+        <div className="p-3">
+          <TextField
             fullWidth
-          >
-            Logout
-          </Button>
+            size="small"
+            label="Switch Member"
+            value={loyaltyId}
+            onChange={(e) => setLoyaltyId(e.target.value)}
+            disabled={isFetching}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#E8E7E4',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#D0D5DD',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#e86a10',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                fontSize: '14px',
+                color: '#475467',
+              },
+              '& .MuiInputBase-input': {
+                fontSize: '14px',
+                color: '#475467',
+              },
+            }}
+            InputProps={{
+              endAdornment: (
+                <Search
+                  className="w-5 h-5 text-[#475467] cursor-pointer hover:text-primary"
+                  onClick={handleSwitchMember}
+                />
+              ),
+            }}
+          />
         </div>
+        
+        <MenuItem 
+          onClick={handleLogout}
+          className="flex items-center gap-2 text-red-600 hover:bg-red-50"
+        >
+          <LogOut className="w-4 h-4" />
+          <span>Logout</span>
+        </MenuItem>
       </Menu>
     </div>
   );
