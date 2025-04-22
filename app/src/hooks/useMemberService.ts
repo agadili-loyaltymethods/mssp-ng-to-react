@@ -29,7 +29,7 @@ export const useMemberService = () => {
       const response: any = await getCall(url, { params: { query: true } });
       
       return {
-        ...response.data[0].member,
+        ...response?.[0].member,
         loyaltyId,
       };
     } catch (error: any) {
