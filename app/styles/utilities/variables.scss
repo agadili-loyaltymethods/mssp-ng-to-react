@@ -1,0 +1,85 @@
+@use '@angular/material' as mat;
+@use '../palettes/palette';
+
+$spaceamounts: (
+    -20,
+    0,
+    1,
+    2,
+    3,
+    5,
+    8,
+    10,
+    15,
+    16,
+    20,
+    22,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    55,
+    60,
+    65,
+    67,
+    70,
+    75,
+    80,
+    85,
+    90,
+    95,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    170,
+    175,
+    180,
+    190,
+    200,
+    210,
+    220,
+    230,
+    240,
+    250,
+    270,
+    300,
+    320,
+    350,
+    400,
+    450,
+    430,
+    500,
+    600,
+    700,
+    800,
+    2000
+);
+$sides: (top, bottom, left, right);
+
+// font sizes
+$font-small: 12px;
+$font-extra-small: 10px;
+$font-regular: 14px;
+$font-large: 20px;
+$font-extra-large: 36px;
+
+
+// Color variables
+// $primary: #007bff !default;
+// $accent: #ffc107 !default;
+// $secondary: #0076A5 !default;
+// $warn: #0076A5 !default;
+// $gray: #6c757d !default;
+// $success: #76b300 !default;
+// $warning: #ff9900 !default; 
+// $yellow: #efcd28 !default;
+// $danger: #dc3545 !default;
+// $white: #ffffff !default;
+// $black: #000000 !default;
+// END color variables

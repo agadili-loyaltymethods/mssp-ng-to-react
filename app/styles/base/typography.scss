@@ -1,0 +1,36 @@
+// Any font related customization here
+@use '../utilities/variables';
+
+
+.font-size-extra-small {
+    font-size: variables.$font-extra-small;
+}
+
+.font-size-small {
+    font-size: variables.$font-small !important;
+}
+
+.font-size-regular {
+    font-size: variables.$font-regular;
+}
+
+.font-size-medium {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.font-size-large {
+    font-size: variables.$font-large;
+}
+
+.font-size-extra-large {
+    font-size: variables.$font-extra-large !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.fw-b {
+    font-weight: bold;
+}

@@ -1,0 +1,155 @@
+//1) "Margin helpers" and "Padding helpers" for instance classes name is generated as 'mt-0', 'mr-0', 'mb-0' and 'mb-0' with all values.
+//2) Same css will generate for padding, but name would be change as 'p' instead of 'm' (For instance 'pr-0').
+
+@use "sass:math";
+
+$spaceamounts: (
+    -20,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    10,
+    15,
+    16,
+    20,
+    22,
+    25,
+    30,
+    35,
+    38,
+    40,
+    45,
+    50,
+    55,
+    60,
+    65,
+    67,
+    70,
+    75,
+    80,
+    85,
+    90,
+    95,
+    100,
+    105,
+    110,
+    120,
+    130,
+    133,
+    140,
+    145,
+    150,
+    155,
+    160,
+    170,
+    180,
+    185,
+    190,
+    195,
+    200,
+    210,
+    220,
+    230,
+    240,
+    250,
+    270,
+    300,
+    320,
+    350,
+    360,
+    370,
+    400,
+    420,
+    450,
+    470,
+    480,
+    500,
+    520,
+    600,
+    700,
+    800,
+    900,
+    1000,
+    1300,
+    1440,
+    1500,
+    1600,
+    2000
+);
+$sides: (top, bottom, left, right);
+
+@each $space in $spaceamounts {
+    @each $side in $sides {
+        .m#{str-slice($side, 0, 1)}-#{$space} {
+            margin-#{$side}: #{$space}px !important;
+        }
+        .m-#{$space} {
+            margin: #{$space}px !important;
+        }
+        .p#{str-slice($side, 0, 1)}-#{$space} {
+            padding-#{$side}: #{$space}px !important;
+        }
+        .p-#{$space} {
+            padding: #{$space}px !important;
+        }
+        .h-#{$space}p {
+            height: math.percentage(math.div($space, 100)) !important;
+        }
+        .h-#{$space} {
+            height: #{$space}px !important;
+        }
+        .h-#{$space}vh {
+            height: #{$space}vh !important;
+        }
+        .mxh-#{$space}vh {
+            max-height: #{$space}vh !important;
+        }
+        .mxh-#{$space}p {
+            max-height: math.percentage(math.div($space, 100)) !important;
+        }
+        .mxh-#{$space} {
+            max-height: #{$space}px !important;
+        }
+        .mnh-#{$space}p {
+            min-height: math.percentage(math.div($space, 100)) !important;
+        }
+        .mnh-#{$space} {
+            min-height: #{$space}px !important;
+        }
+        .mnh-#{$space}vh {
+            min-height: #{$space}vh !important;
+        }
+        .w-#{$space} {
+            width: #{$space}px !important;
+        }
+        .w-#{$space}p {
+            width: math.percentage(math.div($space, 100)) !important;
+        }
+        .mxw-#{$space}p {
+            max-width: math.percentage(math.div($space, 100)) !important;
+        }
+        .mxw-#{$space} {
+            max-width: #{$space}px !important;
+        }
+        .mnw-#{$space}p {
+            min-width: math.percentage(math.div($space, 100)) !important;
+        }
+        .mnw-#{$space}vw {
+            min-width: #{$space}vw !important;
+        }
+        .mnw-#{$space} {
+            min-width: #{$space}px !important;
+        }
+        .b#{str-slice($side, 0, 1)}-#{$space} {
+            border-#{$side}: #{$space}px solid var(--gray-200)!important;
+        }
+        .b-#{$space} {
+            border: #{$space}px !important;
+        }
+    }
+}

@@ -1,0 +1,41 @@
+@import 'table-skeleton';
+@import 'card-skeleton';
+
+
+a {
+    color: var(--black) !important;
+}
+
+.overflow-y-auto {
+    overflow-y: auto;
+}
+
+.transform-rotate{
+    transform: rotate(180deg);
+}
+
+.strike-through{
+    text-decoration: line-through;
+}
+
+.p-relative{
+    position: relative;
+}
+.p-absolute{
+    position: absolute;
+}
+.line-height-adjust{
+    line-height: 1.5rem;
+}
+
+.bg-grey{
+    background-color: var(--gray-100);
+}
+
+.bg-divider-grey{
+    background-color: var(--gray-200);
+}
+
+.border-bottom {
+    border-bottom: 3px solid var(--gray-100);
+  }

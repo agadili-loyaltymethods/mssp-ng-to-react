@@ -1,0 +1,95 @@
+
+@use "../utilities/utilities";
+
+// Generic classes
+.bg-primary {
+    background: var(--primary) !important;
+}
+
+.bg-accent {
+    background: var(--accent) !important;
+}
+
+.bg-green {
+    background: var(--success) !important;
+}
+
+.bg-warning {
+    background: var(--warning) !important;
+}
+
+.bg-red {
+    background: var(--danger) !important;
+}
+
+.bg-gray {
+    background: var(--gray) !important;
+}
+
+.bg-gray-100 {
+    background: var(--gray-100) !important;
+}
+
+.bg-gray-200 {
+    background: var(--gray-200) !important;
+}
+
+.bg-gray-400 {
+    background: var(--gray-400) !important;
+}
+
+.bg-black {
+    background: var(--black) !important;
+}
+
+.bg-white {
+    background: var(--white) !important;
+}
+
+.color-primary {
+    color: var(--primary) !important;
+}
+
+.color-accent {
+    color: var(--accent) !important;
+}
+
+.color-green {
+    color: var(--success) !important;
+}
+
+.color-warning {
+    color: var(--warning) !important;
+}
+
+.color-red {
+    color: var(--danger) !important;
+}
+
+.color-gray {
+    color: var(--gray) !important;
+}
+
+.color-gray-100 {
+    color: var(--gray-100) !important;
+}
+
+.color-gray-200 {
+    color: var(--gray-200) !important;
+}
+
+.color-light-gray {
+    color: var(--gray-400) !important;
+}
+
+.color-black {
+    color: var(--black) !important;
+}
+
+.color-white {
+    color: var(--white) !important;
+}
+
+.bg-light-primary{
+    background-color:#E8ECF8;
+}

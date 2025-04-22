@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Route, BrowserRouter as Router, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useMemberService } from './hooks/useMemberService';
@@ -16,11 +16,25 @@ import './App.css';
 import useAlertService from './hooks/useAlertService';
 import { useAuthService } from './hooks/useAuthService';
 
+interface LoyaltyContextType {
+  loyaltyId: string;
+  setLoyaltyId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const LoyaltyContext = createContext<LoyaltyContextType>({
+  loyaltyId: "1001",
+  setLoyaltyId: () => { },
+});
+
 export const App: React.FC = () => {
   const { isAuthenticated$ } = useAuthService();
   const memberService = useMemberService();
   const alertService = useAlertService();
   const dispatch = useDispatch();
+
+  const storedLid = localStorage.getItem("lid") ?? "1001";
+  const [loyaltyId, setLoyaltyId] = useState<string>(storedLid);
+
 
   useEffect(() => {
     const initializeApp = async () => {
@@ -39,6 +53,7 @@ export const App: React.FC = () => {
 
   return (
     <>
+    <LoyaltyContext.Provider value={{ loyaltyId, setLoyaltyId }}>
     <Router>
       {isAuthenticated$ && <Header />}
       <main className={isAuthenticated$ ? 'adjust-header-height' : ''}>
@@ -55,6 +70,7 @@ export const App: React.FC = () => {
         </Routes>
       </main>
       </Router>
+      </LoyaltyContext.Provider>
     </>
   );
 };

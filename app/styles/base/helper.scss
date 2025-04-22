@@ -1,0 +1,203 @@
+.height-auto {
+    height: auto !important;
+}
+
+.height-100 {
+    height: 100% !important;
+}
+
+.overflow-auto {
+    overflow: auto !important;
+}
+
+.overflow-x-auto {
+    overflow-x: auto !important;
+}
+
+.overflow-x-scroll {
+    overflow-x: scroll !important;
+}
+
+.overflow-y-auto {
+    overflow-y: auto !important;
+}
+
+.overflow-hidden {
+    overflow: hidden !important;
+}
+
+.overflow-y-hidden {
+    overflow-y: hidden !important;
+}
+.overflow-x-hidden{
+    overflow-x: hidden !important;
+}
+
+.overflow-unset {
+    overflow: unset !important;
+}
+
+.border-0 {
+    border: 0 !important;
+}
+
+.border-none {
+    border: none !important;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.cursor-default {
+    cursor: default !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-align-end {
+    text-align: end;
+}
+
+.text-no-truncate {
+    word-break: break-all !important;
+    white-space: normal !important;
+}
+
+.text-nowrap {
+    white-space: nowrap !important;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.break-word {
+    word-break: break-word;
+}
+
+.pre-line {
+    white-space: pre-line;
+}
+
+.pre {
+    white-space: pre;
+}
+
+.whitespace-no-break {
+    white-space: pre-wrap !important;
+}
+
+.position-relative {
+    position: relative !important;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.position-fixed {
+    position: fixed !important;
+}
+
+.bg-unset {
+    background: unset !important;
+}
+
+.box-shadow-none {
+    box-shadow: none !important;
+}
+
+.display-none {
+    display: none !important;
+}
+
+.display-block {
+    display: block;
+}
+
+.line-ellipsis {
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+}
+
+.shape-circle {
+    border-radius: 50%;
+}
+
+.pointer-none {
+    pointer-events: none;
+}
+
+.ml-auto {
+    margin-left: auto !important;
+}
+
+.font-normal {
+    font-weight: normal !important;
+}
+
+.inline-block{
+    display: inline-block;
+}
+
+.border-radius-0{
+    border-radius: 0px !important;
+}
+
+.icon-size-1{
+    transform: scale(.8);
+}
+
+.icon-size-2{
+    transform: scale(.6);
+}
+
+.icon-size-3{
+    transform: scale(.7);
+}
+
+.icon-size-5{
+    transform: scale(2.5);
+}
+
+.flight-icon{
+    transform: scale(2.5) rotate(90deg);
+    -webkit-transform : rotate(90deg) scale(3);
+}
+
+.text-small{
+    font: 13px / 18px Arial;
+}
+
+.border-radius-5 {
+    border-radius: 5px;
+}
+.border-radius-10 {
+    border-radius: 10px;
+}
+
+.border-1-green {
+    border: 1px solid #20e520;
+    border-radius: 15px;
+}
+
+.red-label{
+    color: white !important;
+    background-color: red !important;
+    font-size: 10px !important;
+    padding: 5px 10px 5px 10px;
+    border-radius: 2px;
+    font-weight: 600;
+  }

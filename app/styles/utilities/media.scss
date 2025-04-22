@@ -1,0 +1,54 @@
+/* Smartphones (xs) ----------- */
+@media only screen and (max-width: 599px) {}
+
+/* Smartphones (lt-md) ----------- */
+
+@media only screen and (max-width: 959px) {}
+
+/* Tablets (sm) ----------- */
+
+@media only screen and (min-width: 600px) and (max-width: 959px) {}
+
+/* tablet & smal desktop (md) ----------- */
+
+@media only screen and (min-width: 960px) and (max-width: 1360px) {
+    
+    .ph-table{
+        height: 60vh !important;
+    }
+
+}
+
+/* basic ----------- */
+
+@media only screen and (min-width: 1280px) and (max-width: 1600px) {
+    .login-container {
+        margin-top: 0px !important;
+    }
+    .lo-wrapper{
+        width:95% !important;
+    }
+}
+
+/* basic to full HD (lg) ----------- */
+
+@media only screen and (min-width: 1280px) and (max-width: 1919px) {}
+
+/* Full HD to 4K (xl) ----------- */
+
+@media only screen and (min-width: 1920px) and (max-width: 5000px) {}
+
+/* basic to full HD (lg) ----------- */
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px) {}
+
+@media only screen and (min-width: 1440px) and (max-width: 1920px) {}
+
+/* Full HD to 4K (xl) ----------- */
+@media only screen and (min-width: 1921px) and (max-width: 5000px) {}
+
+@media (min-width: 1023px) and (max-width: 1440px) {}
+
+@media (min-width: 1023px) and (max-width: 1440px) {}
+
+@media (min-width: 1440px) {}
