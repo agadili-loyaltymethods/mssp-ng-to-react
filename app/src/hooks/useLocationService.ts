@@ -1,23 +1,25 @@
 import { useCallback } from 'react';
 import axios from 'axios';
-import { useAppConfig } from '../contexts/AppConfigContext';
 import { Location } from '../types';
+import { getAppConfig } from '@/services/configService';
+import { useApiClient } from './useApiClientService';
 
 export const useLocationService = () => {
-  const { config } = useAppConfig();
+  const { config } = getAppConfig();
+  const { getCall } = useApiClient();
   
   const getLocations = useCallback(async (sort?: string | number): Promise<Location[]> => {
     try {
-      let url = `${config.config.REST_URL}/api/v1/locations`;
+      let url = `${config.REST_URL}/api/v1/locations`;
       if (sort !== undefined) {
         url += `&sort=${sort}`;
       }
       
-      const response = await axios.get<Location[]>(url);
+      const response = await getCall(url);
       const data = Array.isArray(response.data) ? response.data : [response.data];
       
       // Sort locations by name
-      return data.sort((a, b) => a.name.localeCompare(b.name));
+      return data.sort((a: any, b: any) => a.name.localeCompare(b.name));
     } catch (error) {
       console.error('Error fetching locations:', error);
       throw error;

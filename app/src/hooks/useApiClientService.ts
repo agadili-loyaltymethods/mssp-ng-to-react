@@ -1,7 +1,9 @@
 import { useState, useCallback } from 'react';
 import { handleError } from '../utils/errorHandler';
 import { AuthHelper } from '@/utils/authHelper';
-import { useLoginService } from './useLoginService';
+import { getAppConfig } from '@/services/configService';
+import useAlertService from './useAlertService';
+import { MemberInfo } from '@/models/member-info';
 
 interface ApiState {
   loading: boolean;
@@ -18,10 +20,11 @@ export const useApiClient = () => {
     loading: false,
     error: null
   });
+  const { config } = getAppConfig();
+  const { errorAlert } = useAlertService();
 
   const request = useCallback(async (endpoint: string, options: RequestInit = {}) => {
     setState(prev => ({ ...prev, loading: true, error: null }));
-    const {getToken} = useLoginService();
     
     try {
       let token = AuthHelper.getToken();
@@ -41,7 +44,8 @@ export const useApiClient = () => {
       if (response.status === 401 || response.statusText === 'Forbidden') {
         AuthHelper.removeToken();
         try {
-          const newToken = await getToken();
+          //const newToken = await login({username: 'demo/agadili',password:'Abhi1315*'});
+          const newToken = await loginMember({ username: 'demo/vgunasekaran', password: 'Password1'});
           const retryResponse = await fetch(url, {
             ...options,
             headers: {
@@ -96,6 +100,25 @@ export const useApiClient = () => {
       throw error;
     }
   }, []);
+
+  const loginMember = useCallback(async (credentials: { username: string; password: string }): Promise<MemberInfo> => {
+      try {
+        const response = await postCall(`${config.REST_URL}/api/v1/login`, credentials);
+        
+        if (!response?.data?.accessToken) {
+          throw new Error('Login failed');
+        }
+        
+        localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('idToken', response.data.idToken);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
+        
+        return response.data;
+      } catch (error: any) {
+        errorAlert(error?.error?.error || error?.message);
+        throw error;
+      }
+    }, [config, errorAlert]);
 
   const getCall = useCallback((endpoint: string, options = {}) => {
     return request(endpoint, { ...options, method: 'GET' });

@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
 import axios from 'axios';
-import { useAppConfig } from '../contexts/AppConfigContext';
 import { BehaviorSubject } from 'rxjs';
 import { Member, ActivityHistory } from '../types';
 import useAlertService from './useAlertService';
 import { useApiClient } from './useApiClientService';
+import { getAppConfig } from '@/services/configService';
 
 export const useMemberService = () => {
-  const { config } = useAppConfig();
+  const { config } = getAppConfig();
   const { errorAlert } = useAlertService();
   const { getCall, postCall } = useApiClient();
   
@@ -25,7 +25,7 @@ export const useMemberService = () => {
 
   const getMember = useCallback(async (loyaltyId: string = '1001'): Promise<Member> => {
     try {
-      const url = `${config.config.REST_URL}/api/v1/members/${loyaltyId}/profile?linked=true&divide=true`;
+      const url = `${config.REST_URL}/api/v1/members/${loyaltyId}/profile?linked=true&divide=true`;
       const response: any = await getCall(url, { params: { query: true } });
       
       return {
@@ -40,7 +40,7 @@ export const useMemberService = () => {
 
   const getPromo = useCallback(async (id: string, locationNum: string) => {
     try {
-      const url = `${config.config.REST_URL}/api/v1/members/${id}/rules?filter=promo${locationNum ? `&stores=${locationNum}` : ''}`;
+      const url = `${config.REST_URL}/api/v1/members/${id}/rules?filter=promo${locationNum ? `&stores=${locationNum}` : ''}`;
       const response = await getCall(url);
       return response.data;
     } catch (error: any) {
@@ -51,7 +51,7 @@ export const useMemberService = () => {
 
   const getOffers = useCallback(async (id: string, locationNum: string) => {
     try {
-      const url = `${config.config.REST_URL}/api/v1/members/${id}/offers?filter=offers,global${locationNum ? `&stores=${locationNum}` : ''}`;
+      const url = `${config.REST_URL}/api/v1/members/${id}/offers?filter=offers,global${locationNum ? `&stores=${locationNum}` : ''}`;
       const response = await getCall(url);
       return response.data;
     } catch (error: any) {
@@ -66,7 +66,7 @@ export const useMemberService = () => {
     }
 
     try {
-      const url = `${config.config.REST_URL}/api/v1/rewardpolicies`;
+      const url = `${config.REST_URL}/api/v1/rewardpolicies`;
 
       const currentTier = member.tiers?.find((tier: any) => tier.primary);
       if (!currentTier) {
@@ -100,7 +100,7 @@ export const useMemberService = () => {
 
   const buyVoucher = useCallback(async (payload: any) => {
     try {
-      const url = `${config.config.REST_URL}/api/v1/buy`;
+      const url = `${config.REST_URL}/api/v1/buy`;
       const response = await postCall(url, payload);
       return response.data;
     } catch (error: any) {
@@ -111,7 +111,7 @@ export const useMemberService = () => {
 
   const getMemberVouchers = useCallback(async (id: string) => {
     try {
-      const url = `${config.config.REST_URL}/api/v1/members/${id}/offers?filter=rewards`;
+      const url = `${config.REST_URL}/api/v1/members/${id}/offers?filter=rewards`;
       const response = await getCall(url);
       return response.data;
     } catch (error: any) {
@@ -122,7 +122,7 @@ export const useMemberService = () => {
 
   const getActivityHistory = useCallback(async (memberId: string): Promise<ActivityHistory[]> => {
     try {
-      const url = `${config.config.RC_REST_URL}/api/v1/activityhistories?query=${JSON.stringify({ memberID: memberId })}`;
+      const url = `${config.RC_REST_URL}/api/v1/activityhistories?query=${JSON.stringify({ memberID: memberId })}`;
       const response = await getCall(url);
       return response.data;
     } catch (error: any) {
@@ -133,7 +133,7 @@ export const useMemberService = () => {
 
   const getStreaks = useCallback(async (id: string) => {
     try {
-      const url = `${config.config.REST_URL}/api/v1/streaks`;
+      const url = `${config.REST_URL}/api/v1/streaks`;
       const response = await getCall(url, { params: { query: id } });
       return response.data;
     } catch (error: any) {
@@ -144,7 +144,7 @@ export const useMemberService = () => {
 
   const getAggregate = useCallback(async ({ week, year, metricName }: { week: number, year: number, metricName: string }) => {
     try {
-      const url = `${config.config.REST_URL}/api/v1/aggregate`;
+      const url = `${config.REST_URL}/api/v1/aggregate`;
       const response = await postCall(url, { 
         params: { week, year, metricName } 
       });

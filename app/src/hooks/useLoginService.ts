@@ -1,24 +1,26 @@
 import { useCallback } from 'react';
 import axios from 'axios';
-import { useAppConfig } from '../contexts/AppConfigContext';
 import { useDispatch } from 'react-redux';
 import { addMember } from '../redux/slices/memberSlice';
 import { useMemberService } from './useMemberService';
 import { AuthHelper } from '../utils/authHelper';
 import useAlertService from './useAlertService';
 import { MemberInfo } from '@/models/member-info';
+import { getAppConfig } from '@/services/configService';
+import { useApiClient } from './useApiClientService';
 
 export const useLoginService = () => {
-  const { config } = useAppConfig();
+  const { config } = getAppConfig();
   const dispatch = useDispatch();
   const { errorAlert } = useAlertService();
   const { getMember } = useMemberService();
+  const { postCall } = useApiClient();
   
   let pendingLoginRequest: Promise<string> | null = null;
 
   const login = useCallback(async (credentials: { username: string; password: string }): Promise<MemberInfo> => {
     try {
-      const response = await axios.post<MemberInfo>(`${config.config.REST_URL}/api/v1/login`, credentials);
+      const response = await postCall(`${config.REST_URL}/api/v1/login`, credentials);
       
       if (!response?.data?.accessToken) {
         throw new Error('Login failed');
@@ -47,7 +49,7 @@ export const useLoginService = () => {
           return token;
         }
 
-        const response = await axios.post<{ token: string }>(`${config.config.REST_URL}/api/v1/login`, {
+        const response = await postCall(`${config.REST_URL}/api/v1/login`, {
           username: 'demo/vgunasekaran',
           password: 'Password1',
         });
@@ -86,7 +88,7 @@ export const useLoginService = () => {
     lastName: string;
   }) => {
     try {
-      const response = await axios.post(`${config.config.REST_URL}/api/v1/enroll`, userData);
+      const response = await postCall(`${config.REST_URL}/api/v1/enroll`, userData);
       return response.data;
     } catch (error: any) {
       errorAlert(error?.error?.error || error?.message);

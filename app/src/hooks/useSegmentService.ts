@@ -1,15 +1,17 @@
 import { useCallback } from 'react';
 import axios from 'axios';
-import { useAppConfig } from '../contexts/AppConfigContext';
 import { Segment } from '../types';
+import { getAppConfig } from '@/services/configService';
+import { useApiClient } from './useApiClientService';
 
 export const useSegmentService = () => {
-  const { config } = useAppConfig();
+  const { config } = getAppConfig();
+  const { getCall, postCall, deleteCall } = useApiClient();
   
   const getAllSegments = useCallback(async (query: string = '', limit: number = 10): Promise<Segment[]> => {
     try {
-      const response = await axios.get<Segment[]>(
-        `${config.config.REST_URL}/api/v1/segments?limit=${limit}&query=${query}`
+      const response = await getCall(
+        `${config.REST_URL}/api/v1/segments?limit=${limit}&query=${query}`
       );
       return response.data;
     } catch (error) {
@@ -20,8 +22,8 @@ export const useSegmentService = () => {
   
   const getMemberSegments = useCallback(async (limit: number = 10, query: string) => {
     try {
-      const response = await axios.get(
-        `${config.config.REST_URL}/api/v1/membersegments?limit=${limit}&query=${query}`
+      const response = await getCall(
+        `${config.REST_URL}/api/v1/membersegments?limit=${limit}&query=${query}`
       );
       return response.data;
     } catch (error) {
@@ -38,8 +40,8 @@ export const useSegmentService = () => {
         ext: {}
       };
       
-      const response = await axios.post(
-        `${config.config.REST_URL}/api/v1/membersegments`, 
+      const response = await postCall(
+        `${config.REST_URL}/api/v1/membersegments`, 
         payload
       );
       
@@ -52,8 +54,8 @@ export const useSegmentService = () => {
   
   const deleteMemberSegment = useCallback(async (id: string) => {
     try {
-      const response = await axios.delete(
-        `${config.config.REST_URL}/api/v1/membersegments/${id}`
+      const response = await deleteCall(
+        `${config.REST_URL}/api/v1/membersegments/${id}`
       );
       
       return response.data;

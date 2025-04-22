@@ -1,4 +1,0 @@
-export const environment = {
-  production: false,
-  REST_URL: 'http://localhost:3000',
-};

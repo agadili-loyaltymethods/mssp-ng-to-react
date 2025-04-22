@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
 import axios from 'axios';
-import { useAppConfig } from '../contexts/AppConfigContext';
+import { getAppConfig } from '@/services/configService';
+import { useApiClient } from './useApiClientService';
 
 export const useProductService = () => {
-  const { config } = useAppConfig();
+  const { config } = getAppConfig();
+  const { getCall } = useApiClient();
   
   // Cache for products
   const cache: Record<string, any> = {};
@@ -11,7 +13,7 @@ export const useProductService = () => {
   const getProducts = useCallback(async () => {
     if (!cache['allProducts']) {
       try {
-        const response = await axios.get(`${config.config.REST_URL}/api/v1/products`);
+        const response = await getCall(`${config.REST_URL}/api/v1/products`);
         cache['allProducts'] = response.data;
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -32,7 +34,7 @@ export const useProductService = () => {
           params.subcategory = subcategory;
         }
         
-        const response = await axios.get(`${config.config.REST_URL}/api/v1/other-products`, { params });
+        const response = await getCall(`${config.REST_URL}/api/v1/other-products`, { params });
         cache[cacheKey] = response.data;
       } catch (error) {
         console.error('Error fetching other products:', error);
