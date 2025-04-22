@@ -13,6 +13,7 @@ import { ColorScheme } from '@/constants/color-scheme';
 import { Member } from '@/types';
 import useAlertService from '@/hooks/useAlertService';
 import { WidgetHelper } from '@/types/Widget';
+import './dashboard.css';
 
 export const Dashboard: React.FC = () => {
   const [widgetData, setWidgetData] = useState<any[]>([]);
