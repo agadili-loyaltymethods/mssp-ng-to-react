@@ -5,6 +5,7 @@ import { RewardsWallet } from "../rewards-wallet/RewardsWallet";
 import { Offers } from "../offers/Offers";
 import { ClippableCoupons } from "../clippable-coupons/ClippableCoupons";
 import { Quiz } from "@mui/icons-material";
+import { QuizPage } from "../quiz/Quiz";
 
 const tabs = ["Rewards Wallet", "Exclusive Offers", "Clippable Coupons", "Survey"];
 
@@ -65,7 +66,7 @@ export const Rewards: React.FC = () => {
             {activeTab === 'Rewards Wallet' && <RewardsWallet />}
             {activeTab === 'Exclusive Offers' && <Offers />}
             {activeTab === 'Clippable Coupons' && <ClippableCoupons />}
-            {activeTab === 'Survey' && <Quiz />}
+            {activeTab === 'Survey' && <QuizPage />}
           </div>
 
     </div>

@@ -27,7 +27,7 @@ export const ClippableCoupons: React.FC = () => {
         JSON.stringify({ "ext.marketing": true })
       );
       setSegments(segmentsResponse);
-      
+
       const memberSegmentsResponse: any = await segmentService.getMemberSegments(
         5,
         JSON.stringify({
@@ -43,12 +43,12 @@ export const ClippableCoupons: React.FC = () => {
     }
   };
 
-  const isClaimed = (segmentId: string) => 
+  const isClaimed = (segmentId: string) =>
     !!memberSegments.find(x => x.segment === segmentId);
 
   const updateSegment = async (segmentId: string) => {
     const existingSegment = memberSegments.findIndex(x => x.segment === segmentId);
-    
+
     try {
       if (existingSegment > -1) {
         await segmentService.deleteMemberSegment(memberSegments[existingSegment]._id);
@@ -77,30 +77,33 @@ export const ClippableCoupons: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col mt-5">
-      <div className="flex flex-row gap-5">
-        <div className="m-0 flex flex-row flex-wrap gap-2.5 grid">
+    <div className="flex flex-col gap-10 mt-5">
+      <div className="min-h-screen p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
           {segments.map((segment) => (
-            <div key={segment._id} className="flex-[0_0_25%]">
-              <Card className="box-shadow-none border-gray bg-white h-75">
-                <CardContent className="h-full">
-                  <div className="flex flex-col justify-between items-center gap-2.5 h-full">
-                    <img src="assets/bclc-logo.png" alt="Logo" />
-                    <h2 className="m-0 text-accent text-center">{segment.name}</h2>
-                    <p className="text-gray-500 mt-2.5">{segment.description}</p>
-                    <Button
-                      variant="contained"
-                      className="w-full"
-                      color={isClaimed(segment._id) ? 'secondary' : 'primary'}
-                      onClick={() => updateSegment(segment._id)}
-                    >
-                      {isClaimed(segment._id) ? 'Deactivate' : 'Activate'}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="bg-white rounded-lg shadow-md  py-8 px-4 flex flex-col items-center">
+              <img src="/assets/bclc-logo.png" alt="BCLC Logo" className="w-24 h-auto mb-12" />
+
+              <h2 className="text-2xl font-bold text-center mb-8">
+                {segment.name}
+              </h2>
+
+              <p className="text-gray-600 text-center text-sm font-light mb-8">
+                {segment.description}
+              </p>
+
+              <button
+                className={`w-full text-white font-normal text-sm py-2 px-6 rounded-md transition duration-200 ${isClaimed(segment._id)?'bg-[#000000] hover:bg-[#000000]':'bg-[#FF8201] hover:bg-[#FF8201]'}`}
+                onClick={() => updateSegment(segment._id)}
+              >
+                {isClaimed(segment._id) ? 'Deactivate' : 'Activate'}
+              </button>
             </div>
           ))}
+
+          </div>
         </div>
       </div>
     </div>

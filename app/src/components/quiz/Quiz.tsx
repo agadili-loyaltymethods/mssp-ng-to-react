@@ -9,13 +9,15 @@ import { formatExpiryDate } from '@/utils/formatters';
 import useAlertService from '@/hooks/useAlertService';
 import { NoData } from '../common/no-data/NoData';
 import { ModalSurvey } from '../modals/modal-survey/ModalSurvey';
+import { checkExpiry } from '@/utils/formatters';
+import './quiz.css';
 
-export const Quiz: React.FC = () => {
+export const QuizPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [surveyClaimedTimes, setSurveyClaimedTimes] = useState(0);
   const surveys = [SurveyConstant];
-  
+
   const memberService = useMemberService();
   const alertService = useAlertService();
 
@@ -41,42 +43,37 @@ export const Quiz: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col mt-5">
-      <h3 className="mt-0">Survey ({surveys.length})</h3>
-      <div className="flex gap-5">
-        <div className="m-0 flex flex-wrap gap-2.5 grid">
-          {surveys.map((survey) => (
-            <div key={survey.title} className="flex-[0_0_25%]">
-              <Card className="box-shadow-none border-gray bg-white">
-                <CardContent className="flex flex-col">
-                  <div className="flex flex-col items-center gap-5">
-                    <img className="w-full" src="assets/bclc-logo.png" alt="Logo" />
-                    <h3>{survey.title}</h3>
-                    <div className="text-gray-500">{survey.desc}</div>
-                    <small className="text-gray-500">
-                      Expires {formatExpiryDate(survey.expiresOn)}
-                    </small>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      className="w-full"
-                      onClick={() => handleDialogOpen(survey)}
-                    >
-                      Participate Now
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          ))}
+
+    <div className="flex flex-col gap-10 mt-5">
+      <div className="min-h-screen p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xl font-semibold text-gray-900">Survey ({surveys.length})</h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+            {surveys.map((survey) => (
+              <div className="bg-white rounded-lg shadow-md  py-8 px-4 flex flex-col items-center">
+                <img src="/assets/bclc-logo.png" alt="BCLC Logo" className="w-24 h-auto mb-8" />
+
+                <h2 className="text-lg font-bold text-center mb-6">
+                  {survey.title}
+                </h2>
+
+                <p className="text-gray-600 text-center text-sm font-light mb-6">
+                  {survey.desc}
+                </p>
+
+                <small className="text-gray-600 text-center text-sm font-light mb-8">
+                  Expires {checkExpiry(survey.expiresOn)}
+                </small>
+                <button onClick={() => handleDialogOpen(survey)} className="border-gray w-full px-4 py-2 bg-[white] hover:bg-[white] text-[#FF8201]" >  Participate Now </button>
+              </div>
+            ))}
+
+          </div>
         </div>
       </div>
-
-      <ModalSurvey
-        // open={dialogOpen}
-        data={SurveyConstant}
-        onClose={handleDialogClose}
-      />
     </div>
   );
 };

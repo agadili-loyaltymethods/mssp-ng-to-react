@@ -14,6 +14,7 @@ interface ModalSurveyProps {
     desc: string;
   };
   onClose: (value: boolean) => void;
+  open?: boolean;
 }
 
 const radioOptions = ["Upto $2,500", "$2,501 to $5,000", "$5,001 to $10,000", "Above $10,000"];

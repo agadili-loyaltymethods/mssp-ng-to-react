@@ -10,3 +10,11 @@ img {
 .border-gray {
   border: 1px solid #e0e0e0;
 }
+
+.bg-orange-500 {
+  background-color: #ff6b00;
+}
+
+.hover\:bg-orange-600:hover {
+  background-color: #e65c00;
+}

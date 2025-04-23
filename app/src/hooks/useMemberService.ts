@@ -42,7 +42,7 @@ export const useMemberService = () => {
     try {
       const url = `${config.REST_URL}/api/v1/members/${id}/rules?filter=promo${locationNum ? `&stores=${locationNum}` : ''}`;
       const response = await getCall(url);
-      return response.data;
+      return response;
     } catch (error: any) {
       errorAlert(error?.error?.error || error?.message);
       throw error;

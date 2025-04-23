@@ -17,7 +17,7 @@ export function Offers() {
 
   const memberInfo = useAppSelector(state => state.member);
   const location: any = useAppSelector(state => state.location.location);
-  const { getOffers } = useMemberService();
+  const { getOffers, getPromo } = useMemberService();
   const { showError } = useToast();
   const { openExternalLink } = useTokenDetailsHelper();
 
@@ -30,7 +30,7 @@ export function Offers() {
   const getOffersList = async () => {
     try {
       const [promo, globalOffers]: any = await Promise.all([
-        getOffers(memberInfo._id, location.number ?? location),
+        getPromo(memberInfo._id, location.number ?? location),
         getOffers(memberInfo._id, location.number ?? location)
       ]);
 
@@ -58,44 +58,51 @@ export function Offers() {
   }
 
   return (
-    <div className="flex flex-col mt-5">
-      <h3 className="mt-0">Available offers ({offers.length})</h3>
-      <div className="flex gap-5">
-        <div className="m-0 flex-1 flex flex-wrap gap-2.5">
-          {offers.map((offer, index) => (
-            <div key={index} className="flex-[0_0_50%]">
-              <div className="border border-gray-200 rounded bg-white">
-                <div className="flex items-center gap-2.5 p-5 h-[140px]">
-                  <div className="w-[100px] border-r border-dashed border-gray-300 pr-5">
-                    <img src="/assets/bclc-logo.png" alt="BCLC Logo" />
-                  </div>
-                  <div className="flex justify-between items-start flex-1 w-[500px]">
-                    <div className="flex flex-col gap-2.5 flex-[85%]">
-                      <h3 className="mt-2.5 line-clamp-2">{offer.name}</h3>
-                      <p className="m-0 line-clamp-2">{offer.desc}</p>
-                      {offer.expirationDate && (
-                        <small className="text-gray-500 leading-snug line-clamp-2">
-                          Expires {checkExpiry(offer.expirationDate)}
-                        </small>
-                      )}
+    <div className="flex flex-col gap-10 mt-5">
+        <div className="min-h-screen p-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-semibold text-gray-900">Available offers ({offers.length})</h1>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+              {offers.length > 0 ? (
+                offers.map((offer, index) => (
+                  <div key={index} className="bg-white rounded-md shadow-md p-4 flex items-center">
+                    <img
+                      src="/assets/bclc-logo.png"
+                      alt="BCLC Logo"
+                      className="w-16 h-16 object-contain"
+                    />
+
+                    <div className="border-l border-dashed border-[#6c757d] mx-4 h-12"></div>
+
+                    <div className="flex flex-col">
+                      <h3 className="font-bold text-gray-900 mb-3">{offer.name}</h3>
+                      <span className="mb-3 text-md font-normal text-[14px] color-[#6c757d]">{offer.desc}</span>
+                      {offer.expirationDate && (<span className="text-sm font-light text-[11px] color-[#6c757d]">Expires {checkExpiry(offer.expirationDate)}</span>)}
                     </div>
+
+                    
                     {offer.ext?.awardType?.toLowerCase() === 'booking offer' && (
                       <div className="flex flex-col flex-[20%] items-end">
                         <button
                           onClick={() => openExternalLink('hotel-booking', offer.name)}
-                          className="mt-7.5 px-4 py-2 bg-primary text-white rounded-full hover:bg-primary-dark"
+                          className="mt-7.5 px-4 py-2 bg-[#ff8201] text-white rounded-full hover:bg-[#ff8201]"
                         >
                           Book Now
                         </button>
                       </div>
                     )}
                   </div>
-                </div>
-              </div>
+                ))
+              ) : (
+                <NoData>No offers.</NoData>
+              )}
+
             </div>
-          ))}
+          </div>
         </div>
       </div>
-    </div>
   );
 }

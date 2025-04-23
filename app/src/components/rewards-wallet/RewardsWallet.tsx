@@ -19,6 +19,8 @@ import { NoData } from '@/components/common/no-data/NoData';
 import { CardMiniSkeleton } from '@/components/skeletons/CardMiniSkeleton';
 import { formatExpiryDate } from '@/utils/formatters';
 import useAlertService from '@/hooks/useAlertService';
+import { checkExpiry } from '@/utils/formatters';
+import './rewards-wallet.css';
 
 export const RewardsWallet: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -94,7 +96,7 @@ export const RewardsWallet: React.FC = () => {
   const handlePurseSelection = (selectedPurse: any) => {
     setSelectedPointPurse(selectedPurse);
     setAvailableVouchersWithPurse(
-      availableVouchers.filter(voucher => 
+      availableVouchers.filter(voucher =>
         voucher.cost > 0 && voucher.ext.purseName === selectedPurse.key
       )
     );
@@ -214,60 +216,52 @@ export const RewardsWallet: React.FC = () => {
         </div>
       </Drawer>
 
-      <div className="flex flex-col gap-10 mt-20">
-        <div className="flex justify-between items-center pr-10">
-          <div className="flex items-center gap-10">
-            <h3>Rewards Wallet</h3>
-          </div>
-          <div className="flex items-center gap-10">
-            {memberPoints.map(point => (
-              <span
-                key={point.key}
-                className="border border-gray-300 p-2.5 m-0.5 rounded-lg"
-              >
-                {point.key}: <strong>{point.value.toLocaleString()}</strong>
-              </span>
-            ))}
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={!availableVouchers.length}
-              onClick={() => setDrawerOpen(true)}
-            >
-              Buy with Points
-            </Button>
-          </div>
-        </div>
+      <div className="flex flex-col gap-10 mt-5">
+        <div className="min-h-screen p-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-semibold text-gray-900">Rewards Wallet</h1>
 
-        <div className="flex gap-20">
-          <div className="flex flex-row flex-wrap gap-10">
-            {memberVouchers.length > 0 ? (
-              memberVouchers.map((voucher, index) => (
-                <div key={index} className="flex-[0_0_30%]">
-                  <Card className="box-shadow-none border-gray bg-white">
-                    <CardContent className="flex flex-col">
-                      <div className="flex items-center gap-2.5 h-35">
-                        <div className="w-50 img-sec">
-                          <img src="assets/bclc-logo.png" alt="Logo" />
-                        </div>
-                        <div className="flex justify-between w-full">
-                          <div className="flex flex-col gap-2.5 flex-[77%]">
-                            <h3 className="mt-2.5 card-text-ellipsis">{voucher.name}</h3>
-                            {voucher.expirationDate && (
-                              <small className="text-gray-500">
-                                Expires {formatExpiryDate(voucher.expirationDate)}
-                              </small>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              ))
-            ) : (
-              <NoData>No reward available in the wallet.</NoData>
-            )}
+              <div className="flex items-center gap-4">
+
+                {memberPoints.map(point => (
+                  <div className="rounded-md px-4 py-2 shadow-sm rewards-wallets-points">
+                    <span className="text-gray-600">{point.key}: </span>
+                    <span className="font-bold">{point.value.toLocaleString()}</span>
+                  </div>
+                ))}
+
+                <button className="bg-[#ff8201] text-white px-4 py-2 rounded-md font-medium hover:bg-[#ff8201] transition-colors"
+                  disabled={!availableVouchers.length}
+                  onClick={() => setDrawerOpen(true)}>
+                  Buy with Points
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {memberVouchers.length > 0 ? (
+                memberVouchers.map((voucher) => (
+                  <div key={voucher.id} className="bg-white rounded-md shadow-md p-4 flex items-center">
+                    <img
+                      src="/assets/bclc-logo.png"
+                      alt="BCLC Logo"
+                      className="w-16 h-16 object-contain"
+                    />
+
+                    <div className="border-l border-dashed border-[#6c757d] mx-4 h-12"></div>
+
+                    <div className="flex flex-col">
+                      <h3 className="font-bold text-gray-900 mb-2">{voucher.name}</h3>
+                      {voucher.expiresOn && (<span className="text-sm font-light text-[11px] color-[#6c757d]">Expires {checkExpiry(voucher.expiresOn)}</span>)}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <NoData>No reward available in the wallet.</NoData>
+              )}
+
+            </div>
           </div>
         </div>
       </div>
