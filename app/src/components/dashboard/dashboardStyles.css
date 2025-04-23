@@ -1,0 +1,255 @@
+.tier-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+.tier-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+    border-radius: 10px;
+    width: 100%;
+    position: relative;
+  }
+  
+  .tier-badge.encore {
+    background-color: #95d649;
+    color: white;
+  }
+  
+  .tier-badge.ruby {
+    background-color: #d33264;
+    color: white;
+  }
+  
+  .tier-icon-wrapper {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    padding: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .tier-icon {
+    font-size: 24px;
+  }
+  
+  .tier-badge h2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  .tier-progress {
+    width: 100%;
+  }
+  .tier-progress-bar{
+    background-color: #FF820140 !important;
+    color: #FF8201 !important;
+  }
+
+.MuiLinearProgress-bar{
+    background-color: #FF8201 !important;
+}
+.current-points {
+    color: #666;
+  }
+  
+  .points-needed {
+    color: #999;
+  }
+
+
+  .tier-progress {
+    padding: 12px;
+    background-color: var(--primary-bg);
+    border-radius: 8px;
+
+    .progress-label {
+      color: #2d3748;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .current-points {
+        color: var(--tier-green);
+        font-weight: 600;
+        font-size: 12px;
+      }
+
+      .points-needed {
+        color: #718096;
+        font-size: 11px;
+      }
+    }
+  }
+  
+  /* // Points Balance Card */
+  .points-balance-section {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  
+    .section-title {
+      color: #2d3748;
+      font-size: 16px;
+      margin: 0 0 16px;
+      font-weight: 600;
+    }
+  
+    .balance-cards {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .balance-summary {
+      margin-bottom: 8px;
+  
+      .balance-item {
+        padding: 12px;
+        background-color: #f7fafc;
+        border-radius: 8px;
+        height: 100%;
+  
+        .balance-label {
+          color: #718096;
+          font-size: 12px;
+          margin-bottom: 2px;
+        }
+  
+        .balance-value {
+          font-size: 18px;
+          font-weight: 700;
+          color: #2d3748;
+          line-height: 1.2;
+  
+          &.accent {
+            color: #4299e1;
+          }
+        }
+      }
+    }
+  
+    .provider-points {
+      margin-top: 8px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+  
+      .provider-item {
+        padding: 12px;
+        background-color: white;
+        border-radius: 8px;
+        margin-bottom: 8px;
+  
+        &:last-child {
+          margin-bottom: 0;
+        }
+  
+        .provider-name {
+          color: #718096;
+          font-size: 12px;
+          margin-bottom: 2px;
+        }
+  
+        .provider-value {
+          color: #2d3748;
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 1.2;
+        }
+      }
+    }
+  }
+
+  .points-balance-section {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  
+    .section-title {
+      color: #2d3748;
+      font-size: 16px;
+      margin: 0 0 16px;
+      font-weight: 600;
+    }
+  
+    .balance-cards {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .balance-summary {
+      margin-bottom: 8px;
+  
+      .balance-item {
+        padding: 12px;
+        background-color: #f7fafc;
+        border-radius: 8px;
+        height: 100%;
+  
+        .balance-label {
+          color: #718096;
+          font-size: 12px;
+          margin-bottom: 2px;
+        }
+  
+        .balance-value {
+          font-size: 18px;
+          font-weight: 700;
+          color: #2d3748;
+          line-height: 1.2;
+  
+          &.accent {
+            color: #4299e1;
+          }
+        }
+      }
+    }
+  
+    .provider-points {
+      margin-top: 8px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+  
+      .provider-item {
+        padding: 12px;
+        background-color: white;
+        border-radius: 8px;
+        margin-bottom: 8px;
+  
+        &:last-child {
+          margin-bottom: 0;
+        }
+  
+        .provider-name {
+          color: #718096;
+          font-size: 12px;
+          margin-bottom: 2px;
+        }
+  
+        .provider-value {
+          color: #2d3748;
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 1.2;
+        }
+      }
+    }
+  }
+
+  .MuiCard-root,.card-style {
+    border-radius: 10px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    background-color: white !important;
+    overflow: hidden !important;
+  }

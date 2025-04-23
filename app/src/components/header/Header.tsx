@@ -12,6 +12,12 @@ import {
   ExternalLink 
 } from 'lucide-react';
 
+import { MdHistory } from 'react-icons/md';
+import { LuDices } from "react-icons/lu";
+import { LuHotel } from 'react-icons/lu';
+import { FiGift } from 'react-icons/fi';
+import { MdDashboard } from 'react-icons/md';
+
 export const Header: React.FC = () => {
   const navigate = useNavigate();
   const tokenDetailsHelper = useTokenDetailsHelper();
@@ -21,14 +27,14 @@ export const Header: React.FC = () => {
   };
 
   const navItems = [
-    { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { path: '/rewards', label: 'Rewards', icon: Gift },
-    { path: '/purchase-history', label: 'Activity History', icon: History },
+    { path: '/dashboard', label: 'Dashboard', icon: MdDashboard },
+    { path: '/rewards', label: 'Rewards', icon: FiGift },
+    { path: '/purchase-history', label: 'Activity History', icon: MdHistory },
   ];
 
   const externalItems = [
-    { path: 'hotel-booking', label: 'Hotel Booking', icon: Hotel },
-    { path: 'casino', label: 'Casino', icon: Casino },
+    { path: 'hotel-booking', label: 'Hotel Booking', icon: LuHotel },
+    { path: 'casino', label: 'Casino', icon: LuDices },
   ];
 
   return (
@@ -76,7 +82,7 @@ export const Header: React.FC = () => {
                     <Icon className="w-[22px] h-[22px] mb-1" />
                     <span className="text-[13px] font-medium flex items-center gap-1">
                       {label}
-                      <ExternalLink className="w-3 h-3" />
+                      <ExternalLink className="w-3 h-3 text-primary" />
                     </span>
                   </button>
                 ))}

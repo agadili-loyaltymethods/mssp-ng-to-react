@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Card, IconButton, Chip, LinearProgress } from '@mui/material';
+import { Card, LinearProgress } from '@mui/material';
+import { RefreshCw, BadgeCheck, Mail, CalendarDays, Diamond } from 'lucide-react';
 import { useActivityService } from '@/hooks/useActivityService';
 import { useMemberService } from '@/hooks/useMemberService';
 import { addMember } from '@/redux/slices/memberSlice';
-import { AppTimer } from '@/components/app-timer/AppTimer';
-import { StreaksCategory } from '@/enums/streaks-category';
-import { Reward } from '@/enums/reward';
-import { CouponEnum } from '@/enums/coupon-enum';
-import { ColorScheme } from '@/constants/color-scheme';
-import { Member } from '@/types';
 import useAlertService from '@/hooks/useAlertService';
+import { cn } from '@/utils/cnIndex';
+import { StreaksCategory } from '@/types';
+import { useNavigate } from 'react-router-dom';
+import { CouponEnum } from '@/enums/coupon-enum';
 import { WidgetHelper } from '@/types/Widget';
-import './dashboard.css';
+import './dashboardStyles.css';
 
 export const Dashboard: React.FC = () => {
   const [widgetData, setWidgetData] = useState<any[]>([]);
@@ -36,6 +34,7 @@ export const Dashboard: React.FC = () => {
   const activityService = useActivityService();
   const memberService = useMemberService();
   const alertService = useAlertService();
+
 
   useEffect(() => {
     const initializeDashboard = async () => {
@@ -138,7 +137,7 @@ export const Dashboard: React.FC = () => {
       };
 
       const res: any = await activityService.getActivity(payload);
-      
+
       if (res.data?.streaksProgress?.length) {
         const updatedSteps = res.data.streaksProgress.map((sp: any) => ({
           ...sp.streak,
@@ -148,9 +147,9 @@ export const Dashboard: React.FC = () => {
           rewards: sp.streak.rewards ?? (sp.goals.length ? sp.goals.flatMap((a: any) => a.rewards) : []),
           streakId: sp.streakId
         }));
-        
+
         setSteps(updatedSteps);
-        
+
         if (!isRefresh) {
           selectStreakCategory(StreaksCategory.ACTIVE);
         } else {
@@ -229,7 +228,7 @@ export const Dashboard: React.FC = () => {
         couponCode: "Double Play Challenge",
         date: new Date().toISOString()
       };
-      
+
       await activityService.getActivity(payload);
       fetchStreaks();
     } catch (error: any) {
@@ -240,339 +239,286 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-row justify-center items-center">
-      <div className="flex flex-row w-[1300px] p-20">
-        <div className="flex-1 flex flex-row gap-20">
-          <div className="flex flex-col gap-20 items-stretch flex-1">
-            {!widgetSkeleton && (
-              <div className="flex flex-row gap-20">
-                {/* Member Widget */}
-                <Card className="p-20 card-style flex-[25%]">
-                  <div className="welcome-section">
-                    <div className="user-header">
-                      <div className="user-welcome">
-                        <h2 className="welcome-text">Welcome back,</h2>
-                        <h1 className="user-name">{memberInfo?.firstName} {memberInfo?.lastName}</h1>
-                      </div>
-                    </div>
-                    <div className="user-details">
-                      <div className="detail-item flex flex-row items-center">
-                        <span className="material-icons">badge</span>
-                        <span>
-                          <small className="label">Loyalty ID</small>
-                          <div className="value">{memberInfo?.loyaltyId}</div>
-                        </span>
-                      </div>
-                      <div className="detail-item flex flex-row items-center">
-                        <span className="material-icons">email</span>
-                        <span>
-                          <small className="label">Email</small>
-                          <div className="value">{memberInfo?.email || '-'}</div>
-                        </span>
-                      </div>
-                      <div className="detail-item flex flex-row items-center">
-                        <span className="material-icons">calendar_today</span>
-                        <span>
-                          <small className="label">Member Since</small>
-                          <div className="value">
-                            {new Date(memberInfo?.enrollDate).toLocaleDateString()}
-                          </div>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-
-                {/* Tier Status Cards */}
-                {widgetData.map((widget, index) => (
-                  index < 2 && (
-                    <Card key={index} className="p-20 card-style flex-[25%]">
-                      <div className="tier-status-section">
-                        <h3 className="section-title">
-                          {index === 0 ? 'Encore Tier Status' : 'GCGC Tier Status'}
-                        </h3>
-                        <div className="tier-card">
-                          <div className={`tier-badge ${index === 0 ? 'encore' : 'ruby'}`}>
-                            <div className="tier-icon-wrapper">
-                              <span className="material-icons tier-icon">diamond</span>
-                            </div>
-                            <h2>{widget.currentTier}</h2>
-                          </div>
-                          <div className="tier-progress">
-                            {widget.nextTier !== widget.currentTier ? (
-                              <>
-                                <div className="flex flex-row justify-between items-center">
-                                  <span className="progress-label">Progress to {widget.nextTier}</span>
-                                  <span className="progress-percentage">
-                                    {((widget.totalSpends / widget.nextMilestone) * 100).toFixed(0)}%
-                                  </span>
-                                </div>
-                                <LinearProgress
-                                  variant="determinate"
-                                  value={(widget.totalSpends / widget.nextMilestone) * 100}
-                                  className="tier-progress-bar"
-                                />
-                                <div className="progress-stats">
-                                  <span className="current-points">
-                                    {widget.totalSpends.toLocaleString()} points
-                                  </span>
-                                  <span className="points-needed">
-                                    {(widget.nextMilestone - widget.totalSpends).toLocaleString()} to next tier
-                                  </span>
-                                </div>
-                              </>
-                            ) : (
-                              <span className="color-green text-center winning-text">
-                                Congratulations! You have achieved the Top Tier
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  )
-                ))}
-
-                {/* Points Balance Card */}
-                <Card className="p-20 card-style flex-[25%]">
-                  <div className="points-balance-section">
-                    <h3 className="section-title">Points Balance</h3>
-                    <div className="balance-cards">
-                      <div className="provider-points">
-                        {providerPoints.map((provider) => (
-                          <div key={provider.provider} className="provider-item">
-                            <div className="provider-name">{provider.provider}</div>
-                            <div className="provider-value">
-                              {provider.balance.toLocaleString()} Points
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            )}
-
-            {/* Tier Benefits and Rewards Challenges */}
-            <div className="flex-1 flex flex-row gap-20">
-              {/* Tier Benefits */}
-              <div className="flex flex-col card-style bg-white p-20 flex-[50%]">
-                {!widgetSkeleton ? (
-                  <>
-                    <h3 className="mt-10 mb-20">Tier Benefits</h3>
-                    <div className="flex flex-row flex-wrap gap-5">
-                      {widgetData[2]?.tierBenefits?.map((benefit: any, index: number) => (
-                        <div key={index} className="flex-[50%] items-stretch benefit-list">
-                          <Card className="card-style benefit-card p-10 h-full">
-                            <div className="flex flex-col gap-0 flex-1 p-0">
-                              <div className="flex flex-row items-start perk-header gap-2.5">
-                                <div className="benefit-thumbnail flex items-center justify-center">
-                                  <span className="material-icons text-primary">
-                                    {benefit.thumbnail}
-                                  </span>
-                                </div>
-                                <div className="flex flex-col justify-center items-start flex-1 perk-card">
-                                  <h3 className="color-accent title">{benefit.title}</h3>
-                                </div>
-                              </div>
-                              <div className="flex-1 desc-container">
-                                {benefit.desc.length === 1 ? (
-                                  <div className="mb-2 mt-4">{benefit.desc[0]}</div>
-                                ) : (
-                                  <ul className="pl-20 mb-2 mt-4">
-                                    {benefit.desc.map((desc: string, i: number) => (
-                                      <li key={i}><span>{desc}</span></li>
-                                    ))}
-                                  </ul>
-                                )}
-                              </div>
-                            </div>
-                          </Card>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  // Skeleton loader for benefits
-                  Array.from({ length: 2 }).map((_, rowIndex) => (
-                    <div key={rowIndex} className="flex flex-row gap-10">
-                      {Array.from({ length: 3 }).map((_, colIndex) => (
-                        <Card key={colIndex} className="p-5 flex-[50%]">
-                          <div className="skeleton">
-                            <div className="skeleton-left">
-                              <div className="line h-80 w-100p mb-10"></div>
-                              <div className="line h-12 w-100p mb-10"></div>
-                              <div className="line h-10 w-100p mb-5"></div>
-                              <div className="line h-10 w-100p mb-5"></div>
-                              <div className="line h-10 w-100p mb-5"></div>
-                            </div>
-                          </div>
-                        </Card>
-                      ))}
-                    </div>
-                  ))
-                )}
+    <div className="min-h-screen bg-[#F3F3F3] py-6">
+      <div className="max-w-[1300px] mx-auto px-4">
+        {/* First Row */}
+        <div className="grid grid-cols-4 gap-5 mb-5" key="dashboard-page">
+          {/* Welcome Back Card */}
+          <Card className="p-5 rounded-xl shadow-sm">
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-[#667085] text-sm font-normal mb-1">Welcome back,</h3>
+                <h2 className="text-[#1D2939] text-xl font-semibold">
+                  {memberInfo?.firstName} {memberInfo?.lastName}
+                </h2>
               </div>
 
-              {/* Rewards Challenges */}
-              <div className="flex flex-col card-style bg-white p-20 flex-[50%]">
-                {!streakSkeleton ? (
-                  <>
-                    <div className="flex flex-row justify-between items-center">
-                      <div className="flex flex-row items-center">
-                        <h3 className="mt-10 mb-20">Encore Rewards Challenges</h3>
-                        <IconButton 
-                          className="refresh-btn" 
-                          onClick={() => getStreakInfo(true)}
-                        >
-                          <span className="material-icons">refresh</span>
-                        </IconButton>
-                      </div>
-                      <div className="filter-container mb-20">
-                        <small>
-                          <div className="flex gap-2">
-                            {Object.values(StreaksCategory).map((category) => (
-                              <Chip
-                                key={category}
-                                label={category}
-                                onClick={() => selectStreakCategory(category)}
-                                color={selectedStreakCategory === category ? "primary" : "default"}
-                                className={selectedStreakCategory === category ? "disable-click" : ""}
-                              />
-                            ))}
-                          </div>
-                        </small>
-                      </div>
-                    </div>
-
-                    {!streaks.length ? (
-                      <div className="flex flex-col items-center justify-center empty-challenges p-20">
-                        <div className="text-center color-gray mb-20">
-                          {selectedStreakCategory === StreaksCategory.ACTIVE ? (
-                            <>
-                              <p>You are currently not participating in any challenges</p>
-                              <p>Join a challenge to start earning rewards!</p>
-                            </>
-                          ) : (
-                            <p>You haven't completed any challenges yet</p>
-                          )}
-                        </div>
-
-                        {selectedStreakCategory === StreaksCategory.ACTIVE && (
-                          <button
-                            className="get-started-btn"
-                            onClick={streakOptinPR}
-                          >
-                            Get Started
-                          </button>
-                        )}
-                      </div>
-                    ) : (
-                      streaks.map((step, index) => (
-                        <div key={index} className="mb-20">
-                          <div className="streak-card flex flex-row gap-24">
-                            {/* Left side - Progress */}
-                            <div className="flex-[60%] flex flex-col gap-16">
-                              <div className="flex flex-row items-center gap-8 mb-10">
-                                <h3 className="mat-title text-gray-900 font-bold">
-                                  {step.name}
-                                </h3>
-                                <span className="text-xl">🎪</span>
-                              </div>
-                              
-                              {!step.goals.length ? (
-                                <div>{step.streakGoalMessage}</div>
-                              ) : (
-                                step.goals.map((goal: any, goalIndex: number) => (
-                                  <div key={goalIndex} className="flex flex-col gap-6">
-                                    <div className="flex flex-row items-center">
-                                      <div className="flex flex-row items-center gap-8 mr-5">
-                                        <span className="w-8 h-8 rounded-full bg-orange-500"></span>
-                                      </div>
-                                      <span className="font-medium text-gray-900 text-sm">
-                                        <b>
-                                          {goal.name}: {(goal.value || 0).toLocaleString()}/{goal.target.toLocaleString()}
-                                        </b>
-                                      </span>
-                                    </div>
-                                    <LinearProgress
-                                      color="primary"
-                                      variant="determinate"
-                                      value={(goal.value || 0) / goal.target * 100}
-                                      className="h-6"
-                                    />
-                                    <div className="flex flex-row justify-between items-center">
-                                      {goal?.instantBonus && (
-                                        <div className="flex flex-row justify-between start">
-                                          <small>
-                                            <b className="pr-4">Bonus earned so far: </b>
-                                            {goal.instantBonus}
-                                          </small>
-                                        </div>
-                                      )}
-                                    </div>
-                                  </div>
-                                ))
-                              )}
-                            </div>
-
-                            {/* Right side - Info */}
-                            <div className="flex-[40%] flex flex-col gap-16">
-                              <p className="text-gray-600 text-sm">{step.desc}</p>
-                              {step.startedAt && step.timeLimit && step.status === 'Active' && (
-                                <div className="bg-gray-500 text-white text-sm px-3 py-0.5 rounded-full inline-block width-fit-content">
-                                  <AppTimer 
-                                    startedAt={step.startedAt} 
-                                    timeLimit={step.timeLimit}
-                                  />
-                                </div>
-                              )}
-                              <div className="flex flex-row gap-12">
-                                <div className="flex-1 bg-gray-50 rounded-lg p-2 status-card flex flex-col gap-4">
-                                  <div className="text-sm font-medium text-gray-500">Status</div>
-                                  <div className="flex flex-row items-center gap-8">
-                                    <span className={`w-8 h-8 rounded-full ${
-                                      step.status === 'Complete' ? 'bg-green-500' :
-                                      step.status === 'Active' ? 'bg-green' : 'bg-red'
-                                    }`}></span>
-                                    <span className="font-semibold text-gray-900">
-                                      {step.status === 'Complete' ? 'Completed' : step.status}
-                                    </span>
-                                  </div>
-                                </div>
-                                <div className="flex-1 bg-gray-50 rounded-lg p-2 status-card flex flex-col gap-4">
-                                  <div className="text-sm font-medium text-gray-500">Goals</div>
-                                  <div className="font-semibold text-gray-900">{step.goalCompleted}</div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </>
-                ) : (
-                  // Skeleton loader for challenges
-                  <div className="flex flex-col gap-10">
-                    {Array.from({ length: 3 }).map((_, index) => (
-                      <Card key={index} className="p-5 flex-[50%]">
-                        <div className="skeleton">
-                          <div className="skeleton-left">
-                            <div className="line h-40 w-100p mb-10"></div>
-                            <div className="line h-12 w-100p mb-10"></div>
-                            <div className="line h-10 w-100p mb-5"></div>
-                            <div className="line h-10 w-100p mb-5"></div>
-                            <div className="line h-10 w-100p mb-5"></div>
-                          </div>
-                        </div>
-                      </Card>
-                    ))}
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-[#FFF7ED] flex items-center justify-center">
+                    <BadgeCheck className="w-5 h-5 text-primary" />
                   </div>
-                )}
+                  <div>
+                    <div className="text-xs text-[#667085]">Loyalty ID</div>
+                    <div className="text-sm text-[#1D2939]">{memberInfo?.loyaltyId}</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-[#FFF7ED] flex items-center justify-center">
+                    <Mail className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-[#667085]">Email</div>
+                    <div className="text-sm text-[#1D2939]">{memberInfo?.email}</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-[#FFF7ED] flex items-center justify-center">
+                    <CalendarDays className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-[#667085]">Member Since</div>
+                    <div className="text-sm text-[#1D2939]">
+                      {new Date(memberInfo?.enrollDate).toLocaleDateString()}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </Card>
+
+          {widgetData.map((widget, index) => (
+            index < 2 && (
+              <Card className="p-5 rounded-xl shadow-sm" key={index}>
+                <h3 className="text-[#1D2939] text-base font-medium mb-4">{index === 0 ? 'Encore Tier Status' : 'GCGC Tier Status'}</h3>
+                <div className={`text-white rounded-lg p-4 text-center mb-4 tier-badge ${index === 0 ? 'encore' : 'ruby'}`}>
+                  <div className="w-8 h-8 mx-auto mb-2 bg-white/30 rounded-full flex items-center justify-center">
+                    <Diamond className="w-5 h-5" />
+                  </div>
+                  <h2 className="text-lg font-semibold">{widget.currentTier}</h2>
+                </div>
+                <div className="tier-progress">
+                  {widget.nextTier !== widget.currentTier ? (
+                    <>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span className="progress-label">Progress to {widget.nextTier}</span>
+                          <span className="progress-percentage">{((widget.totalSpends / widget.nextMilestone) * 100).toFixed(0)}%</span>
+                        </div>
+                        <div className="h-2 color-[#77B900] rounded-full overflow-hidden">
+                          {/* <div className={`h-full w-[65%] bg-[#77B900] rounded-full w-[${((widget.totalSpends / widget.nextMilestone) * 100).toFixed(0)}%]`} /> */}
+                          <LinearProgress
+                            variant="determinate"
+                            value={(widget.totalSpends / widget.nextMilestone) * 100}
+                            className="tier-progress-bar"
+                          />
+                        </div>
+                        <div className="flex justify-between text-sm text-[#667085] progress-stats">
+                          <span className="current-points">
+                            {widget.totalSpends.toLocaleString()} points
+                          </span>
+                          <span className="points-needed">
+                            {(widget.nextMilestone - widget.totalSpends).toLocaleString()} to next tier
+                          </span>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <span className="color-green text-center winning-text">
+                      Congratulations! You have achieved the Top Tier
+                    </span>
+                  )}
+                </div>
+              </Card>
+            )
+          ))}
+
+          {/* Encore Tier Status */}
+          {/* <Card className="p-5 rounded-xl shadow-sm">
+            <h3 className="text-[#1D2939] text-base font-medium mb-4">Encore Tier Status</h3>
+            <div className="bg-[#77B900] text-white rounded-lg p-4 text-center mb-4">
+              <div className="w-8 h-8 mx-auto mb-2 bg-white/30 rounded-full flex items-center justify-center">
+                <Diamond className="w-5 h-5" />
+              </div>
+              <h2 className="text-lg font-semibold">Double Diamond</h2>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Progress to Triple Diamond</span>
+                <span>65%</span>
+              </div>
+              <div className="h-2 bg-[#E0E0E0] rounded-full overflow-hidden">
+                <div className="h-full w-[65%] bg-[#77B900] rounded-full" />
+              </div>
+              <div className="flex justify-between text-sm text-[#667085]">
+                <span>32,370 points</span>
+                <span>17,630 to next tier</span>
+              </div>
+            </div>
+          </Card> */}
+
+          {/* GCGC Tier Status */}
+          {/* <Card className="p-5 rounded-xl shadow-sm">
+            <h3 className="text-[#1D2939] text-base font-medium mb-4">GCGC Tier Status</h3>
+            <div className="bg-[#D33264] text-white rounded-lg p-4 text-center mb-4">
+              <div className="w-8 h-8 mx-auto mb-2 bg-white/30 rounded-full flex items-center justify-center">
+                <Diamond className="w-5 h-5" />
+              </div>
+              <h2 className="text-lg font-semibold">Ruby</h2>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Progress to Diamond</span>
+                <span>39%</span>
+              </div>
+              <div className="h-2 bg-[#E0E0E0] rounded-full overflow-hidden">
+                <div className="h-full w-[39%] bg-[#D33264] rounded-full" />
+              </div>
+              <div className="flex justify-between text-sm text-[#667085]">
+                <span>29,608 points</span>
+                <span>45,392 to next tier</span>
+              </div>
+            </div>
+          </Card> */}
+
+          {/* Points Balance */}
+          {/* <Card className="p-5 rounded-xl shadow-sm">
+            <h3 className="text-[#1D2939] text-base font-medium mb-4">Points Balance</h3>
+            <div className="space-y-4">
+              <div className="bg-[#F9FAFB] rounded-lg p-2">
+                <div className="text-[#667085] text-sm">Anywhere Points</div>
+                <div className="text-[#1D2939] text-lg font-semibold">28,887 Points</div>
+              </div>
+
+              <div className="bg-[#F9FAFB] rounded-lg p-2">
+                <div className="text-[#667085] text-sm">GCGC Points</div>
+                <div className="text-[#1D2939] text-lg font-semibold">58,650 Points</div>
+              </div>
+
+              <div className="bg-[#F9FAFB] rounded-lg p-2">
+                <div className="text-[#667085] text-sm">GCE Points</div>
+                <div className="text-[#1D2939] text-lg font-semibold">663 Points</div>
+              </div>
+            </div>
+          </Card> */}
+
+          {/* Points Balance Card */}
+          <Card className="p-5 card-style flex-[25%]">
+            <div className="points-balance-section">
+              <h3 className="section-title">Points Balance</h3>
+              <div className="balance-cards">
+                <div className="provider-points">
+                  {providerPoints.map((provider, index) => (
+                    <div key={provider.provider} className="provider-item">
+                      <div className="provider-name">{provider.provider}</div>
+                      <div className="provider-value">
+                        {provider.balance.toLocaleString()} Points
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        {/* Second Row */}
+        <div className="grid grid-cols-2 gap-5">
+          {/* Tier Benefits */}
+          <Card className="p-5 rounded-xl shadow-sm">
+            <h3 className="text-[#1D2939] text-base font-medium mb-4">Tier Benefits</h3>
+            <div className="grid grid-cols-2 gap-4">
+              {widgetData[2]?.tierBenefits.map((benefit: any, index: number) => (
+                <div key={index} className="bg-[#F9FAFB] rounded-lg p-4">
+                  <div className="flex gap-3">
+                    <div className="w-10 h-10 rounded-full bg-[#FFF7ED] flex items-center justify-center">
+                      <span className="material-icons text-primary">{benefit.icon}</span>
+                    </div>
+                    <div>
+                      <h4 className="text-primary font-medium mb-1">{benefit.title}</h4>
+                      <p className="text-sm text-[#475467]">{benefit.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          {/* Encore Rewards Challenges */}
+          <Card className="p-5 rounded-xl shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex items-center gap-2">
+                <h3 className="text-[#1D2939] text-base font-medium">Encore Rewards Challenges</h3>
+                <RefreshCw className="w-5 h-5 text-[#667085] cursor-pointer" />
+              </div>
+              <div className="flex gap-2">
+                {[StreaksCategory.ACTIVE, StreaksCategory.Ended].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setSelectedStreakCategory(tab)}
+                    className={cn(
+                      "px-4 py-1 rounded-full text-sm font-medium transition-colors",
+                      selectedStreakCategory === tab
+                        ? "bg-primary text-white"
+                        : "bg-[#F2F4F7] text-[#475467] hover:bg-[#E4E7EC]"
+                    )}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-[#F9FAFB] rounded-lg p-5">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-2">
+                  <h4 className="text-[#1D2939] text-lg font-medium">Double Play Challenge</h4>
+                  <span className="text-2xl">🎪</span>
+                </div>
+                <div className="text-sm text-[#475467] bg-white px-3 py-1 rounded-full">
+                  2 Day(s) 1h : 21m : 37s
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-primary" />
+                    <span className="text-[#1D2939] font-medium">Spin & Win: $200/$200</span>
+                  </div>
+                  <div className="h-1.5 bg-[#E0E0E0] rounded-full overflow-hidden">
+                    <div className="h-full w-full bg-primary rounded-full" />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-primary" />
+                    <span className="text-[#1D2939] font-medium">Table Titans: $50/$200</span>
+                  </div>
+                  <div className="h-1.5 bg-[#E0E0E0] rounded-full overflow-hidden">
+                    <div className="h-full w-1/4 bg-primary rounded-full" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center mt-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#12B76A]" />
+                  <span className="text-sm text-[#475467]">Active</span>
+                </div>
+                <div className="text-sm text-[#475467]">Goals: 1/2</div>
+              </div>
+
+              <p className="text-sm text-[#475467] mt-4">
+                Bet $200 on Slot, iSlot games and $200 on eTable games in 30 days and win 10% discount on Dining & SPA coupon valid for 30 days.
+              </p>
+            </div>
+          </Card>
         </div>
       </div>
     </div>
