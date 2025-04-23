@@ -253,3 +253,8 @@
     background-color: white !important;
     overflow: hidden !important;
   }
+  .streak-card-box{
+    border-radius: 20px !important;
+    border: 1px solid #D8D8D8 !important;
+    padding: 15px !important;
+  }

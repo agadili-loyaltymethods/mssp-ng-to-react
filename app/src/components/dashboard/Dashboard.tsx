@@ -12,6 +12,10 @@ import { useNavigate } from 'react-router-dom';
 import { CouponEnum } from '@/enums/coupon-enum';
 import { WidgetHelper } from '@/types/Widget';
 import './dashboardStyles.css';
+import './dashboardStreak.css';
+import { AppTimer } from '../AppTimer';
+import { Refresh } from '@mui/icons-material';
+import { MdHotel, MdCake, MdRestaurant, MdCardGiftcard, MdLocalOffer, MdBadge, MdEmail, MdCalendarToday, MdDiamond } from "react-icons/md";
 
 export const Dashboard: React.FC = () => {
   const [widgetData, setWidgetData] = useState<any[]>([]);
@@ -34,6 +38,14 @@ export const Dashboard: React.FC = () => {
   const activityService = useActivityService();
   const memberService = useMemberService();
   const alertService = useAlertService();
+
+  const tierBenefitsIcons = [
+      { thumbnail: 'hotel', icon: MdHotel },
+      { thumbnail: 'cake', icon: MdCake },
+      { thumbnail: 'restaurant', icon: MdRestaurant },
+      { thumbnail: 'card_giftcard', icon: MdCardGiftcard },
+      { thumbnail: 'local_offer', icon: MdLocalOffer },
+    ];
 
 
   useEffect(() => {
@@ -256,7 +268,7 @@ export const Dashboard: React.FC = () => {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-[#FFF7ED] flex items-center justify-center">
-                    <BadgeCheck className="w-5 h-5 text-primary" />
+                    <MdBadge className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <div className="text-xs text-[#667085]">Loyalty ID</div>
@@ -266,7 +278,7 @@ export const Dashboard: React.FC = () => {
 
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-[#FFF7ED] flex items-center justify-center">
-                    <Mail className="w-5 h-5 text-primary" />
+                    <MdEmail className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <div className="text-xs text-[#667085]">Email</div>
@@ -276,7 +288,7 @@ export const Dashboard: React.FC = () => {
 
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-[#FFF7ED] flex items-center justify-center">
-                    <CalendarDays className="w-5 h-5 text-primary" />
+                    <MdCalendarToday className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <div className="text-xs text-[#667085]">Member Since</div>
@@ -295,7 +307,7 @@ export const Dashboard: React.FC = () => {
                 <h3 className="text-[#1D2939] text-base font-medium mb-4">{index === 0 ? 'Encore Tier Status' : 'GCGC Tier Status'}</h3>
                 <div className={`text-white rounded-lg p-4 text-center mb-4 tier-badge ${index === 0 ? 'encore' : 'ruby'}`}>
                   <div className="w-8 h-8 mx-auto mb-2 bg-white/30 rounded-full flex items-center justify-center">
-                    <Diamond className="w-5 h-5" />
+                    <MdDiamond className="w-5 h-5" />
                   </div>
                   <h2 className="text-lg font-semibold">{widget.currentTier}</h2>
                 </div>
@@ -433,13 +445,16 @@ export const Dashboard: React.FC = () => {
             <h3 className="text-[#1D2939] text-base font-medium mb-4">Tier Benefits</h3>
             <div className="grid grid-cols-2 gap-4">
               {widgetData[2]?.tierBenefits.map((benefit: any, index: number) => (
-                <div key={index} className="bg-[#F9FAFB] rounded-lg p-4">
+                <div key={index} className="bg-[#f3f3f3] rounded-lg p-4">
                   <div className="flex gap-3">
                     <div className="w-10 h-10 rounded-full bg-[#FFF7ED] flex items-center justify-center">
-                      <span className="material-icons text-primary">{benefit.icon}</span>
+                      {/* <span className="material-icons text-primary">{benefit.thumbnail}</span> */}
+                      {tierBenefitsIcons.filter(e=>e.thumbnail === benefit.thumbnail).map(({ icon: Icon }) => (
+                          <Icon className="w-[22px] h-[22px] mb-1 text-primary" />
+                      ))}
                     </div>
                     <div>
-                      <h4 className="text-primary font-medium mb-1">{benefit.title}</h4>
+                      <h4 className="text-md text-[#475467] font-medium mb-1">{benefit.title}</h4>
                       <p className="text-sm text-[#475467]">{benefit.desc}</p>
                     </div>
                   </div>
@@ -448,77 +463,113 @@ export const Dashboard: React.FC = () => {
             </div>
           </Card>
 
-          {/* Encore Rewards Challenges */}
           <Card className="p-5 rounded-xl shadow-sm">
-            <div className="flex justify-between items-center mb-4">
-              <div className="flex items-center gap-2">
-                <h3 className="text-[#1D2939] text-base font-medium">Encore Rewards Challenges</h3>
-                <RefreshCw className="w-5 h-5 text-[#667085] cursor-pointer" />
-              </div>
-              <div className="flex gap-2">
-                {[StreaksCategory.ACTIVE, StreaksCategory.Ended].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setSelectedStreakCategory(tab)}
-                    className={cn(
-                      "px-4 py-1 rounded-full text-sm font-medium transition-colors",
-                      selectedStreakCategory === tab
-                        ? "bg-primary text-white"
-                        : "bg-[#F2F4F7] text-[#475467] hover:bg-[#E4E7EC]"
+            {/* Encore Rewards Challenges */}
+            <div className="flex flex-col bg-white flex-[50%]">
+                    <div className="challenge-header">
+                      <div className="challenge-title">
+                        <h3 className="m-0">Encore Rewards Challenges</h3>
+                        <button
+                          className="refresh-button"
+                          onClick={() => getStreakInfo(true)}
+                        >
+                          <Refresh />
+                        </button>
+                      </div>
+                      <div className="challenge-filters">
+                        {Object.values(StreaksCategory).filter(e=>e!=StreaksCategory.AVAILABLE).map((category) => (
+                          <button
+                            key={category}
+                            className={`challenge-filter ${selectedStreakCategory === category ? 'active' : ''}`}
+                            onClick={() => selectStreakCategory(category)}
+                          >
+                            {category}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {!streaks.length ? (
+                      <div className="flex flex-col items-center justify-center p-20">
+                        <p className="text-gray-500 text-center">
+                          {selectedStreakCategory === StreaksCategory.ACTIVE ? (
+                            <>
+                              <p>You are currently not participating in any challenges</p>
+                              <p>Join a challenge to start earning rewards!</p>
+                            </>
+                          ) : (
+                            <p>You haven't completed any challenges yet</p>
+                          )}
+                        </p>
+                        {selectedStreakCategory === StreaksCategory.ACTIVE && (
+                          <button
+                            className="mt-4 px-6 py-2 bg-primary text-white rounded-full"
+                            onClick={streakOptinPR}
+                          >
+                            Get Started
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      streaks.map((streak, index) => (
+                        <div key={index} className="streak-card streak-card-box">
+                          <div className="challenge-content">
+                            <div className="challenge-progress">
+                              <div className="challenge-name">
+                                <h3 className="m-0">{streak.name}</h3>
+                                <span>🎪</span>
+                              </div>
+
+                              {streak.goals.map((goal: any, goalIndex: number) => (
+                                <div key={goalIndex} className="mb-4">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                                    <span className="font-medium">
+                                      {goal.name}: {(goal.value || 0).toLocaleString()}/{goal.target.toLocaleString()}
+                                    </span>
+                                  </div>
+                                  <LinearProgress
+                                    variant="determinate"
+                                    value={(goal.value || 0) / goal.target * 100}
+                                    className="h-2"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+
+                            <div className="challenge-info">
+                              <p className="challenge-description">{streak.desc}</p>
+
+                              {streak.startedAt && streak.timeLimit && streak.status === 'Active' && (
+                                <div className="challenge-timer">
+                                  <AppTimer
+                                    startedAt={streak.startedAt}
+                                    timeLimit={streak.timeLimit}
+                                  />
+                                </div>
+                              )}
+
+                              <div className="status-cards">
+                                <div className="status-card">
+                                  <div className="status-title">Status</div>
+                                  <div className="status-value">
+                                    <div className={`status-indicator ${streak.status.toLowerCase()}`}></div>
+                                    <span>{streak.status}</span>
+                                  </div>
+                                </div>
+                                <div className="status-card">
+                                  <div className="status-title">Goals</div>
+                                  <div className="status-value">{streak.goalCompleted}</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))
                     )}
-                  >
-                    {tab}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-[#F9FAFB] rounded-lg p-5">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
-                  <h4 className="text-[#1D2939] text-lg font-medium">Double Play Challenge</h4>
-                  <span className="text-2xl">🎪</span>
-                </div>
-                <div className="text-sm text-[#475467] bg-white px-3 py-1 rounded-full">
-                  2 Day(s) 1h : 21m : 37s
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-primary" />
-                    <span className="text-[#1D2939] font-medium">Spin & Win: $200/$200</span>
                   </div>
-                  <div className="h-1.5 bg-[#E0E0E0] rounded-full overflow-hidden">
-                    <div className="h-full w-full bg-primary rounded-full" />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-primary" />
-                    <span className="text-[#1D2939] font-medium">Table Titans: $50/$200</span>
-                  </div>
-                  <div className="h-1.5 bg-[#E0E0E0] rounded-full overflow-hidden">
-                    <div className="h-full w-1/4 bg-primary rounded-full" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-between items-center mt-6">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#12B76A]" />
-                  <span className="text-sm text-[#475467]">Active</span>
-                </div>
-                <div className="text-sm text-[#475467]">Goals: 1/2</div>
-              </div>
-
-              <p className="text-sm text-[#475467] mt-4">
-                Bet $200 on Slot, iSlot games and $200 on eTable games in 30 days and win 10% discount on Dining & SPA coupon valid for 30 days.
-              </p>
-            </div>
           </Card>
+
         </div>
       </div>
     </div>

@@ -15,10 +15,14 @@ export const Locations: React.FC = () => {
   const alertService = useAlertService();
 
   useEffect(() => {
+    getLocations();
+  }, []);
+
+  const getLocations = async () =>{
     try {
-      const locations: any = locationService.getLocations();
+      const locations: any = await locationService.getLocations();
       const filteredLocations = locations.filter(
-        (location: any) => !location.ext.hideInMSSP
+        (location: any) => !location?.ext?.hideInMSSP
       );
       setAllLocations(filteredLocations);
       setSelectedLocation(filteredLocations[0].name);
@@ -26,7 +30,7 @@ export const Locations: React.FC = () => {
     } catch (error: any) {
       alertService.errorAlert(error?.error?.error || error?.message);
     }
-  }, []);
+  }
 
   const handleLocationChange = (locationName: string) => {
     const location = allLocations.find(loc => loc.name === locationName);

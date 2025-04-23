@@ -16,7 +16,7 @@ export const useLocationService = () => {
       }
       
       const response = await getCall(url);
-      const data = Array.isArray(response.data) ? response.data : [response.data];
+      const data = Array.isArray(response) ? response : [response];
       
       // Sort locations by name
       return data.sort((a: any, b: any) => a.name.localeCompare(b.name));
