@@ -13,7 +13,7 @@ export const useSegmentService = () => {
       const response = await getCall(
         `${config.REST_URL}/api/v1/segments?limit=${limit}&query=${query}`
       );
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error fetching segments:', error);
       throw error;
@@ -25,7 +25,7 @@ export const useSegmentService = () => {
       const response = await getCall(
         `${config.REST_URL}/api/v1/membersegments?limit=${limit}&query=${query}`
       );
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error fetching member segments:', error);
       throw error;

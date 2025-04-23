@@ -53,7 +53,7 @@ export const useMemberService = () => {
     try {
       const url = `${config.REST_URL}/api/v1/members/${id}/offers?filter=offers,global${locationNum ? `&stores=${locationNum}` : ''}`;
       const response = await getCall(url);
-      return response.data;
+      return response;
     } catch (error: any) {
       errorAlert(error?.error?.error || error?.message);
       throw error;
@@ -91,7 +91,7 @@ export const useMemberService = () => {
 
       const finalUrl = `${url}?query=${encodeURIComponent(JSON.stringify(query))}`;
       const response = await getCall(finalUrl);
-      return response.data;
+      return response;
     } catch (error: any) {
       errorAlert(error?.error?.error || error?.message);
       throw error;
@@ -113,7 +113,7 @@ export const useMemberService = () => {
     try {
       const url = `${config.REST_URL}/api/v1/members/${id}/offers?filter=rewards`;
       const response = await getCall(url);
-      return response.data;
+      return response;
     } catch (error: any) {
       errorAlert(error?.error?.error || error?.message);
       throw error;
@@ -135,7 +135,7 @@ export const useMemberService = () => {
     try {
       const url = `${config.REST_URL}/api/v1/streaks`;
       const response = await getCall(url, { params: { query: id } });
-      return response.data;
+      return response;
     } catch (error: any) {
       errorAlert(error?.error?.error || error?.message);
       throw error;

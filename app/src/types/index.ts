@@ -294,6 +294,7 @@ export enum Reward {
   CAMPAIGNS = 'Clippable Coupons',
   SWEEPSTAKES = 'Sweepstakes',
   QUIZ = 'Quiz',
+  SURVEY = 'Survey',
 }
 
 export enum StreaksCategory {

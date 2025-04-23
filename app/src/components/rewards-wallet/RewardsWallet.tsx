@@ -87,7 +87,7 @@ export const RewardsWallet: React.FC = () => {
     date: new Date().toISOString(),
     srcChannelType: 'Web',
     couponCode: 'Balance',
-    srcChannelID: location.location,
+    srcChannelID: location?.location || 'Corporate',
     loyaltyID: memberInfo?.loyaltyId
   });
 

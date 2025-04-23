@@ -1,59 +1,74 @@
+import { Reward } from "@/types";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { RewardsWallet } from "../rewards-wallet/RewardsWallet";
+import { Offers } from "../offers/Offers";
+import { ClippableCoupons } from "../clippable-coupons/ClippableCoupons";
+import { Quiz } from "@mui/icons-material";
 
-import React, { useState } from 'react';
-import { Tabs, Tab } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { EarnedBenefits } from '../earned-benefits/EarnedBenefits';
-import { Offers } from '../offers/Offers';
-import { ClippableCoupons } from '../clippable-coupons/ClippableCoupons';
-import { Quiz } from '../quiz/Quiz';
-import { Reward } from '../../enums/reward';
-import { RewardsWallet } from '../rewards-wallet/RewardsWallet';
+const tabs = ["Rewards Wallet", "Exclusive Offers", "Clippable Coupons", "Survey"];
 
 export const Rewards: React.FC = () => {
+  const [activeTab, setActiveTab] = useState("Rewards Wallet");
   const [selectedTab, setSelectedTab] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
 
   const tabUrls = Object.values(Reward);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fragment = location.hash.replace('#', '');
-    const tabIndex = tabUrls.findIndex(tab => tab === fragment);
-    setSelectedTab(tabIndex > 0 ? tabIndex : 0);
-    navigate({ hash: tabUrls[tabIndex > 0 ? tabIndex : 0] });
+    const decodeFragment = decodeURIComponent(fragment || '');
+      const tabIndex = tabUrls.findIndex(tab => tab.toUpperCase() === decodeFragment.toUpperCase());
+      setSelectedTab(tabIndex > 0 ? tabIndex : 0);
+      setActiveTab(tabUrls[tabIndex > 0 ? tabIndex : 0]);
+      console.log('fragment',fragment);
   }, [location.hash]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setSelectedTab(newValue);
-    navigate({ hash: tabUrls[newValue] });
+  useEffect(() => {
+    console.log('activeTab', activeTab)
+  }, [activeTab]);
+
+  const handleTabChange = (tabName: string) => {
+    setActiveTab(tabName);
+    window.location.hash = "#"+tabName;
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex justify-center">
-        <div className="flex flex-col items-center w-[1300px]">
-          <Tabs
-            value={selectedTab}
-            onChange={handleTabChange}
-            className="w-full mt-5"
-            centered
-            variant="standard"
-            TabIndicatorProps={{ style: { animation: 'none' } }}
-          >
-            <Tab label="Rewards Wallet" />
-            <Tab label="Exclusive Offers" />
-            <Tab label="Clippable Coupons" />
-            <Tab label="Survey" />
-          </Tabs>
-
-          <div className="w-full">
-            {selectedTab === 0 && <RewardsWallet />}
-            {selectedTab === 1 && <Offers />}
-            {selectedTab === 2 && <ClippableCoupons />}
-            {selectedTab === 3 && <Quiz />}
-          </div>
-        </div>
+    <div className="w-full min-h-screen bg-[#f5f5f5] px-6 py-8 flex flex-col items-center">
+      {/* Tabs Navigation */}
+      <div className="flex justify-center bg-[#f7e9e4e6] rounded-full shadow-sm">
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab;
+          return (
+            <button
+              key={tab}
+              onClick={() => handleTabChange(tab)}
+              className={`
+                text-sm font-medium transition-all duration-200
+                ${isActive
+                  ? "bg-[#FF8201] px-5 py-[5px] text-white shadow-md rounded-full"
+                  : "text-[#FF8201] hover:bg-[#ffe0cc]"}
+              `}
+              style={{
+                minWidth: "160px",
+                height: "48px",
+              }}
+            >
+              {tab}
+            </button>
+          );
+        })}
       </div>
+
+      <div className="w-full">
+            {activeTab === 'Rewards Wallet' && <RewardsWallet />}
+            {activeTab === 'Exclusive Offers' && <Offers />}
+            {activeTab === 'Clippable Coupons' && <ClippableCoupons />}
+            {activeTab === 'Survey' && <Quiz />}
+          </div>
+
     </div>
   );
 };
+
