@@ -124,7 +124,7 @@ export const useMemberService = () => {
     try {
       const url = `${config.RC_REST_URL}/api/v1/activityhistories?query=${JSON.stringify({ memberID: memberId })}`;
       const response = await getCall(url);
-      return response.data;
+      return response;
     } catch (error: any) {
       errorAlert(error?.error?.error || error?.message);
       throw error;

@@ -11,6 +11,7 @@ import { NoData } from '../common/no-data/NoData';
 import { ModalSurvey } from '../modals/modal-survey/ModalSurvey';
 import { checkExpiry } from '@/utils/formatters';
 import './quiz.css';
+import ModalSurveyPopup from '../modals/modal-survey/ModalSurveyPage';
 
 export const QuizPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -74,6 +75,7 @@ export const QuizPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <ModalSurveyPopup isOpen={dialogOpen} onClose={() => handleDialogClose(false)} />
     </div>
   );
 };
