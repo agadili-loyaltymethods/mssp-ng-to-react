@@ -3,13 +3,13 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import { useTokenDetailsHelper } from '@/hooks/useTokenDetailHelper';
 import { Locations } from '../locations/Locations';
 import { Profile } from '../profile/Profile';
-import { 
-  LayoutDashboard, 
-  Gift, 
-  History, 
-  Hotel, 
+import {
+  LayoutDashboard,
+  Gift,
+  History,
+  Hotel,
   Cast as Casino,
-  ExternalLink 
+  ExternalLink
 } from 'lucide-react';
 
 import { MdHistory } from 'react-icons/md';
@@ -44,7 +44,7 @@ export const Header: React.FC = () => {
           <div className="max-w-[1440px] mx-auto px-5 h-full flex items-center justify-between">
             {/* Logo */}
             <div className="w-[15%]">
-              <img 
+              <img
                 src="/assets/bclc-logo.png"
                 alt="BCLC Logo"
                 className="h-8 cursor-pointer"
@@ -56,14 +56,14 @@ export const Header: React.FC = () => {
             <div className="flex-[55%] flex justify-center">
               <div className="flex items-center">
                 {navItems.map(({ path, label, icon: Icon }) => (
-                  <NavLink 
+                  <NavLink
                     key={path}
                     to={path}
                     className={({ isActive }) => `
                       flex flex-col items-center px-7 py-2.5 relative
                       hover:bg-[#f0f3f5] hover:text-primary
-                      ${isActive 
-                        ? 'text-primary after:absolute after:bottom-[-3px] after:left-0 after:w-full after:h-[3px] after:bg-primary' 
+                      ${isActive
+                        ? 'text-primary after:absolute after:bottom-[-3px] after:left-0 after:w-full after:h-[3px] after:bg-primary'
                         : 'text-[#475467] hover:after:absolute hover:after:bottom-[-3px] hover:after:left-0 hover:after:w-full hover:after:h-[3px] hover:after:bg-primary'
                       }
                     `}
@@ -74,16 +74,17 @@ export const Header: React.FC = () => {
                 ))}
 
                 {externalItems.map(({ path, label, icon: Icon }) => (
-                  <button 
+                  <button
                     key={path}
                     onClick={() => openExternalLink(path)}
-                    className="flex flex-col items-center px-7 py-2.5 text-[#475467] hover:bg-[#f0f3f5] hover:text-primary hover:after:absolute hover:after:bottom-[-3px] hover:after:w-[auto] hover:after:h-[3px] hover:after:bg-primary"
+                    className="relative flex flex-col items-center px-7 py-2.5 text-[#475467] hover:text-primary group"
                   >
                     <Icon className="w-[22px] h-[22px] mb-1" />
                     <span className="text-[13px] font-medium flex items-center gap-1">
                       {label}
                       <ExternalLink className="w-3 h-3 text-primary" />
                     </span>
+                    <div className="absolute bottom-[-3px] left-0 w-full h-0 group-hover:h-[3px] bg-primary"></div>
                   </button>
                 ))}
               </div>
