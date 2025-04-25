@@ -22,7 +22,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { KeyboardArrowDown, KeyboardArrowUp, Refresh, FirstPage, LastPage, NavigateNext, NavigateBefore } from '@material-ui/icons';
 import { useMemberService } from '../../hooks/useMemberService';
-import { formatCurrency } from '../../utils/formatters';
+import { formatCurrency, formatDateLocalString } from '../../utils/formatters';
 import { NoData } from '../common/no-data/NoData';
 import useAlertService from '@/hooks/useAlertService';
 import { RefreshCw, Search } from 'lucide-react';
@@ -37,7 +37,7 @@ const ExpandableRow: React.FC<ExpandableRowProps> = ({ row, expanded, onExpand }
   return (
     <>
       <TableRow>
-        <TableCell>{new Date(row.date).toLocaleDateString()}</TableCell>
+        <TableCell>{formatDateLocalString(row.date)}</TableCell>
         <TableCell>{row.type}</TableCell>
         <TableCell>{row.bookingId || '-'}</TableCell>
         <TableCell>{row.location?.name || '-'}</TableCell>
@@ -157,6 +157,7 @@ export const PurchaseHistory: React.FC = () => {
   const startIndex = page * rowsPerPage;
   const endIndex = Math.min(startIndex + rowsPerPage, totalItems);
   const paginatedHistory = filteredHistory.slice(startIndex, endIndex);
+  console.log('paginatedHistory',paginatedHistory);
 
   // Pagination handlers
   const handleChangePage = (newPage: number) => {
@@ -253,6 +254,32 @@ export const PurchaseHistory: React.FC = () => {
     return selectedPurse ? selectedPurse.new - selectedPurse.prev : 0;
   };
 
+  const PointDisplay: React.FC<{ value: number | string | null }> = ({ value }) => {
+    if (value === null || value === undefined || value === '-') {
+      return (
+        <span className="inline-block w-8 h-6 bg-gray-100 rounded-md text-center text-gray-500 py-0.5">
+          -
+        </span>
+      );
+    }
+
+    const numValue = typeof value === 'string' ? parseFloat(value) : value;
+    let bgColorClass = "";
+    if (numValue > 0) {
+      bgColorClass = "bg-[#E6F3EB] text-green-700";
+    } else if (numValue < 0) {
+      bgColorClass = "bg-[#F6E6E6] text-red-600";
+    } else {
+      bgColorClass = "bg-[#e9ecef] text-gray-500";
+    }
+    
+    return (
+      <span className={`inline-block min-w-[40px] h-6 ${bgColorClass} rounded-md text-center py-0.5`}>
+        {numValue > 0 ? numValue : numValue}
+      </span>
+    );
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -312,38 +339,44 @@ export const PurchaseHistory: React.FC = () => {
                         <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Folio #</th>
                         <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Location</th>
                         <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Details</th>
-                        <th className="text-right py-3 px-4 text-sm font-medium text-gray-600">Total Spend</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Total Spend</th>
                         <th className="text-center py-3 px-4 text-sm font-medium text-gray-600">Status Points</th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-600">SP Status</th>
-                        <th className="text-right py-3 px-4 text-sm font-medium text-gray-600">Points</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-600">SP Status Points</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Points</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-600"></th>
                       </tr>
                     </thead>
                     <tbody>
                       {paginatedHistory.map((item, index) => (
                         <React.Fragment key={index}>
                           <tr className="border-b border-gray-200 hover:bg-gray-50">
-                            <td className="py-4 px-4 text-sm text-gray-900">{item.date}</td>
-                            <td className="py-4 px-4 text-sm text-gray-900">{item.activity}</td>
-                            <td className="py-4 px-4 text-sm text-gray-900">{item.folioNumber || '-'}</td>
+                            <td className="py-4 px-4 text-sm text-gray-900">{formatDateLocalString(item.date)}</td>
+                            <td className="py-4 px-4 text-sm text-gray-900">{item.type}</td>
+                            <td className="py-4 px-4 text-sm text-gray-900">{item.bookingId || '-'}</td>
                             <td className="py-4 px-4 text-sm text-gray-900">{item.location || '-'}</td>
-                            <td className="py-4 px-4 text-sm text-gray-900">{item.details || '-'}</td>
-                            <td className="py-4 px-4 text-sm text-gray-900 text-right">
-                              {item.totalSpend ? `$${item.totalSpend}` : '-'}
+                            <td className="py-4 px-4 text-sm text-gray-900">{item.desc || '-'}</td>
+                            <td className="py-4 px-4 text-sm text-gray-900 text-left">
+                              {item.total ? `${formatCurrency(item.total)}` : '-'}
                             </td>
                             <td className="py-4 px-4 text-center">
-                              <span className={`text-sm ${item.statusPoints ? 'text-green-600' : 'text-gray-500'}`}>
-                                {item.statusPoints || '-'}
+                              <span className={`text-sm`}>
+                                {/* {item.spend || '-'} */}
+                                <PointDisplay value={item.spend || '-'}></PointDisplay>
                               </span>
                             </td>
                             <td className="py-4 px-4 text-center">
-                              <span className="text-sm text-gray-500">{item.spStatus || '-'}</span>
+                              <span className="text-sm"><PointDisplay value={item.serviceStatusPoints || '-'}></PointDisplay></span>
                             </td>
                             <td className="py-4 px-4 text-right">
                               <div className="flex items-center justify-end gap-2">
-                                <span className={`text-sm ${Number(item.points) > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                  {Number(item.points) > 0 ? '+' : ''}{item.points || '-'}
+                                <span className={`text-sm`}>
+                                  {/* {item.basePoints || '-'} */}
+                                  <PointDisplay value={item.basePoints || '-'}></PointDisplay>
                                 </span>
-                                {item.isExpandable && (
+                              </div>
+                            </td>
+                            <td className="py-4 px-4 text-center">
+                            {item.isExpandable && (
                                   <button
                                     onClick={() => toggleRow(item.id)}
                                     className="text-gray-500 hover:text-gray-700"
@@ -353,7 +386,6 @@ export const PurchaseHistory: React.FC = () => {
                                     </span>
                                   </button>
                                 )}
-                              </div>
                             </td>
                           </tr>
                           {expandedRows[item.id] && (

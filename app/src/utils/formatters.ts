@@ -53,3 +53,15 @@ export const checkExpiry = (value: Date | string): string => {
   }
   return format(date, 'dd/MM/yyyy');
 };
+
+
+export const formatDateLocalString = (dateString: string): string => {
+  const date = new Date(dateString); // Current date
+  
+  // Format the date to "Apr 15, 2025" format
+  return date.toLocaleDateString('en-US', {
+    month: 'short', // "Apr"
+    day: 'numeric',  // "15"
+    year: 'numeric', // "2025"
+  });
+};
