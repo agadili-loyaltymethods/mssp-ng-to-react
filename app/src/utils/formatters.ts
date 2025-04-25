@@ -65,3 +65,10 @@ export const formatDateLocalString = (dateString: string): string => {
     year: 'numeric', // "2025"
   });
 };
+
+export const formatDateTimeLocalString = (dateString: string): string => {
+  const date = new Date(dateString); // Current date
+  
+  // Format the date to "Apr 15, 2025" format
+  return format(date, 'MMM d, yyyy h:mm a');
+};

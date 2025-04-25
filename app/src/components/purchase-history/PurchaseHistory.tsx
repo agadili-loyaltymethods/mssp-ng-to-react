@@ -22,10 +22,11 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { KeyboardArrowDown, KeyboardArrowUp, Refresh, FirstPage, LastPage, NavigateNext, NavigateBefore } from '@material-ui/icons';
 import { useMemberService } from '../../hooks/useMemberService';
-import { formatCurrency, formatDateLocalString } from '../../utils/formatters';
+import { formatCurrency, formatDateLocalString, formatDateTimeLocalString } from '../../utils/formatters';
 import { NoData } from '../common/no-data/NoData';
 import useAlertService from '@/hooks/useAlertService';
-import { RefreshCw, Search } from 'lucide-react';
+import { ChevronDown, ChevronUp, RefreshCw, Search } from 'lucide-react';
+import { LOB, PurchaseHistoryKeys } from '@/types';
 
 interface ExpandableRowProps {
   row: any;
@@ -157,7 +158,7 @@ export const PurchaseHistory: React.FC = () => {
   const startIndex = page * rowsPerPage;
   const endIndex = Math.min(startIndex + rowsPerPage, totalItems);
   const paginatedHistory = filteredHistory.slice(startIndex, endIndex);
-  console.log('paginatedHistory',paginatedHistory);
+  console.log('paginatedHistory', paginatedHistory);
 
   // Pagination handlers
   const handleChangePage = (newPage: number) => {
@@ -198,6 +199,7 @@ export const PurchaseHistory: React.FC = () => {
         .filter((item) => item.status === 'Processed')
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .map(formatHistory2);
+      processedHistory.forEach((data: any) => { data.nestedData = getNestedData(data.lineItems, data), data.summary = getSummary(data.nestedData) });
       setPurchaseHistory(processedHistory);
     } catch (error: any) {
       alertService.errorAlert(error?.error?.error || error?.message);
@@ -253,6 +255,53 @@ export const PurchaseHistory: React.FC = () => {
     const selectedPurse = purses.find((purse) => purse.name === type);
     return selectedPurse ? selectedPurse.new - selectedPurse.prev : 0;
   };
+  const getOffers = (lineItems: any, type: string) => {
+    const discountItems = lineItems.filter((item: any) => item.type === type);
+    const uniqueItems: Set<string> = new Set(discountItems.map((item: any) => item.itemSKU));
+    return Array.from(uniqueItems).map((uniq: string) => ({
+      key: uniq,
+      value: discountItems.filter((item: any) => item.itemSKU === uniq).reduce((a: number, v: any) => a + v.itemAmount, 0)
+    }));
+  };
+
+  const getNestedData = (lineItems: any, data: any = []) => {
+    const nestedData: any = [];
+    for (const key of Object.keys(LOB)) {
+      const filteredItems = lineItems.filter((lineItem: any) => lineItem?.lob?.toUpperCase() === key);
+      if (filteredItems.length) {
+        nestedData.push({
+          title: LOB[key as keyof typeof LOB],
+          subTotal: { key: 'Subtotal', value: getTotal(filteredItems, 'Normal') },
+          offers: getOffers(filteredItems, PurchaseHistoryKeys.DISCOUNT_SKU),
+          tax: { key: PurchaseHistoryKeys.TAX_SKU, value: getTotal(filteredItems, PurchaseHistoryKeys.TAX_SKU) },
+          gratuity: { key: PurchaseHistoryKeys.GRATUITY, value: getTotal(filteredItems, PurchaseHistoryKeys.GRATUITY) },
+          total: { key: 'Total ' + LOB[key as keyof typeof LOB], value: getTotal(filteredItems) }
+        });
+      }
+    }
+    return nestedData;
+  };
+
+  // const getTotal = (lineItems: any, sku?: string) => {
+  //   if (sku) {
+  //     const filteredItems = lineItems.filter((lineItem: any) => lineItem.sku === sku);
+  //     return filteredItems.reduce((acc: number, item: any) => acc + item.value, 0);
+  //   } else {
+  //     return lineItems.reduce((acc: number, item: any) => acc + item.value, 0);
+  //   }
+  // };
+  const getTotal = (lineItems: any, type: string = '') => {
+    console.log('lineItems',lineItems, type)
+    return lineItems.filter((item: any) => !type || (type && item.type === type)).reduce((acc: number, val: any) => acc + val.itemAmount, 0);
+  };
+
+  const getSummary = (nestedData: any) => {
+    if (nestedData.length) {
+      const summaryData = nestedData.map((data: any) => ({ key: data.title, value: data.total.value }));
+      summaryData.push({ key: 'Total Charges', value: summaryData.reduce((acc: number, v: any) => acc + v.value, 0) });
+      return summaryData;
+    }
+  };
 
   const PointDisplay: React.FC<{ value: number | string | null }> = ({ value }) => {
     if (value === null || value === undefined || value === '-') {
@@ -272,7 +321,7 @@ export const PurchaseHistory: React.FC = () => {
     } else {
       bgColorClass = "bg-[#e9ecef] text-gray-500";
     }
-    
+
     return (
       <span className={`inline-block min-w-[40px] h-6 ${bgColorClass} rounded-md text-center py-0.5`}>
         {numValue > 0 ? numValue : numValue}
@@ -285,13 +334,13 @@ export const PurchaseHistory: React.FC = () => {
   }
 
   return (
-    <div className="w-full min-h-screen bg-[#f5f5f5] px-6 py-8 flex flex-col items-center">
+    <div className="w-full min-h-screen bg-[#f5f5f5] px-6 py-1 flex flex-col items-center">
       <div className="w-full">
-        <div className="flex flex-col gap-10 mt-5">
+        <div className="flex flex-col gap-10">
           <div className="min-h-screen p-6">
             <div className="max-w-7xl mx-auto">
               <div className="bg-white rounded-md shadow-md p-6">
-                <div className="flex justify-between items-center mb-6">
+                <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center gap-2">
                     <h2 className="text-xl font-medium text-gray-900">Activity History</h2>
                     <button className="p-1 hover:bg-gray-100 rounded-full">
@@ -349,25 +398,25 @@ export const PurchaseHistory: React.FC = () => {
                     <tbody>
                       {paginatedHistory.map((item, index) => (
                         <React.Fragment key={index}>
-                          <tr className="border-b border-gray-200 hover:bg-gray-50">
-                            <td className="py-4 px-4 text-sm text-gray-900">{formatDateLocalString(item.date)}</td>
-                            <td className="py-4 px-4 text-sm text-gray-900">{item.type}</td>
-                            <td className="py-4 px-4 text-sm text-gray-900">{item.bookingId || '-'}</td>
-                            <td className="py-4 px-4 text-sm text-gray-900">{item.location || '-'}</td>
-                            <td className="py-4 px-4 text-sm text-gray-900">{item.desc || '-'}</td>
-                            <td className="py-4 px-4 text-sm text-gray-900 text-left">
+                          <tr className="border-b border-gray-200 hover:bg-[#F8F8F8]">
+                            <td className="py-2 px-5 text-sm text-gray-900 min-w-[120px]">{formatDateLocalString(item.date)}</td>
+                            <td className="py-2 px-4 text-sm text-gray-900">{item.type}</td>
+                            <td className="py-2 px-4 text-sm text-gray-900">{item.bookingId || '-'}</td>
+                            <td className="py-2 px-4 text-sm text-gray-900">{item.location || '-'}</td>
+                            <td className="py-2 px-4 text-sm text-gray-900">{item.desc || '-'}</td>
+                            <td className="py-2 px-4 text-sm text-gray-900 text-left">
                               {item.total ? `${formatCurrency(item.total)}` : '-'}
                             </td>
-                            <td className="py-4 px-4 text-center">
+                            <td className="py-2 px-4 text-center">
                               <span className={`text-sm`}>
                                 {/* {item.spend || '-'} */}
                                 <PointDisplay value={item.spend || '-'}></PointDisplay>
                               </span>
                             </td>
-                            <td className="py-4 px-4 text-center">
+                            <td className="py-2 px-4 text-center">
                               <span className="text-sm"><PointDisplay value={item.serviceStatusPoints || '-'}></PointDisplay></span>
                             </td>
-                            <td className="py-4 px-4 text-right">
+                            <td className="py-3 px-4 text-right">
                               <div className="flex items-center justify-end gap-2">
                                 <span className={`text-sm`}>
                                   {/* {item.basePoints || '-'} */}
@@ -375,23 +424,23 @@ export const PurchaseHistory: React.FC = () => {
                                 </span>
                               </div>
                             </td>
-                            <td className="py-4 px-4 text-center">
-                            {item.isExpandable && (
-                                  <button
-                                    onClick={() => toggleRow(item.id)}
-                                    className="text-gray-500 hover:text-gray-700"
-                                  >
-                                    <span className={`transform transition-transform ${expandedRows[item.id] ? 'rotate-180' : ''}`}>
-                                      ▼
-                                    </span>
-                                  </button>
-                                )}
+                            <td className="py-2 px-4 text-center">
+                              {item.isExpandable && (
+                                <button
+                                  className={`p-2 rounded-full transition-colors bg-transparent hover:bg-gray-200`}
+                                  onClick={() => toggleRow(item.id)}
+                                  aria-label="Expand"
+                                >
+                                  {!expandedRows[item.id] && <ChevronDown size={20} className="text-gray-900" />}
+                                  {expandedRows[item.id] && <ChevronUp size={20} className="text-gray-900" />}
+                                </button>
+                              )}
                             </td>
                           </tr>
                           {expandedRows[item.id] && (
                             <tr className="bg-gray-50">
                               <td colSpan={9} className="py-4 px-8">
-                                <div className="grid grid-cols-2 gap-8">
+                                {/* <div className="grid grid-cols-2 gap-8">
                                   <div>
                                     <h3 className="text-sm font-medium text-gray-900 mb-4">Casino</h3>
                                     <div className="space-y-3">
@@ -426,7 +475,90 @@ export const PurchaseHistory: React.FC = () => {
                                       </div>
                                     </div>
                                   </div>
+                                </div> */}
+                                <div className="flex flex-row">
+                                  <div className="flex mb-2 w-1/2">
+                                    {item.nestedData?.length > 0 ? (
+                                      item.nestedData.map((data: any, index: any) => (
+                                        <div key={index} className="mb-4 w-[100%] pr-4">
+                                          <h4 className="text-sm font-medium text-gray-900 mb-3">{data.title}</h4>
+                                          <div className="flex flex-col">
+                                            <div className="flex justify-between text-sm mb-3">
+                                              <span className="text-gray-600">{data.subTotal.key}</span>
+                                              <span className="text-gray-900">{formatCurrency(data.subTotal.value)}</span>
+                                            </div>
+                                            {data.offers?.map((offer: any, index: any) => (
+                                              <div key={index} className="flex justify-between text-sm text-green-600 mb-3">
+                                                <span>{offer.key}</span>
+                                                <span>{formatCurrency(offer.value)}</span>
+                                              </div>
+                                            ))}
+                                            <div className="flex justify-between text-sm mb-3">
+                                              <span>{data.tax.key}</span>
+                                              <span>{formatCurrency(data.tax.value)}</span>
+                                            </div>
+                                            {data.gratuity && (
+                                              <div className="flex justify-between text-sm mb-3">
+                                                <span>{data.gratuity.key}</span>
+                                                <span>{formatCurrency(data.gratuity.value)}</span>
+                                              </div>
+                                            )}
+                                            <div className="flex justify-between text-sm mb-3">
+                                              <span>{data.total.key}</span>
+                                              <span>{formatCurrency(data.total.value)}</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))
+                                    ) : item.gaming ? (
+                                      <div className="mb-4 w-[100%] pr-4">
+                                        <h4 className="text-sm font-medium text-gray-900 mb-3">Casino</h4>
+                                        <div className="flex flex-col">
+                                          <div className=" flex justify-between text-sm mb-3">
+                                            <span>Cash In</span>
+                                            <span>{formatCurrency(item.gaming.coinIn)}</span>
+                                          </div>
+                                          <div className="flex justify-between text-sm mb-3">
+                                            <span>Cash Out</span>
+                                            <span>{formatCurrency(item.gaming.coinOut)}</span>
+                                          </div>
+                                          <div className="flex justify-between text-sm mb-3">
+                                            <span>Wager Amount</span>
+                                            <span>{formatCurrency(item.gaming.wagerAmount)}</span>
+                                          </div>
+                                          <div className="flex justify-between text-sm mb-3">
+                                            <span>Free Play Credit</span>
+                                            <span>{formatCurrency(item.gaming.fpCredit)}</span>
+                                          </div>
+                                          <div className="flex justify-between text-sm mb-3">
+                                            <span>Session Start Time</span>
+                                            <span>{formatDateTimeLocalString(item.gaming.sessionStartDate)}</span>
+                                          </div>
+                                          <div className="flex justify-between text-sm mb-3">
+                                            <span>Session End Time</span>
+                                            <span>{formatDateTimeLocalString(item.gaming.sessionEndDate)}</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <NoData>No transactions found.</NoData>
+                                    )}
+                                  </div>
+                                  {item.summary && (
+                                    <div className="mb-4 w-1/2 pl-8">
+                                      <h4 className="text-sm font-medium text-gray-900 mb-3">Summary</h4>
+                                      <div>
+                                        {item.summary.map((summary: any, index: any) => (
+                                          <div key={index} className="flex justify-between text-sm font-medium mb-3">
+                                            <span className="text-gray-600">{summary.key}</span>
+                                            <span>{formatCurrency(summary.value)}</span>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
                                 </div>
+
                               </td>
                             </tr>
                           )}

@@ -302,3 +302,11 @@ export enum StreaksCategory {
   ACTIVE = 'Active',
   Ended = 'Ended'
 }
+
+export enum PurchaseHistoryKeys{
+  ACTIVITY_TYPE_ACCRUAL = 'Accrual',
+  ACTIVITY_STATUS_PROCESSED = 'Processed',
+  TAX_SKU = 'Tax',
+  GRATUITY = 'Gratuity',
+  DISCOUNT_SKU = 'Discount'
+}

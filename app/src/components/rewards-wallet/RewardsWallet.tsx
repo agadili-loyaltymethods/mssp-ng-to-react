@@ -242,7 +242,7 @@ export const RewardsWallet: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {memberVouchers.length > 0 ? (
                 memberVouchers.map((voucher) => (
-                  <div key={voucher.id} className="bg-white rounded-md shadow-md p-4 flex items-center">
+                  <div key={voucher.id} className="bg-white rounded-md shadow-md p-6 flex items-center">
                     <img
                       src="/assets/bclc-logo.png"
                       alt="BCLC Logo"
