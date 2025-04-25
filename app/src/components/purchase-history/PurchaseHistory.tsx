@@ -158,7 +158,6 @@ export const PurchaseHistory: React.FC = () => {
   const startIndex = page * rowsPerPage;
   const endIndex = Math.min(startIndex + rowsPerPage, totalItems);
   const paginatedHistory = filteredHistory.slice(startIndex, endIndex);
-  console.log('paginatedHistory', paginatedHistory);
 
   // Pagination handlers
   const handleChangePage = (newPage: number) => {
@@ -199,7 +198,7 @@ export const PurchaseHistory: React.FC = () => {
         .filter((item) => item.status === 'Processed')
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .map(formatHistory2);
-      processedHistory.forEach((data: any) => { data.nestedData = getNestedData(data.lineItems, data), data.summary = getSummary(data.nestedData) });
+      processedHistory.forEach((data: any) => { data.nestedData = getNestedData(data.lineItems), data.summary = getSummary(data.nestedData) });
       setPurchaseHistory(processedHistory);
     } catch (error: any) {
       alertService.errorAlert(error?.error?.error || error?.message);
@@ -264,7 +263,7 @@ export const PurchaseHistory: React.FC = () => {
     }));
   };
 
-  const getNestedData = (lineItems: any, data: any = []) => {
+  const getNestedData = (lineItems: any) => {
     const nestedData: any = [];
     for (const key of Object.keys(LOB)) {
       const filteredItems = lineItems.filter((lineItem: any) => lineItem?.lob?.toUpperCase() === key);
@@ -291,7 +290,6 @@ export const PurchaseHistory: React.FC = () => {
   //   }
   // };
   const getTotal = (lineItems: any, type: string = '') => {
-    console.log('lineItems',lineItems, type)
     return lineItems.filter((item: any) => !type || (type && item.type === type)).reduce((acc: number, val: any) => acc + val.itemAmount, 0);
   };
 
