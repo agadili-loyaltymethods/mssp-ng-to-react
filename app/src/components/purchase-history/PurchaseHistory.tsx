@@ -23,6 +23,7 @@ import { useMemberService } from '../../hooks/useMemberService';
 import { formatCurrency } from '../../utils/formatters';
 import { NoData } from '../common/no-data/NoData';
 import useAlertService from '@/hooks/useAlertService';
+import { RefreshCw, Search } from 'lucide-react';
 
 interface ExpandableRowProps {
   row: any;
@@ -45,11 +46,10 @@ const ExpandableRow: React.FC<ExpandableRowProps> = ({ row, expanded, onExpand }
           </div>
         </TableCell>
         <TableCell>
-          <div className={`p-1 highlight ${
-            row.total > 0 ? 'earns' :
-            row.total < 0 ? 'spends' :
-            'no-transactions'
-          }`}>
+          <div className={`p-1 highlight ${row.total > 0 ? 'earns' :
+              row.total < 0 ? 'spends' :
+                'no-transactions'
+            }`}>
             {row.total ? row.total.toLocaleString() : '-'}
           </div>
         </TableCell>
@@ -132,11 +132,7 @@ export const PurchaseHistory: React.FC = () => {
   const memberService = useMemberService();
   const alertService = useAlertService();
 
-  useEffect(() => {
-    if (memberInfo?._id) {
-      getActivityHistory();
-    }
-  }, [memberInfo]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const toggleRow = (id: string) => {
     setExpandedRows(prev => ({
@@ -145,6 +141,18 @@ export const PurchaseHistory: React.FC = () => {
     }));
   };
 
+  const filteredHistory = purchaseHistory.filter(item =>
+    Object.values(item).some(value =>
+      String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
+
+  useEffect(() => {
+    if (memberInfo?._id) {
+      getActivityHistory();
+    }
+  }, [memberInfo]);
+
   const getActivityHistory = async () => {
     try {
       const history = await memberService.getActivityHistory(memberInfo._id);
@@ -152,7 +160,7 @@ export const PurchaseHistory: React.FC = () => {
         .filter((item) => item.status === 'Processed')
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .map(formatHistory2);
-      
+
       setPurchaseHistory(processedHistory);
     } catch (error: any) {
       alertService.errorAlert(error?.error?.error || error?.message);
@@ -172,7 +180,7 @@ export const PurchaseHistory: React.FC = () => {
 
   const formatHistory2 = (history: any) => {
     const pointsValue = getTotalPurse(history.result?.data?.purses || []);
-  
+
     return {
       date: history.date,
       bookingId: history?.ext?.folioId ?? '-',
@@ -199,11 +207,11 @@ export const PurchaseHistory: React.FC = () => {
     const selectedPurse = purses?.filter((purse) =>
       isStatus ? purse.name.includes('Status') : !purse.name.includes('Status')
     );
-  
+
     if (selectedPurse?.length) {
       return selectedPurse.reduce((acc, purse) => (purse.new - purse.prev) + acc, 0);
     }
-  
+
     return 0;
   };
 
@@ -212,138 +220,147 @@ export const PurchaseHistory: React.FC = () => {
     return selectedPurse ? selectedPurse.new - selectedPurse.prev : 0;
   };
 
-  const filteredHistory = purchaseHistory.filter((item) => 
-    Object.values(item).some((value) => 
-      String(value).toLowerCase().includes(filterText.toLowerCase())
-    )
-  );
+  // const filteredHistory = purchaseHistory.filter((item) => 
+  //   Object.values(item).some((value) => 
+  //     String(value).toLowerCase().includes(filterText.toLowerCase())
+  //   )
+  // );
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl font-semibold">Activity History</h1>
-        <div className="flex items-center">
-          <button className="mr-2">
-            <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-          </button>
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search"
-              className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            <svg className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+    <div className="w-full min-h-screen bg-[#f5f5f5] px-6 py-8 flex flex-col items-center">
+    <div className="w-full">
+      <div className="flex flex-col gap-10 mt-5">
+          <div className="min-h-screen p-6">
+            <div className="max-w-7xl mx-auto">
+            <div className="bg-white rounded-md shadow-md p-6">
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center gap-2">
+                <h2 className="text-xl font-medium text-gray-900">Activity History</h2>
+                <button className="p-1 hover:bg-gray-100 rounded-full">
+                  <RefreshCw className="w-5 h-5 text-gray-500" />
+                </button>
+              </div>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                />
+                <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Date</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Activity</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Folio #</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Location</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">Details</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-600">Total Spend</th>
+                    <th className="text-center py-3 px-4 text-sm font-medium text-gray-600">Status Points</th>
+                    <th className="text-center py-3 px-4 text-sm font-medium text-gray-600">SP Status</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-600">Points</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredHistory.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <tr className="border-b border-gray-200 hover:bg-gray-50">
+                        <td className="py-4 px-4 text-sm text-gray-900">{item.date}</td>
+                        <td className="py-4 px-4 text-sm text-gray-900">{item.activity}</td>
+                        <td className="py-4 px-4 text-sm text-gray-900">{item.folioNumber || '-'}</td>
+                        <td className="py-4 px-4 text-sm text-gray-900">{item.location || '-'}</td>
+                        <td className="py-4 px-4 text-sm text-gray-900">{item.details || '-'}</td>
+                        <td className="py-4 px-4 text-sm text-gray-900 text-right">
+                          {item.totalSpend ? `$${item.totalSpend}` : '-'}
+                        </td>
+                        <td className="py-4 px-4 text-center">
+                          <span className={`text-sm ${item.statusPoints ? 'text-green-600' : 'text-gray-500'}`}>
+                            {item.statusPoints || '-'}
+                          </span>
+                        </td>
+                        <td className="py-4 px-4 text-center">
+                          <span className="text-sm text-gray-500">{item.spStatus || '-'}</span>
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <span className={`text-sm ${Number(item.points) > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                              {Number(item.points) > 0 ? '+' : ''}{item.points || '-'}
+                            </span>
+                            {item.isExpandable && (
+                              <button
+                                onClick={() => toggleRow(item.id)}
+                                className="text-gray-500 hover:text-gray-700"
+                              >
+                                <span className={`transform transition-transform ${expandedRows[item.id] ? 'rotate-180' : ''}`}>
+                                  ▼
+                                </span>
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                      {expandedRows[item.id] && (
+                        <tr className="bg-gray-50">
+                          <td colSpan={9} className="py-4 px-8">
+                            <div className="grid grid-cols-2 gap-8">
+                              <div>
+                                <h3 className="text-sm font-medium text-gray-900 mb-4">Casino</h3>
+                                <div className="space-y-3">
+                                  <div className="flex justify-between text-sm">
+                                    <span className="text-gray-600">Cash In</span>
+                                    <span className="text-gray-900">${item.cashIn || '0.00'}</span>
+                                  </div>
+                                  <div className="flex justify-between text-sm">
+                                    <span className="text-gray-600">Cash Out</span>
+                                    <span className="text-gray-900">${item.cashOut || '0.00'}</span>
+                                  </div>
+                                  <div className="flex justify-between text-sm">
+                                    <span className="text-gray-600">Wager Amount</span>
+                                    <span className="text-gray-900">${item.wagerAmount || '0.00'}</span>
+                                  </div>
+                                  <div className="flex justify-between text-sm">
+                                    <span className="text-gray-600">Free Play Credit</span>
+                                    <span className="text-gray-900">${item.freePlayCredit || '0.00'}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div>
+                                <h3 className="text-sm font-medium text-gray-900 mb-4">Session Details</h3>
+                                <div className="space-y-3">
+                                  <div className="flex justify-between text-sm">
+                                    <span className="text-gray-600">Session Start Time</span>
+                                    <span className="text-gray-900">{item.sessionStartTime}</span>
+                                  </div>
+                                  <div className="flex justify-between text-sm">
+                                    <span className="text-gray-600">Session End Time</span>
+                                    <span className="text-gray-900">{item.sessionEndTime}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b">
-              <th className="text-left py-3 px-4">Date</th>
-              <th className="text-left py-3 px-4">Activity</th>
-              <th className="text-left py-3 px-4">Folio #</th>
-              <th className="text-left py-3 px-4">Location</th>
-              <th className="text-left py-3 px-4">Details</th>
-              <th className="text-right py-3 px-4">Total Spend</th>
-              <th className="text-center py-3 px-4">Status Points</th>
-              <th className="text-center py-3 px-4">SP Status</th>
-              <th className="text-right py-3 px-4">Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            {purchaseHistory.map((item, index) => (
-              <React.Fragment key={index}>
-                <tr className="border-b hover:bg-gray-50">
-                  <td className="py-4 px-4">{item.date}</td>
-                  <td className="py-4 px-4">{item.activity}</td>
-                  <td className="py-4 px-4">{item.folioNumber || '-'}</td>
-                  <td className="py-4 px-4">{item.location || '-'}</td>
-                  <td className="py-4 px-4">{item.details || '-'}</td>
-                  <td className="py-4 px-4 text-right">{item.totalSpend ? `$${item.totalSpend}` : '-'}</td>
-                  <td className="py-4 px-4 text-center">
-                    <span className={`px-2 py-1 rounded ${item.statusPoints ? 'bg-green-100 text-green-800' : ''}`}>
-                      {item.statusPoints || '-'}
-                    </span>
-                  </td>
-                  <td className="py-4 px-4 text-center">{item.spStatus || '-'}</td>
-                  <td className="py-4 px-4 text-right flex justify-end items-center">
-                    <span className={item.points > 0 ? 'text-green-600' : 'text-red-600'}>
-                      {item.points > 0 ? '+' : ''}{item.points || '-'}
-                    </span>
-                    {item.isExpandable && (
-                      <button 
-                        onClick={() => toggleRow(item.id)}
-                        className="ml-2 p-1"
-                      >
-                        <svg
-                          className={`w-5 h-5 transition-transform ${expandedRows[item.id] ? 'transform rotate-180' : ''}`}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-                    )}
-                  </td>
-                </tr>
-                {expandedRows[item.id] && (
-                  <tr className="bg-gray-50">
-                    <td colSpan={9} className="py-4 px-8">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <h3 className="font-semibold mb-2">Casino</h3>
-                          <div className="space-y-2">
-                            <div className="flex justify-between">
-                              <span>Cash In</span>
-                              <span>${item.cashIn || '0.00'}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span>Cash Out</span>
-                              <span>${item.cashOut || '0.00'}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span>Wager Amount</span>
-                              <span>${item.wagerAmount || '0.00'}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span>Free Play Credit</span>
-                              <span>${item.freePlayCredit || '0.00'}</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div>
-                          <h3 className="font-semibold mb-2">Session Details</h3>
-                          <div className="space-y-2">
-                            <div className="flex justify-between">
-                              <span>Start Time</span>
-                              <span>{item.sessionStartTime}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span>End Time</span>
-                              <span>{item.sessionEndTime}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </React.Fragment>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+        </div>
+        </div>
+    );
 };
