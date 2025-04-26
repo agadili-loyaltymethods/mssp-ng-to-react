@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 import { CouponEnum } from '@/enums/coupon-enum';
 import { WidgetHelper } from '@/types/Widget';
 import './dashboardStyles.css';
-import './dashboardStreak.css';
 import { AppTimer } from '../AppTimer';
 import { Refresh } from '@mui/icons-material';
 import { MdHotel, MdCake, MdRestaurant, MdCardGiftcard, MdLocalOffer, MdBadge, MdEmail, MdCalendarToday, MdDiamond } from "react-icons/md";
@@ -311,8 +310,9 @@ export const Dashboard: React.FC = () => {
               <Card className="p-5 rounded-xl shadow-sm" key={index}>
                 <h3 className="text-[#1D2939] text-base font-medium mb-4">{index === 0 ? 'Encore Tier Status' : 'GCGC Tier Status'}</h3>
                 <div className={`text-white rounded-lg p-4 text-center mb-4 tier-badge ${index === 0 ? 'encore' : 'ruby'}`}>
-                  <div className="w-8 h-8 mx-auto mb-2 bg-white/30 rounded-full flex items-center justify-center">
-                    <MdDiamond className="w-5 h-5" />
+                  <div className="w-8 h-8 mx-auto mb-2 flex items-center justify-center">
+                    <MdDiamond className="w-7 h-7" />
+                    {/* <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" className="w-5 h-5" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path d="M12.16 3h-.32L9.21 8.25h5.58zM16.46 8.25h5.16L19 3h-5.16zM21.38 9.75h-8.63V20.1zM11.25 20.1V9.75H2.62zM7.54 8.25 10.16 3H5L2.38 8.25z"></path></svg> */}
                   </div>
                   <h2 className="text-lg font-semibold">{widget.currentTier}</h2>
                 </div>
