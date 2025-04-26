@@ -342,7 +342,8 @@ export const PurchaseHistory: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <h2 className="text-xl font-medium text-gray-900">Activity History</h2>
                     <button className="p-1 hover:bg-gray-100 rounded-full">
-                      <RefreshCw className="w-5 h-5 text-gray-500" />
+                      {/* <RefreshCw className="w-5 h-5 text-gray-500" /> */}
+                      <Refresh className="w-5 h-5 text-gray-500"/>
                     </button>
                   </div>
                   <div className="relative">

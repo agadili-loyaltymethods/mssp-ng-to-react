@@ -98,3 +98,22 @@
 .rewards-wallets-points{
   border: 0.5px solid gray !important;
 }
+.card-text-ellipsis{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  box-orient: vertical;
+}
+
+.border-gray-light{
+  border: 0.5px solid #dadada !important;
+}
+
+.bg-primary-orange{
+  background-color: #ff8201 !important;
+  color: white !important;
+}

@@ -21,10 +21,12 @@ import { formatExpiryDate } from '@/utils/formatters';
 import useAlertService from '@/hooks/useAlertService';
 import { checkExpiry } from '@/utils/formatters';
 import './rewards-wallet.css';
+import CommonModalPopup from '../modals/common-modal-popup/CommonModalPopup';
 
 export const RewardsWallet: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isOpenRewardWallets, setIsOpenRewardWallets] = useState(false);
   const [availableVouchers, setAvailableVouchers] = useState<any[]>([]);
   const [availableVouchersWithPurse, setAvailableVouchersWithPurse] = useState<any[]>([]);
   const [memberVouchers, setMemberVouchers] = useState<any[]>([]);
@@ -32,7 +34,7 @@ export const RewardsWallet: React.FC = () => {
   const [memberPoints, setMemberPoints] = useState<any[]>([]);
 
   const memberInfo = useSelector((state: any) => state.member);
-  const location = useSelector((state: any) => state.location.location);
+  const location = useSelector((state: any) => state.location);
   const navigate = useNavigate();
   const activityService = useActivityService();
   const memberService = useMemberService();
@@ -51,15 +53,23 @@ export const RewardsWallet: React.FC = () => {
     }
   }, [location]);
 
+  useEffect(() => {
+    handlePurseSelection(selectedPointPurse);
+  }, [selectedPointPurse.key, availableVouchers]);
+
   const getRewardWallet = async () => {
     setIsLoading(true);
     try {
       const response: any = await activityService.getActivity(getPayload());
       const pointsData = response.data.rdBalances;
-      setMemberPoints(Object.keys(pointsData).map(key => ({
+      const memberPointsData = Object.keys(pointsData).map(key => ({
         key,
         value: pointsData[key]
-      })));
+      }));
+      setMemberPoints(memberPointsData);
+      if(memberPointsData?.length){
+        setSelectedPointPurse(memberPointsData[0]);
+      }
       getVouchers();
     } catch (error: any) {
       alertService.errorAlert(error?.error?.error || error?.message);
@@ -139,82 +149,6 @@ export const RewardsWallet: React.FC = () => {
 
   return (
     <>
-      <Drawer
-        anchor="right"
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        classes={{ paper: 'drawer-container' }}
-      >
-        <div className="flex flex-col gap-10">
-          <h3 className="flex justify-between items-center p-10 bg-white mb-5 mt-0 border-b">
-            Redemption Catalog
-            <IconButton onClick={() => setDrawerOpen(false)} color="primary">
-              <CloseIcon />
-            </IconButton>
-          </h3>
-
-          <div className="flex flex-col">
-            <div className="flex justify-center items-center w-full p-10">
-              <div className="flex gap-2">
-                {memberPoints.map((point) => (
-                  <Chip
-                    key={point.key}
-                    label={`${point.key}: ${point.value.toLocaleString()}`}
-                    onClick={() => handlePurseSelection(point)}
-                    color={selectedPointPurse.key === point.key ? "primary" : "default"}
-                    className={selectedPointPurse.key === point.key ? "disable-click" : ""}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="p-20 m-0 flex flex-row flex-wrap gap-10">
-              {availableVouchersWithPurse.map((voucher, index) => (
-                <div key={index} className="flex-[0_0_30%]">
-                  <Card className="box-shadow-none border-gray bg-white">
-                    <CardContent className="flex flex-col">
-                      <div className="flex items-center gap-2.5 h-35">
-                        <div className="w-50 img-sec">
-                          <img src="assets/bclc-logo.png" alt="Logo" />
-                        </div>
-                        <div className="flex justify-between w-full">
-                          <div className="flex flex-col gap-2.5 flex-[77%]">
-                            <h3 className="mt-2.5 card-text-ellipsis">{voucher.name}</h3>
-                            {voucher.expirationDate && (
-                              <small className="text-gray-500">
-                                Expires {formatExpiryDate(voucher.expirationDate)}
-                              </small>
-                            )}
-                            {voucher.cost && (
-                              <small className="text-gray-500">
-                                {voucher.cost.toLocaleString()} Points
-                              </small>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      {voucher.cost && (
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          fullWidth
-                          disabled={!isPointSourceValid(voucher.name, voucher.cost)}
-                          onClick={() => {
-                            setDrawerOpen(false);
-                            buyVoucher(voucher.name);
-                          }}
-                        >
-                          Buy with Points
-                        </Button>
-                      )}
-                    </CardContent>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Drawer>
 
       <div className="flex flex-col gap-10 mt-5">
         <div className="min-h-screen p-6">
@@ -233,7 +167,7 @@ export const RewardsWallet: React.FC = () => {
 
                 <button className="bg-[#ff8201] text-white px-4 py-2 rounded-md font-medium hover:bg-[#ff8201] transition-colors"
                   disabled={!availableVouchers.length}
-                  onClick={() => setDrawerOpen(true)}>
+                  onClick={() => setIsOpenRewardWallets(true)}>
                   Buy with Points
                 </button>
               </div>
@@ -265,6 +199,84 @@ export const RewardsWallet: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <CommonModalPopup
+        isOpen={isOpenRewardWallets}
+        onClose={() => setIsOpenRewardWallets(false)}
+        title="Redemption Catalog"
+        width="w-[66%]"
+        height="min-h-[500px] max-h-[500px] h-[500px]"
+        classStyles="overflow-y-auto h-[85%]"
+      >
+        <div className="flex flex-col">
+          <div className="flex justify-center items-center w-full p-2">
+            <div className="flex gap-2">
+              {memberPoints.map((point) => (
+                <Chip
+                  key={point.key}
+                  label={`${point.key}: ${point.value.toLocaleString()}`}
+                  onClick={() => handlePurseSelection(point)}
+                  // color={selectedPointPurse.key === point.key ? "primary" : "default"}
+                  className={selectedPointPurse.key === point.key ? "bg-primary-orange" : ""}
+                  //className="focus:bg-primary focus:text-white active:bg-primary focus:text-white hover:bg-primary hover:text-white"
+                />
+              ))}
+            </div>
+          </div>
+          <div className="px-1 py-8 m-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
+            {availableVouchersWithPurse.map((voucher, index) => (
+              <div key={index} className="flex-[0_0_30%]">
+                {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div> */}
+                <Card className="box-shadow-none border-gray-light bg-white">
+                  <CardContent className="flex flex-col">
+                  <div className="p-2 flex items-center">
+                    <img
+                      src="/assets/bclc-logo.png"
+                      alt="BCLC Logo"
+                      className="w-16 h-16 object-contain"
+                    />
+
+                    <div className="border-l border-dashed border-[#6c757d] mx-4 h-12"></div>
+
+                    <div className="flex flex-col">
+                      <h2 className="mt-2.5 card-text-ellipsis font-bold">{voucher.name}</h2>
+                      {voucher.expiresOn && (
+                              <small className="mt-2 text-gray-500">
+                                Expires {checkExpiry(voucher.expiresOn)}
+                              </small>
+                            )}
+                            {voucher.cost && (
+                              <small className="mt-2 text-gray-500">
+                                {voucher.cost.toLocaleString()} Points
+                              </small>
+                            )}
+                    </div>
+                  </div>
+                  <div className="p-2 flex items-center">
+                  {voucher.cost && (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          className={!isPointSourceValid(voucher.name, voucher.cost)?'':`bg-primary-orange`}
+                          fullWidth
+                          disabled={!isPointSourceValid(voucher.name, voucher.cost)}
+                          onClick={() => {
+                            setDrawerOpen(false);
+                            buyVoucher(voucher.name);
+                          }}
+                        >
+                          Buy with Points
+                        </Button>
+                      )}
+                  </div>
+                    
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </div>
+        </div>
+      </CommonModalPopup>
     </>
   );
 };

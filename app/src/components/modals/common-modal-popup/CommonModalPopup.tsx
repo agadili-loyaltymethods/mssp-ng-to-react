@@ -8,6 +8,7 @@ interface CommonModalProps {
   width?: string;
   height?: string;
   children?: React.ReactNode;
+  classStyles?: string;
 }
 
 const CommonModalPopup: React.FC<CommonModalProps> = ({
@@ -16,6 +17,7 @@ const CommonModalPopup: React.FC<CommonModalProps> = ({
   title,
   width = 'max-w-2xl',
   height = 'min-h-[200px]',
+  classStyles = '',
   children
 }) => {
   if (!isOpen) return null;
@@ -32,7 +34,7 @@ const CommonModalPopup: React.FC<CommonModalProps> = ({
             <span className="text-2xl">×</span>
           </button>
         </div>
-        <div className="p-6">
+        <div className={`p-6 ${classStyles}`}>
           {children}
         </div>
       </div>

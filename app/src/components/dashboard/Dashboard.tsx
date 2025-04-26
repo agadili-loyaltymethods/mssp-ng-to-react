@@ -16,6 +16,7 @@ import './dashboardStreak.css';
 import { AppTimer } from '../AppTimer';
 import { Refresh } from '@mui/icons-material';
 import { MdHotel, MdCake, MdRestaurant, MdCardGiftcard, MdLocalOffer, MdBadge, MdEmail, MdCalendarToday, MdDiamond } from "react-icons/md";
+import { formatDateLocalString } from '@/utils/formatters';
 
 export const Dashboard: React.FC = () => {
   const [widgetData, setWidgetData] = useState<any[]>([]);
@@ -74,7 +75,7 @@ export const Dashboard: React.FC = () => {
   }, [memberInfo]);
 
   useEffect(() => {
-    if (location?.location) {
+    if (location) {
       getStreakInfo();
     }
   }, [location]);
@@ -163,10 +164,13 @@ export const Dashboard: React.FC = () => {
         setSteps(updatedSteps);
 
         if (!isRefresh) {
-          selectStreakCategory(StreaksCategory.ACTIVE);
+          selectStreakCategory(StreaksCategory.ACTIVE, updatedSteps);
         } else {
           prepopulateStreakPrevInfo();
         }
+      }
+      else {
+        selectStreakCategory(StreaksCategory.ACTIVE, []);
       }
     } catch (error: any) {
       alertService.errorAlert(error?.error?.error || error?.message);
@@ -201,14 +205,15 @@ export const Dashboard: React.FC = () => {
     }
   };
 
-  const selectStreakCategory = (category: StreaksCategory) => {
+  const selectStreakCategory = (category: StreaksCategory, streakSteps: any = '') => {
     setSelectedStreakCategory(category);
     setStreakViewProgressSelections(prev => ({
       ...prev,
       previousTab: category
     }));
 
-    const filteredStreaks = steps.filter((data: any) => {
+    const allStreakSteps = streakSteps ? streakSteps : steps;
+    const filteredStreaks = allStreakSteps.filter((data: any) => {
       if (category === StreaksCategory.Ended) {
         return data.status === 'Complete' || data.status === 'Expired';
       } else if (category === StreaksCategory.ACTIVE) {
@@ -293,7 +298,7 @@ export const Dashboard: React.FC = () => {
                   <div>
                     <div className="text-xs text-[#667085]">Member Since</div>
                     <div className="text-sm text-[#1D2939]">
-                      {new Date(memberInfo?.enrollDate).toLocaleDateString()}
+                      {formatDateLocalString(memberInfo?.enrollDate || '')}
                     </div>
                   </div>
                 </div>
@@ -419,7 +424,7 @@ export const Dashboard: React.FC = () => {
                     </div>
 
                     {!streaks.length ? (
-                      <div className="flex flex-col items-center justify-center p-20">
+                      <div className="flex flex-col items-center justify-center p-12">
                         <p className="text-gray-500 text-center">
                           {selectedStreakCategory === StreaksCategory.ACTIVE ? (
                             <>

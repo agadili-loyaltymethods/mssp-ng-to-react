@@ -28,7 +28,7 @@ export const Locations: React.FC = () => {
       );
       setAllLocations(filteredLocations);
       setSelectedLocation(filteredLocations[0].name);
-      handleLocationChange(filteredLocations[0].name);
+      dispatch(setLocation({ location: filteredLocations[0].number }));
     } catch (error: any) {
       alertService.errorAlert(error?.error?.error || error?.message);
     }
