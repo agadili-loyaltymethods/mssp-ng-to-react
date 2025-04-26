@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#E8E7E4]">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white">
         <nav className="h-[70px]">
           <div className="max-w-[1440px] mx-auto px-5 h-full flex items-center justify-between">
             {/* Logo */}
@@ -98,7 +98,7 @@ export const Header: React.FC = () => {
           </div>
         </nav>
       </header>
-      <main className="bg-[#F8FAFC] pt-[5px]">
+      <main className="bg-[#F8FAFC]">
         {/* Main content will be rendered here */}
       </main>
     </>
