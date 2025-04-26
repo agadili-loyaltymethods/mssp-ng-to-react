@@ -18,7 +18,16 @@ export default {
         'tier-green': '#76b900',
         'tier-green-light': '#8ed600',
         'tier-green-dark': '#5c8f00',
-      }
+      },
+      animation: {
+                shimmer: 'shimmer 1.5s infinite linear',
+              },
+              keyframes: {
+                shimmer: {
+                  '0%': { backgroundPosition: '-200% 0' },
+                  '100%': { backgroundPosition: '-200% 0' },
+                },
+              },
     },
   },
   plugins: [
