@@ -67,15 +67,16 @@ export const Profile: React.FC = () => {
     <div className="flex items-center gap-2">
       <button 
         onClick={handleMenuOpen}
-        className="flex items-center gap-2 text-[#475467] hover:bg-[#FFF7ED] hover:text-primary px-2 py-1.5 rounded-md"
+        className="flex items-center gap-2 px-2 py-1.5 rounded-md text-[#000000] bg-[white]"
       >
-        <UserCircle className="w-[22px] h-[22px]" />
+        <UserCircle className="w-[30px] h-[30px] bg-[]" />
         <div className="flex flex-col items-start">
           <span className="text-[14px] font-medium leading-5">
             {memberInfo?.firstName} {memberInfo?.lastName}
           </span>
-          <span className="text-[12px] text-[#667085] leading-4">
-            {memberInfo?.tiers?.[0]?.level?.name} | {totalPoints.toLocaleString()}
+          <span className="text-[12px] text-[#000000] leading-4 flex flex-col">
+            <span className="text-left">{memberInfo?.tiers?.[0]?.level?.name} |</span>
+            <span className="text-left">{totalPoints.toLocaleString()}</span>
           </span>
         </div>
         <ChevronDown className="w-4 h-4 ml-1" />
@@ -86,7 +87,7 @@ export const Profile: React.FC = () => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
         PaperProps={{
-          className: 'mt-2 p-2 min-w-[300px]',
+          className: 'w-[200px]',
           elevation: 3,
           sx: {
             '& .MuiMenuItem-root': {
@@ -139,13 +140,13 @@ export const Profile: React.FC = () => {
           />
         </div>
         
-        <MenuItem 
+        {/* <MenuItem 
           onClick={handleLogout}
           className="flex items-center gap-2 text-red-600 hover:bg-red-50"
         >
           <LogOut className="w-4 h-4" />
           <span>Logout</span>
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </div>
   );

@@ -91,7 +91,7 @@ export const Header: React.FC = () => {
             </div>
 
             {/* Location & Profile */}
-            <div className="flex justify-end items-center gap-10">
+            <div className="flex justify-left items-center gap-5">
               <Locations />
               <Profile />
             </div>

@@ -48,29 +48,10 @@ export const Locations: React.FC = () => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-64 px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+        className="flex items-center justify-between w-60 px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
       >
         <div className="flex items-center">
-          {/* <svg
-            className="w-5 h-5 mr-2 text-gray-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg> */}
-
+          <div className="ml-[-10px]">
           <svg
             width="20.000000pt" height="20.000000pt" viewBox="0 0 20 23">
             <g transform="translate(0.000000,20.000000) scale(0.023000,-0.023000)"
@@ -85,8 +66,10 @@ export const Locations: React.FC = () => {
                       -11 11 -10 15 3 22 22 13 13 60 -11 60 -9 0 -29 -11 -44 -25z"/>
             </g>
           </svg>
+          </div>
+          
 
-          <span className="truncate">{selectedLocation}</span>
+          <span className="truncate text-left ml-[-10px] pl-[5px] w-[170px]">{selectedLocation}</span>
         </div>
         <svg
           className="w-5 h-5 ml-2 text-gray-400"
@@ -109,7 +92,7 @@ export const Locations: React.FC = () => {
             {allLocations.map((location) => (
               <li
                 key={location.id}
-                className={`flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-gray-100 ${selectedLocation === location.name ? 'bg-orange-50' : ''
+                className={`flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-gray-100 ${selectedLocation === location.name ? 'text-primary' : ''
                   }`}
                 onClick={() => {
                   setSelectedLocation(location.name);
@@ -119,7 +102,7 @@ export const Locations: React.FC = () => {
               >
                 <span className="truncate">{location.name}</span>
                 {selectedLocation === location.name && (
-                  <Check className="w-4 h-4 text-orange-500" />
+                  <Check className="w-6 h-6 text-primary" />
                 )}
               </li>
             ))}

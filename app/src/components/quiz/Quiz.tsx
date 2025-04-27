@@ -43,7 +43,7 @@ export const QuizPage: React.FC = () => {
         <div className="min-h-screen p-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-semibold text-gray-900">Survey ({surveys.length})</h3>
+              <h3 className="text-lg font-semibold text-gray-900">Survey ({surveys.length})</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {surveys.length > 0 ? (surveys.map((survey) => (
