@@ -27,6 +27,7 @@ import { NoData } from '../common/no-data/NoData';
 import useAlertService from '@/hooks/useAlertService';
 import { ChevronDown, ChevronUp, RefreshCw, Search } from 'lucide-react';
 import { LOB, PurchaseHistoryKeys } from '@/types';
+import { Loader } from '../loader/Loader';
 
 interface ExpandableRowProps {
   row: any;
@@ -125,7 +126,7 @@ type HistoryItem = {
 };
 
 export const PurchaseHistory: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [purchaseHistory, setPurchaseHistory] = useState<any[]>([]);
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
   const [filterText, setFilterText] = useState('');
@@ -192,6 +193,7 @@ export const PurchaseHistory: React.FC = () => {
   }, [memberInfo]);
 
   const getActivityHistory = async () => {
+    setIsLoading(true);
     try {
       const history = await memberService.getActivityHistory(memberInfo._id);
       const processedHistory = history
@@ -327,9 +329,9 @@ export const PurchaseHistory: React.FC = () => {
     );
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div className="w-full min-h-screen bg-[#f5f5f5] px-6 py-1 flex flex-col items-center">
@@ -341,9 +343,9 @@ export const PurchaseHistory: React.FC = () => {
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center gap-2">
                     <h2 className="text-xl font-medium text-gray-900">Activity History</h2>
-                    <button className="p-1 hover:bg-gray-100 rounded-full">
+                    <button className="p-1 hover:bg-gray-100 rounded-full" onClick={getActivityHistory}>
                       {/* <RefreshCw className="w-5 h-5 text-gray-500" /> */}
-                      <Refresh className="w-5 h-5 text-gray-500"/>
+                      <Refresh className="w-5 h-5 text-gray-500" />
                     </button>
                   </div>
                   <div className="relative">
@@ -394,7 +396,11 @@ export const PurchaseHistory: React.FC = () => {
                         <th className="text-left py-3 px-4 text-sm font-medium text-gray-600"></th>
                       </tr>
                     </thead>
-                    <tbody>
+                    {isLoading && <tbody><tr><td colSpan={10}>
+                      <React.Fragment>
+                        <div className="py-6"><Loader loaderType="textTableSkeleton"></Loader></div></React.Fragment>
+                    </td></tr></tbody>}
+                    {!isLoading && <tbody>
                       {paginatedHistory.map((item, index) => (
                         <React.Fragment key={index}>
                           <tr className="border-b border-gray-200 hover:bg-[#F8F8F8]">
@@ -408,7 +414,6 @@ export const PurchaseHistory: React.FC = () => {
                             </td>
                             <td className="py-2 px-4 text-center">
                               <span className={`text-sm`}>
-                                {/* {item.spend || '-'} */}
                                 <PointDisplay value={item.spend || '-'}></PointDisplay>
                               </span>
                             </td>
@@ -418,7 +423,6 @@ export const PurchaseHistory: React.FC = () => {
                             <td className="py-3 px-4 text-right">
                               <div className="flex items-center justify-end gap-2">
                                 <span className={`text-sm`}>
-                                  {/* {item.basePoints || '-'} */}
                                   <PointDisplay value={item.basePoints || '-'}></PointDisplay>
                                 </span>
                               </div>
@@ -439,42 +443,6 @@ export const PurchaseHistory: React.FC = () => {
                           {expandedRows[item.id] && (
                             <tr className="bg-gray-50">
                               <td colSpan={9} className="py-4 px-8">
-                                {/* <div className="grid grid-cols-2 gap-8">
-                                  <div>
-                                    <h3 className="text-sm font-medium text-gray-900 mb-4">Casino</h3>
-                                    <div className="space-y-3">
-                                      <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">Cash In</span>
-                                        <span className="text-gray-900">${item.cashIn || '0.00'}</span>
-                                      </div>
-                                      <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">Cash Out</span>
-                                        <span className="text-gray-900">${item.cashOut || '0.00'}</span>
-                                      </div>
-                                      <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">Wager Amount</span>
-                                        <span className="text-gray-900">${item.wagerAmount || '0.00'}</span>
-                                      </div>
-                                      <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">Free Play Credit</span>
-                                        <span className="text-gray-900">${item.freePlayCredit || '0.00'}</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <h3 className="text-sm font-medium text-gray-900 mb-4">Session Details</h3>
-                                    <div className="space-y-3">
-                                      <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">Session Start Time</span>
-                                        <span className="text-gray-900">{item.sessionStartTime}</span>
-                                      </div>
-                                      <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">Session End Time</span>
-                                        <span className="text-gray-900">{item.sessionEndTime}</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div> */}
                                 <div className="flex flex-row">
                                   <div className="flex mb-2 w-1/2">
                                     {item.nestedData?.length > 0 ? (
@@ -563,7 +531,7 @@ export const PurchaseHistory: React.FC = () => {
                           )}
                         </React.Fragment>
                       ))}
-                    </tbody>
+                    </tbody>}
                   </table>
 
                   {/* Pagination Component */}

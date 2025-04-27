@@ -19,6 +19,21 @@ const SkeletonCard = () => (
   </div>
 );
 
+const ColumnSkeleton = () => {
+  return (
+    <div className="space-y-6">
+      <div className="h-4 bg-gray-200 rounded-md w-3/6"></div>
+      <div className="h-4 bg-gray-200 rounded-md w-3/6"></div>
+      <div className="h-4 bg-gray-200 rounded-md w-3/6"></div>
+      <div className="h-4 bg-gray-200 rounded-md w-3/6"></div>
+      <div className="h-4 bg-gray-200 rounded-md w-3/6"></div>
+      <div className="h-4 bg-gray-200 rounded-md w-3/6"></div>
+      <div className="h-4 bg-gray-200 rounded-md w-3/6"></div>
+      <div className="h-4 bg-gray-200 rounded-md w-3/6"></div>
+    </div>
+  );
+};
+
 export const Loader: React.FC<LoaderProps> = ({ loaderType }) => {
   return (
     <>
@@ -152,6 +167,15 @@ export const Loader: React.FC<LoaderProps> = ({ loaderType }) => {
               ))}
             </div>
           </div>
+        </div>
+      </div>}
+
+      {loaderType === 'textTableSkeleton' && <div className="w-full animate-pulse">
+        <div className="grid grid-cols-6 gap-4">
+          {[1, 2, 3, 4, 5, 6].map((item, i) => (
+            <ColumnSkeleton key={i}></ColumnSkeleton>
+          ))}
+
         </div>
       </div>}
     </>
