@@ -41,9 +41,9 @@ export const Header: React.FC = () => {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white">
         <nav className="h-[70px]">
-          <div className="max-w-[1440px] mx-auto px-5 h-full flex items-center justify-between">
+          <div className="max-w-[1440px] mx-auto h-full flex items-center justify-between">
             {/* Logo */}
-            <div className="w-[15%]">
+            <div className="w-[10%]">
               <img
                 src="/assets/bclc-logo.png"
                 alt="BCLC Logo"
@@ -55,21 +55,21 @@ export const Header: React.FC = () => {
             {/* Navigation */}
             <div className="flex-[55%] flex justify-center">
               <div className="flex items-center">
-                {navItems.map(({ path, label, icon: Icon }) => (
+                {navItems.map(({ path, label, icon: Icon }, idx) => (
                   <NavLink
                     key={path}
                     to={path}
                     className={({ isActive }) => `
-                      flex flex-col items-center px-7 py-2.5 relative
-                      hover:bg-[#f0f3f5] hover:text-primary
+                      flex flex-col items-center px-7 10 py-2.5 relative text-[#000000]
+                      hover:bg-[#f0f3f5] hover:text-primary 
                       ${isActive
-                        ? 'text-primary after:absolute after:bottom-[-3px] after:left-0 after:w-full after:h-[3px] after:bg-primary'
+                        ? 'text-primary after:absolute after:bottom-[-3px] after:left-0 after:w-full after:h-[3px] after:bg-primary bg-[#f0f3f5]'
                         : 'text-[#475467] hover:after:absolute hover:after:bottom-[-3px] hover:after:left-0 hover:after:w-full hover:after:h-[3px] hover:after:bg-primary'
                       }
                     `}
                   >
                     <Icon className="w-[24px] h-[24px] mb-1" />
-                    <span className="text-[13px] font-medium">{label}</span>
+                    <span className="text-[14px] font-medium">{label}</span>
                   </NavLink>
                 ))}
 
@@ -77,10 +77,10 @@ export const Header: React.FC = () => {
                   <button
                     key={path}
                     onClick={() => openExternalLink(path)}
-                    className="relative flex flex-col items-center px-7 py-2.5 text-[#475467] hover:text-primary group"
+                    className="relative flex flex-col items-center px-7 py-2.5 text-[#000000] hover:bg-[#f0f3f5] hover:text-primary group"
                   >
                     <Icon className="w-[24px] h-[24px] mb-1" />
-                    <span className="text-[13px] font-medium flex items-center gap-1">
+                    <span className="text-[14px] font-medium flex items-center gap-1">
                       {label}
                       <ExternalLink className="w-3 h-3 text-primary" />
                     </span>

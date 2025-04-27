@@ -47,7 +47,7 @@ export const QuizPage: React.FC = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {surveys.length > 0 ? (surveys.map((survey) => (
-                <div className="bg-white rounded-lg shadow-md  py-8 px-4 flex flex-col items-center">
+                <div className="bg-white rounded-lg border border-solid border-[#dedede]  py-8 px-4 flex flex-col items-center">
                   <img src="/assets/bclc-logo.png" alt="BCLC Logo" className="w-24 h-auto mb-8" />
 
                   <h2 className="text-lg font-bold text-center mb-6">

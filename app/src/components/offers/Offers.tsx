@@ -63,7 +63,7 @@ export function Offers() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
               {offers.length > 0 ? (
                 offers.map((offer, index) => (
-                  <div key={index} className="bg-white rounded-md shadow-md p-6 flex items-center">
+                  <div key={index} className="bg-white rounded-md border border-solid border-[#dedede] p-6 flex items-center">
                     <img
                       src="/assets/bclc-logo.png"
                       alt="BCLC Logo"
