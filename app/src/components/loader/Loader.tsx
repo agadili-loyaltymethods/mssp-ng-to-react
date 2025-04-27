@@ -3,6 +3,22 @@ import React from 'react';
 interface LoaderProps {
   loaderType?: string;
 }
+
+const SkeletonCard = () => (
+  <div className="bg-white p-4 rounded-md shadow">
+    <div className="animate-pulse flex space-x-4">
+      <div className="rounded-md bg-gray-200 h-16 w-16"></div>
+      <div className="flex-1 space-y-2 py-1">
+        <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+        <div className="space-y-2">
+          <div className="h-3 bg-gray-200 rounded"></div>
+          <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 export const Loader: React.FC<LoaderProps> = ({ loaderType }) => {
   return (
     <>
@@ -125,6 +141,18 @@ export const Loader: React.FC<LoaderProps> = ({ loaderType }) => {
           </div>
         ))}
 
+      </div>}
+
+      {loaderType === 'skeltonCards' && <div className="flex flex-col gap-10 mt-5">
+        <div className="min-h-screen p-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[...Array(8)].map((_, i) => (
+                <SkeletonCard key={i} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>}
     </>
   );

@@ -28,6 +28,7 @@ export function Offers() {
   }, [memberInfo, location]);
 
   const getOffersList = async () => {
+    setIsLoading(true);
     try {
       const [promo, globalOffers]: any = await Promise.all([
         getPromo(memberInfo._id, location.number ?? location),
@@ -35,7 +36,7 @@ export function Offers() {
       ]);
 
       setOffers([
-        ...promo, 
+        ...promo,
         ...globalOffers.filter((offer: any) => !offer.ext?.isPerk && !offer.ext?.isBenefit)
       ]);
     } catch (error: any) {
@@ -45,20 +46,14 @@ export function Offers() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="mt-12.5">
-        <CardMiniSkeleton />
-      </div>
-    );
-  }
-
-  if (!offers.length) {
-    return <NoData>No Offers available.</NoData>;
-  }
+  // if (!offers.length) {
+  //   return <NoData>No Offers available.</NoData>;
+  // }
 
   return (
-    <div className="flex flex-col gap-10 mt-5">
+    <>
+      {isLoading && <Loader loaderType="skeltonCards"></Loader>}
+      {!isLoading && <div className="flex flex-col gap-10 mt-5">
         <div className="min-h-screen p-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-center mb-6">
@@ -83,7 +78,7 @@ export function Offers() {
                       {offer.expirationDate && (<span className="text-sm font-light text-[11px] color-[#6c757d]">Expires {checkExpiry(offer.expirationDate)}</span>)}
                     </div>
 
-                    
+
                     {offer.ext?.awardType?.toLowerCase() === 'booking offer' && (
                       <div className="flex flex-col flex-[20%] items-end">
                         <button
@@ -97,12 +92,13 @@ export function Offers() {
                   </div>
                 ))
               ) : (
-                <NoData>No offers.</NoData>
+                <NoData>No Offers available.</NoData>
               )}
 
             </div>
           </div>
         </div>
-      </div>
+      </div>}
+    </>
   );
 }

@@ -22,6 +22,7 @@ import useAlertService from '@/hooks/useAlertService';
 import { checkExpiry } from '@/utils/formatters';
 import './rewards-wallet.css';
 import CommonModalPopup from '../modals/common-modal-popup/CommonModalPopup';
+import { Loader } from '../loader/Loader';
 
 export const RewardsWallet: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -67,7 +68,7 @@ export const RewardsWallet: React.FC = () => {
         value: pointsData[key]
       }));
       setMemberPoints(memberPointsData);
-      if(memberPointsData?.length){
+      if (memberPointsData?.length) {
         setSelectedPointPurse(memberPointsData[0]);
       }
       getVouchers();
@@ -139,18 +140,11 @@ export const RewardsWallet: React.FC = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="mt-50">
-        <CardMiniSkeleton />
-      </div>
-    );
-  }
-
   return (
     <>
-
-      <div className="flex flex-col gap-10 mt-5">
+      {/* {isLoading && <Loader loaderType="cardSkeletonLoader"></Loader>} */}
+      {isLoading && <Loader loaderType="skeltonCards"></Loader>}
+      {!isLoading && <div className="flex flex-col gap-10 mt-5">
         <div className="min-h-screen p-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-center mb-6">
@@ -198,7 +192,7 @@ export const RewardsWallet: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
 
       <CommonModalPopup
         isOpen={isOpenRewardWallets}
@@ -218,7 +212,7 @@ export const RewardsWallet: React.FC = () => {
                   onClick={() => handlePurseSelection(point)}
                   // color={selectedPointPurse.key === point.key ? "primary" : "default"}
                   className={selectedPointPurse.key === point.key ? "bg-primary-orange" : ""}
-                  //className="focus:bg-primary focus:text-white active:bg-primary focus:text-white hover:bg-primary hover:text-white"
+                //className="focus:bg-primary focus:text-white active:bg-primary focus:text-white hover:bg-primary hover:text-white"
                 />
               ))}
             </div>
@@ -229,35 +223,35 @@ export const RewardsWallet: React.FC = () => {
                 {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div> */}
                 <Card className="box-shadow-none border-gray-light bg-white">
                   <CardContent className="flex flex-col">
-                  <div className="p-2 flex items-center">
-                    <img
-                      src="/assets/bclc-logo.png"
-                      alt="BCLC Logo"
-                      className="w-16 h-16 object-contain"
-                    />
+                    <div className="p-2 flex items-center">
+                      <img
+                        src="/assets/bclc-logo.png"
+                        alt="BCLC Logo"
+                        className="w-16 h-16 object-contain"
+                      />
 
-                    <div className="border-l border-dashed border-[#6c757d] mx-4 h-12"></div>
+                      <div className="border-l border-dashed border-[#6c757d] mx-4 h-12"></div>
 
-                    <div className="flex flex-col">
-                      <h2 className="mt-2.5 card-text-ellipsis font-bold">{voucher.name}</h2>
-                      {voucher.expiresOn && (
-                              <small className="mt-2 text-gray-500">
-                                Expires {checkExpiry(voucher.expiresOn)}
-                              </small>
-                            )}
-                            {voucher.cost && (
-                              <small className="mt-2 text-gray-500">
-                                {voucher.cost.toLocaleString()} Points
-                              </small>
-                            )}
+                      <div className="flex flex-col">
+                        <h2 className="mt-2.5 card-text-ellipsis font-bold">{voucher.name}</h2>
+                        {voucher.expiresOn && (
+                          <small className="mt-2 text-gray-500">
+                            Expires {checkExpiry(voucher.expiresOn)}
+                          </small>
+                        )}
+                        {voucher.cost && (
+                          <small className="mt-2 text-gray-500">
+                            {voucher.cost.toLocaleString()} Points
+                          </small>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-2 flex items-center">
-                  {voucher.cost && (
+                    <div className="p-2 flex items-center">
+                      {voucher.cost && (
                         <Button
                           variant="contained"
                           color="primary"
-                          className={!isPointSourceValid(voucher.name, voucher.cost)?'':`bg-primary-orange`}
+                          className={!isPointSourceValid(voucher.name, voucher.cost) ? '' : `bg-primary-orange`}
                           fullWidth
                           disabled={!isPointSourceValid(voucher.name, voucher.cost)}
                           onClick={() => {
@@ -268,8 +262,8 @@ export const RewardsWallet: React.FC = () => {
                           Buy with Points
                         </Button>
                       )}
-                  </div>
-                    
+                    </div>
+
                   </CardContent>
                 </Card>
               </div>

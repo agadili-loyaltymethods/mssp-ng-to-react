@@ -12,6 +12,7 @@ import { ModalSurvey } from '../modals/modal-survey/ModalSurvey';
 import { checkExpiry } from '@/utils/formatters';
 import './quiz.css';
 import ModalSurveyPopup from '../modals/modal-survey/ModalSurveyPage';
+import { Loader } from '../loader/Loader';
 
 export const QuizPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,47 +36,40 @@ export const QuizPage: React.FC = () => {
     }
   };
 
-  if (isLoading) {
-    return <div className="mt-12"><CardMiniSkeleton /></div>;
-  }
-
-  if (!surveys.length) {
-    return <NoData>No quiz available.</NoData>;
-  }
-
   return (
+    <>
+      {isLoading && <Loader loaderType="skeltonCards"></Loader>}
+      {!isLoading && <div className="flex flex-col gap-10 mt-5">
+        <div className="min-h-screen p-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">Survey ({surveys.length})</h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {surveys.length > 0 ? (surveys.map((survey) => (
+                <div className="bg-white rounded-lg shadow-md  py-8 px-4 flex flex-col items-center">
+                  <img src="/assets/bclc-logo.png" alt="BCLC Logo" className="w-24 h-auto mb-8" />
 
-    <div className="flex flex-col gap-10 mt-5">
-      <div className="min-h-screen p-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-semibold text-gray-900">Survey ({surveys.length})</h3>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <h2 className="text-lg font-bold text-center mb-6">
+                    {survey.title}
+                  </h2>
 
-            {surveys.map((survey) => (
-              <div className="bg-white rounded-lg shadow-md  py-8 px-4 flex flex-col items-center">
-                <img src="/assets/bclc-logo.png" alt="BCLC Logo" className="w-24 h-auto mb-8" />
+                  <p className="text-gray-600 text-center text-sm font-light mb-6">
+                    {survey.desc}
+                  </p>
 
-                <h2 className="text-lg font-bold text-center mb-6">
-                  {survey.title}
-                </h2>
+                  <small className="text-gray-600 text-center text-sm font-light mb-8">
+                    Expires {checkExpiry(survey.expiresOn)}
+                  </small>
+                  <button onClick={() => handleDialogOpen(survey)} className="border-gray w-full px-4 py-2 bg-[white] hover:bg-[white] text-[#FF8201]" >  Participate Now </button>
+                </div>
+              ))) : (<NoData>No quiz available.</NoData>)}
 
-                <p className="text-gray-600 text-center text-sm font-light mb-6">
-                  {survey.desc}
-                </p>
-
-                <small className="text-gray-600 text-center text-sm font-light mb-8">
-                  Expires {checkExpiry(survey.expiresOn)}
-                </small>
-                <button onClick={() => handleDialogOpen(survey)} className="border-gray w-full px-4 py-2 bg-[white] hover:bg-[white] text-[#FF8201]" >  Participate Now </button>
-              </div>
-            ))}
-
+            </div>
           </div>
         </div>
-      </div>
-      <ModalSurveyPopup isOpen={dialogOpen} onClose={() => handleDialogClose(false)} />
-    </div>
+        <ModalSurveyPopup isOpen={dialogOpen} onClose={() => handleDialogClose(false)} />
+      </div>}
+    </>
   );
 };
