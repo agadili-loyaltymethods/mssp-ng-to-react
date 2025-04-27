@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        lato:['lato','Arial','sans-serif']
+      },
       height:{
         '70': '70px',
       },

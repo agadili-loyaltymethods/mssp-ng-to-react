@@ -68,7 +68,7 @@ export const Header: React.FC = () => {
                       }
                     `}
                   >
-                    <Icon className="w-[22px] h-[22px] mb-1" />
+                    <Icon className="w-[24px] h-[24px] mb-1" />
                     <span className="text-[13px] font-medium">{label}</span>
                   </NavLink>
                 ))}
@@ -79,7 +79,7 @@ export const Header: React.FC = () => {
                     onClick={() => openExternalLink(path)}
                     className="relative flex flex-col items-center px-7 py-2.5 text-[#475467] hover:text-primary group"
                   >
-                    <Icon className="w-[22px] h-[22px] mb-1" />
+                    <Icon className="w-[24px] h-[24px] mb-1" />
                     <span className="text-[13px] font-medium flex items-center gap-1">
                       {label}
                       <ExternalLink className="w-3 h-3 text-primary" />
