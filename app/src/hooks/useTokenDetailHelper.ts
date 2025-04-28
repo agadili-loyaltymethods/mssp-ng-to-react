@@ -11,7 +11,7 @@ export const useTokenDetailsHelper = () => {
   const location = useSelector((state: AppState) => state.location.location);
 
   const openExternalLink = (path: string, query: string = '') => {
-    const msspUrl = 'http://localhost:3001';
+    const msspUrl = 'http://localhost:3002';
     const loyaltyID = localStorage.getItem('loyaltyId');
 
     let targetUrl = `${msspUrl}/${path}`;

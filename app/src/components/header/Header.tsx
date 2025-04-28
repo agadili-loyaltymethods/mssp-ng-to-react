@@ -64,7 +64,7 @@ export const Header: React.FC = () => {
                       hover:bg-[#f0f3f5] hover:text-primary 
                       ${isActive
                         ? 'text-primary after:absolute after:bottom-[-3px] after:left-0 after:w-full after:h-[3px] after:bg-primary bg-[#f0f3f5]'
-                        : 'text-[#475467] hover:after:absolute hover:after:bottom-[-3px] hover:after:left-0 hover:after:w-full hover:after:h-[3px] hover:after:bg-primary'
+                        : 'hover:after:absolute hover:after:bottom-[-3px] hover:after:left-0 hover:after:w-full hover:after:h-[3px] hover:after:bg-primary'
                       }
                     `}
                   >

@@ -275,34 +275,34 @@ export const Dashboard: React.FC = () => {
                 </h2>
               </div>
 
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
+              <div>
+                <div className="flex items-center gap-2 mb-8">
                   <div className="w-8 h-8 rounded-full bg-[#FFF7ED] flex items-center justify-center">
                     <MdBadge className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <div className="text-xs text-[#667085]">Loyalty ID</div>
-                    <div className="text-sm text-[#1D2939]">{memberInfo?.loyaltyId}</div>
+                    <div className="text-sm text-[#1D2939] font-semibold">{memberInfo?.loyaltyId}</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 mb-8">
                   <div className="w-8 h-8 rounded-full bg-[#FFF7ED] flex items-center justify-center">
                     <MdEmail className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <div className="text-xs text-[#667085]">Email</div>
-                    <div className="text-sm text-[#1D2939]">{memberInfo?.email}</div>
+                    <div className="text-sm text-[#1D2939] font-semibold">{memberInfo?.email}</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-[#FFF7ED] flex items-center justify-center">
                     <MdCalendarToday className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <div className="text-xs text-[#667085]">Member Since</div>
-                    <div className="text-sm text-[#1D2939]">
+                    <div className="text-sm text-[#1D2939] font-semibold">
                       {formatDateLocalString(memberInfo?.enrollDate || '')}
                     </div>
                   </div>
@@ -335,7 +335,7 @@ export const Dashboard: React.FC = () => {
                         <div className="space-y-2">
                           <div className="flex justify-between text-sm">
                             <span className="progress-label">Progress to {widget.nextTier}</span>
-                            <span className="progress-percentage">{((widget.totalSpends / widget.nextMilestone) * 100).toFixed(0)}%</span>
+                            <span className="progress-percentage text-xs font-semibold text-gray-900">{((widget.totalSpends / widget.nextMilestone) * 100).toFixed(0)}%</span>
                           </div>
                           <div className="h-2 color-[#77B900] rounded-full overflow-hidden">
                             {/* <div className={`h-full w-[65%] bg-[#77B900] rounded-full w-[${((widget.totalSpends / widget.nextMilestone) * 100).toFixed(0)}%]`} /> */}
@@ -346,10 +346,10 @@ export const Dashboard: React.FC = () => {
                             />
                           </div>
                           <div className="flex justify-between text-sm text-[#667085] progress-stats">
-                            <span className="current-points">
+                            <span className="text-xs font-semibold text-gray-900">
                               {widget.totalSpends.toLocaleString()} points
                             </span>
-                            <span className="points-needed">
+                            <span className="points-needed text-xs font-normal">
                               {(widget.nextMilestone - widget.totalSpends).toLocaleString()} to next tier
                             </span>
                           </div>
@@ -376,8 +376,8 @@ export const Dashboard: React.FC = () => {
                   {providerPoints.map((provider, index) => (
                     <div key={provider.provider} className="provider-item">
                       <div className="provider-name">{provider.provider}</div>
-                      <div className="provider-value">
-                        {provider.balance.toLocaleString()} Points
+                      <div className="text-sm font-semibold text-gray-900">
+                        {!isNaN(provider.balance)? Math.round(provider.balance).toLocaleString():'-'} Points
                       </div>
                     </div>
                   ))}
@@ -394,20 +394,24 @@ export const Dashboard: React.FC = () => {
           <Card className="p-5 rounded-xl shadow-sm">
             {tierSkeleton && <Loader loaderType="cardLoader"></Loader>}
             {!tierSkeleton && <div>
-              <h3 className="text-[#1D2939] text-base font-medium mb-4">Tier Benefits</h3>
+              {/* <h3 className="text-[#1D2939] text-base font-medium mb-4">Tier Benefits</h3> */}
+              <h1 className="text-base font-semibold text-gray-900 mb-4">Tier Benefits</h1>
               <div className="grid grid-cols-2 gap-4">
                 {widgetData[2]?.tierBenefits.map((benefit: any, index: number) => (
-                  <div key={index} className="bg-[#f3f3f3] rounded-lg p-4">
-                    <div className="flex gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#FFF7ED] flex items-center justify-center">
+                  <div key={index} className="bg-[#f3f3f3] rounded-lg px-4 py-6">
+                    <div className="flex flex-col gap-3">
+                      <div className="w-full rounded-full flex flex-row items-center">
                         {/* <span className="material-icons text-primary">{benefit.thumbnail}</span> */}
                         {tierBenefitsIcons.filter(e => e.thumbnail === benefit.thumbnail).map(({ icon: Icon }) => (
-                          <Icon className="w-[22px] h-[22px] mb-1 text-primary" />
+                          <div className="flex flex-row">
+                            <Icon className="w-[22px] h-[22px] mb-1 text-primary" />
+                            <h4 className="text-md text-[#000000] ml-2 mb-1 font-semibold">{benefit.title}</h4>
+                          </div> 
                         ))}
+                        
                       </div>
-                      <div>
-                        <h4 className="text-md text-[#475467] font-medium mb-1">{benefit.title}</h4>
-                        <p className="text-sm text-[#475467]">{benefit.desc}</p>
+                      <div>                        
+                        <p className="text-sm text-[#000000]">{benefit.desc}</p>
                       </div>
                     </div>
                   </div>
@@ -416,17 +420,18 @@ export const Dashboard: React.FC = () => {
             </div>}
           </Card>
 
-          <Card className="p-5 rounded-xl shadow-sm">
+          <Card className="px-5 py-4 rounded-xl shadow-sm">
             {/* Encore Rewards Challenges */}
 
             {streakSkeleton && <Loader loaderType="wideBanner"></Loader>}
 
             {!streakSkeleton && <div className="flex flex-col bg-white flex-[50%]">
               <div className="challenge-header">
-                <div className="challenge-title">
-                  <h3 className="m-0">Encore Rewards Challenges</h3>
+                <div className="challenge-title flex flex-row items-center ">
+                  {/* <h3 className="m-0">Encore Rewards Challenges</h3> */}
+                  <h1 className="text-base font-semibold text-gray-900">Encore Rewards Challenges</h1>
                   <button
-                    className="refresh-button"
+                    className="refresh-button text-base"
                     onClick={() => getStreakInfo(true)}
                   >
                     <Refresh />
@@ -472,7 +477,7 @@ export const Dashboard: React.FC = () => {
                     <div className="challenge-content">
                       <div className="challenge-progress">
                         <div className="challenge-name">
-                          <h3 className="m-0">{streak.name}</h3>
+                          <h3 className="m-0 text-base font-semibold">{streak.name}</h3>
                           <span>🎪</span>
                         </div>
 
@@ -480,8 +485,8 @@ export const Dashboard: React.FC = () => {
                           <div key={goalIndex} className="mb-4">
                             <div className="flex items-center gap-2 mb-2">
                               <div className="w-2 h-2 bg-primary rounded-full"></div>
-                              <span className="font-medium">
-                                {goal.name}: {(goal.value || 0).toLocaleString()}/{goal.target.toLocaleString()}
+                              <span className="text-xs font-semibold text-gray-900">
+                                {goal.name}: ${(goal.value || 0).toLocaleString()}/${goal.target.toLocaleString()}
                               </span>
                             </div>
                             <LinearProgress
@@ -494,7 +499,7 @@ export const Dashboard: React.FC = () => {
                       </div>
 
                       <div className="challenge-info">
-                        <p className="challenge-description">{streak.desc}</p>
+                        <p className="text-xs leading-[1.8] text-[#718096]">{streak.desc}</p>
 
                         {streak.startedAt && streak.timeLimit && streak.status === 'Active' && (
                           <div className="challenge-timer">
@@ -510,12 +515,12 @@ export const Dashboard: React.FC = () => {
                             <div className="status-title">Status</div>
                             <div className="status-value">
                               <div className={`status-indicator ${streak.status.toLowerCase()}`}></div>
-                              <span>{streak.status}</span>
+                              <span className="text-xs font-semibold">{streak.status}</span>
                             </div>
                           </div>
                           <div className="status-card">
                             <div className="status-title">Goals</div>
-                            <div className="status-value">{streak.goalCompleted}</div>
+                            <div className="text-xs font-semibold">{streak.goalCompleted}</div>
                           </div>
                         </div>
                       </div>
