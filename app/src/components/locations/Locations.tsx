@@ -9,6 +9,7 @@ import useAlertService from '@/hooks/useAlertService';
 export const Locations: React.FC = () => {
   const [allLocations, setAllLocations] = useState<any[]>([]);
   const [selectedLocation, setSelectedLocation] = useState('');
+  const [displayLocation, setDisplayLocation] = useState('');
   // const [selectedLocation, setSelectedLocation] = useState<string>('GCE - Cascades Casino Langley');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -25,9 +26,10 @@ export const Locations: React.FC = () => {
       const locations: any = await locationService.getLocations();
       const filteredLocations = locations.filter(
         (location: any) => !location?.ext?.hideInMSSP
-      );
+      ).map((location: any)=> ({...location, displayLocation: (location.ext.operator && location.ext.operator !== 'PlayNow' ? location.ext.operator + ' - ':'')+ location.name}));
       setAllLocations(filteredLocations);
       setSelectedLocation(filteredLocations[0].name);
+      setDisplayLocation(filteredLocations[0].displayLocation);
       dispatch(setLocation({ location: filteredLocations[0].number }));
     } catch (error: any) {
       alertService.errorAlert(error?.error?.error || error?.message);
@@ -69,7 +71,7 @@ export const Locations: React.FC = () => {
           </div>
           
 
-          <span className="truncate text-left ml-[-10px] pl-[5px] w-[170px]">{selectedLocation}</span>
+          <span className="truncate text-left ml-[-10px] pl-[5px] w-[170px]">{displayLocation}</span>
         </div>
         <svg
           className="w-5 h-5 ml-2 text-gray-400"
@@ -97,10 +99,12 @@ export const Locations: React.FC = () => {
                 onClick={() => {
                   setSelectedLocation(location.name);
                   setIsOpen(false);
-                  handleLocationChange(location.name)
+                  handleLocationChange(location.name);
+                  setDisplayLocation(location.displayLocation)
                 }}
               >
-                <span className="truncate">{location.name}</span>
+                {/* <span className="truncate">{location.name}</span> */}
+                <span className="truncate">{location.displayLocation}</span>
                 {selectedLocation === location.name && (
                   <Check className="w-6 h-6 text-primary" />
                 )}
